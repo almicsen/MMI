@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOBILEMEDIAINTERACTIONS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --accent: #00ff88;
+            --accent-secondary: #ff3366;
+            --accent-tertiary: #4466ff;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .title {
+            font-size: min(6vw, 48px);
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            color: var(--light);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            line-height: 1.2;
+            margin: 0 auto;
+            max-width: 14ch;
+            word-break: break-word;
+            white-space: pre-line;
+        }
+
+        /* Hidden by default, activated by feature flags */
+        .subtitle, .cta-button, .social-links, .menu {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            display: none;
+        }
+
+        .point-cloud {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotate 30s linear infinite;
+        }
+
+        .point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform-style: preserve-3d;
+            opacity: 0;
+            animation: scan 3s linear infinite;
+        }
+
+        /* Hidden Features Styles */
+        .feature-subtitle {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+
+        .feature-cta {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            border: none;
+            background: var(--accent);
+            color: var(--dark);
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .feature-social {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .feature-menu {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+        }
+
+        @keyframes scan {
+            0% {
+                transform: translateZ(-1000px);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateZ(1000px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        /* Feature activation classes */
+        .active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: min(5vw, 36px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-container">
+            <h1 class="title">MOBILEMEDIA
+INTERACTIONS</h1>
+            <p class="subtitle feature-subtitle">Redefining Mobile Experiences</p>
+            <button class="cta-button feature-cta">Explore Now</button>
+        </div>
+        <div class="point-cloud" id="pointCloud"></div>
+        <nav class="menu feature-menu">
+            <div class="menu-items"></div>
+        </nav>
+        <div class="social-links feature-social"></div>
+    </div>
+
+    <script>
+        // Feature flag configuration object
+        const featureFlags = {
+            subtitle: false,
+            ctaButton: false,
+            socialLinks: false,
+            menu: false,
+            pointCloud: true,
+            alternateColors: false
+        };
+
+        // Function to activate features
+        function activateFeature(featureName) {
+            featureFlags[featureName] = true;
+            updateFeatures();
+        }
+
+        // Function to update features based on flags
+        function updateFeatures() {
+            // Subtitle
+            const subtitle = document.querySelector('.subtitle');
+            if (featureFlags.subtitle) {
+                subtitle.classList.add('active');
+            }
+
+            // CTA Button
+            const ctaButton = document.querySelector('.cta-button');
+            if (featureFlags.ctaButton) {
+                ctaButton.classList.add('active');
+            }
+
+            // Social Links
+            const socialLinks = document.querySelector('.social-links');
+            if (featureFlags.socialLinks) {
+                socialLinks.classList.add('active');
+                // Add social links dynamically
+                if (socialLinks.children.length === 0) {
+                    socialLinks.innerHTML = `
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">GitHub</a>
+                    `;
+                }
+            }
+
+            // Menu
+            const menu = document.querySelector('.menu');
+            if (featureFlags.menu) {
+                menu.classList.add('active');
+                // Add menu items dynamically
+                if (menu.querySelector('.menu-items').children.length === 0) {
+                    menu.querySelector('.menu-items').innerHTML = `
+                        <div class="menu-item">Home</div>
+                        <div class="menu-item">About</div>
+                        <div class="menu-item">Contact</div>
+                    `;
+                }
+            }
+
+            // Point Cloud
+            const pointCloud = document.getElementById('pointCloud');
+            pointCloud.style.display = featureFlags.pointCloud ? 'block' : 'none';
+
+            // Alternate Colors
+            if (featureFlags.alternateColors) {
+                document.documentElement.style.setProperty('--accent', '#ff3366');
+            }
+        }
+
+        // Point cloud animation
+        const pointCloud = document.getElementById('pointCloud');
+        const pointCount = 200;
+        
+        function createPoint() {
+            const point = document.createElement('div');
+            point.className = 'point';
+            point.style.left = `${Math.random() * 100}%`;
+            point.style.top = `${Math.random() * 100}%`;
+            point.style.animationDelay = `${Math.random() * 3}s`;
+            const size = 2 + Math.random() * 3;
+            point.style.width = `${size}px`;
+            point.style.height = `${size}px`;
+            return point;
+        }
+
+        // Create initial points
+        for (let i = 0; i < pointCount; i++) {
+            pointCloud.appendChild(createPoint());
+        }
+
+        // Continuously add and remove points
+        setInterval(() => {
+            const oldPoint = pointCloud.firstChild;
+            if (oldPoint) {
+                pointCloud.removeChild(oldPoint);
+            }
+            pointCloud.appendChild(createPoint());
+        }, 100);
+
+        // Initialize features
+        updateFeatures();
+
+        const consoleStyles = {
+            title: 'font-size: 20px; font-weight: bold; color: #00ff88;',
+            warning: 'font-size: 14px; color: #ff3366;',
+            info: 'font-size: 14px; color: #4466ff;',
+            ascii: 'font-family: monospace; color: #00ff88;'
+        };
+
+        // ASCII art
+        const asciiArt = `
+        ███╗   ███╗███╗   ███╗██╗
+        ████╗ ████║████╗ ████║██║
+        ██╔████╔██║██╔████╔██║██║
+        ██║╚██╔╝██║██║╚██╔╝██║██║
+        ██║ ╚═╝ ██║██║ ╚═╝ ██║██║
+        ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝
+        `;
+
+        // Welcome message
+        console.log('%cWelcome, curious developer! 👋', consoleStyles.title);
+        console.log('%c' + asciiArt, consoleStyles.ascii);
+        
+        // Warning message
+        console.log('%c⚠️ Warning: Tampering with this console may release the digital kraken!', consoleStyles.warning);
+        
+        // Easter egg hints
+        console.log('%c🔍 Hint: Try typing "unleashTheKraken()" in the console', consoleStyles.info);
+        console.log('%c🔍 Hint: There might be a "konami()" code somewhere...', consoleStyles.info);
+
+        // Easter egg functions
+        window.unleashTheKraken = () => {
+            console.clear();
+            console.log('%cYou summoned the kraken! 🐙', 'font-size: 30px; color: #00ff88;');
+            document.body.style.animation = 'shake 0.5s infinite';
+            // Restore after 3 seconds
+            setTimeout(() => {
+                document.body.style.animation = '';
+                console.clear();
+                console.log('%cThe kraken has returned to the depths... for now.', consoleStyles.info);
+            }, 3000);
+        };
+
+        // Konami code implementation
+        let konamiCode = [];
+        const validKonami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        
+        window.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            if (konamiCode.length > validKonami.length) {
+                konamiCode.shift();
+            }
+            if (JSON.stringify(konamiCode) === JSON.stringify(validKonami)) {
+                activateKonamiCode();
+            }
+        });
+
+        function activateKonamiCode() {
+            console.log('%c🎮 KONAMI CODE ACTIVATED! 🎮', 'font-size: 24px; color: #ff3366;');
+            // Enable all features
+            Object.keys(featureFlags).forEach(flag => {
+                featureFlags[flag] = true;
+            });
+            updateFeatures();
+            
+            // Rainbow effect on title
+            const title = document.querySelector('.title');
+            title.style.animation = 'rainbow 2s linear infinite';
+            
+            // Add rainbow keyframes if they don't exist
+            if (!document.querySelector('#rainbow-keyframes')) {
+                const style = document.createElement('style');
+                style.id = 'rainbow-keyframes';
+                style.textContent = `
+                    @keyframes rainbow {
+                        0% { color: #ff0000; }
+                        17% { color: #ff00ff; }
+                        33% { color: #0000ff; }
+                        50% { color: #00ffff; }
+                        67% { color: #00ff00; }
+                        83% { color: #ffff00; }
+                        100% { color: #ff0000; }
+                    }
+                    @keyframes shake {
+                        0%, 100% { transform: translateX(0); }
+                        25% { transform: translateX(-5px); }
+                        75% { transform: translateX(5px); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Hidden debug features
+        window.debug = {
+            showFeatureFlags: () => console.table(featureFlags),
+            toggleFeature: (featureName) => {
+                if (featureFlags.hasOwnProperty(featureName)) {
+                    featureFlags[featureName] = !featureFlags[featureName];
+                    updateFeatures();
+                    console.log(`%c${featureName} is now ${featureFlags[featureName] ? 'enabled' : 'disabled'}`, consoleStyles.info);
+                } else {
+                    console.log(`%cFeature "${featureName}" not found`, consoleStyles.warning);
+                }
+            },
+            listCommands: () => {
+                console.log('%cAvailable Commands:', consoleStyles.title);
+                console.log('%c- debug.showFeatureFlags()', consoleStyles.info);
+                console.log('%c- debug.toggleFeature(featureName)', consoleStyles.info);
+                console.log('%c- debug.listCommands()', consoleStyles.info);
+                console.log('%c- unleashTheKraken()', consoleStyles.info);
+                console.log('%c- konami code: ↑↑↓↓←→←→ba', consoleStyles.info);
+            }
+        };
+    </script>
+</body>
+</html>
