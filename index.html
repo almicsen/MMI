@@ -58,7 +58,6 @@
             white-space: pre-line;
         }
 
-        /* Hidden by default, activated by feature flags */
         .subtitle, .cta-button, .social-links, .menu {
             opacity: 0;
             transform: translateY(20px);
@@ -87,7 +86,6 @@
             animation: scan 3s linear infinite;
         }
 
-        /* Hidden Features Styles */
         .feature-subtitle {
             font-size: 1.2rem;
             margin-top: 1rem;
@@ -121,6 +119,54 @@
             right: 2rem;
         }
 
+        .social-link {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .menu-item {
+            color: var(--light);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            color: var(--accent);
+        }
+
+        .dev-state-monitor {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 9999;
+            display: none;
+            border: 1px solid var(--accent);
+        }
+
+        .dev-state-monitor.active {
+            display: block;
+        }
+
+        .dev-state-monitor div {
+            margin: 4px 0;
+        }
+
         @keyframes scan {
             0% {
                 transform: translateZ(-1000px);
@@ -144,7 +190,6 @@
             }
         }
 
-        /* Feature activation classes */
         .active {
             opacity: 1;
             transform: translateY(0);
@@ -168,13 +213,22 @@ INTERACTIONS</h1>
         </div>
         <div class="point-cloud" id="pointCloud"></div>
         <nav class="menu feature-menu">
-            <div class="menu-items"></div>
+            <div class="menu-items">
+                <div class="menu-item">Home</div>
+                <div class="menu-item">About</div>
+                <div class="menu-item">Contact</div>
+            </div>
         </nav>
-        <div class="social-links feature-social"></div>
+        <div class="social-links feature-social">
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">GitHub</a>
+        </div>
     </div>
+    <div class="dev-state-monitor"></div>
 
     <script>
-        // Feature flag configuration object
+        // Feature flags
         const featureFlags = {
             subtitle: false,
             ctaButton: false,
@@ -184,65 +238,7 @@ INTERACTIONS</h1>
             alternateColors: false
         };
 
-        // Function to activate features
-        function activateFeature(featureName) {
-            featureFlags[featureName] = true;
-            updateFeatures();
-        }
-
-        // Function to update features based on flags
-        function updateFeatures() {
-            // Subtitle
-            const subtitle = document.querySelector('.subtitle');
-            if (featureFlags.subtitle) {
-                subtitle.classList.add('active');
-            }
-
-            // CTA Button
-            const ctaButton = document.querySelector('.cta-button');
-            if (featureFlags.ctaButton) {
-                ctaButton.classList.add('active');
-            }
-
-            // Social Links
-            const socialLinks = document.querySelector('.social-links');
-            if (featureFlags.socialLinks) {
-                socialLinks.classList.add('active');
-                // Add social links dynamically
-                if (socialLinks.children.length === 0) {
-                    socialLinks.innerHTML = `
-                        <a href="#" class="social-link">Twitter</a>
-                        <a href="#" class="social-link">LinkedIn</a>
-                        <a href="#" class="social-link">GitHub</a>
-                    `;
-                }
-            }
-
-            // Menu
-            const menu = document.querySelector('.menu');
-            if (featureFlags.menu) {
-                menu.classList.add('active');
-                // Add menu items dynamically
-                if (menu.querySelector('.menu-items').children.length === 0) {
-                    menu.querySelector('.menu-items').innerHTML = `
-                        <div class="menu-item">Home</div>
-                        <div class="menu-item">About</div>
-                        <div class="menu-item">Contact</div>
-                    `;
-                }
-            }
-
-            // Point Cloud
-            const pointCloud = document.getElementById('pointCloud');
-            pointCloud.style.display = featureFlags.pointCloud ? 'block' : 'none';
-
-            // Alternate Colors
-            if (featureFlags.alternateColors) {
-                document.documentElement.style.setProperty('--accent', '#ff3366');
-            }
-        }
-
-        // Point cloud animation
+        // Create points for the point cloud
         const pointCloud = document.getElementById('pointCloud');
         const pointCount = 200;
         
@@ -272,121 +268,95 @@ INTERACTIONS</h1>
             pointCloud.appendChild(createPoint());
         }, 100);
 
-        // Initialize features
-        updateFeatures();
+        // Dev State Monitor
+        const devStateMonitor = document.querySelector('.dev-state-monitor');
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+        let isDevStateActive = false;
 
-        const consoleStyles = {
-            title: 'font-size: 20px; font-weight: bold; color: #00ff88;',
-            warning: 'font-size: 14px; color: #ff3366;',
-            info: 'font-size: 14px; color: #4466ff;',
-            ascii: 'font-family: monospace; color: #00ff88;'
-        };
-
-        // ASCII art
-        const asciiArt = `
-        ███╗   ███╗███╗   ███╗██╗
-        ████╗ ████║████╗ ████║██║
-        ██╔████╔██║██╔████╔██║██║
-        ██║╚██╔╝██║██║╚██╔╝██║██║
-        ██║ ╚═╝ ██║██║ ╚═╝ ██║██║
-        ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝
-        `;
-
-        // Welcome message
-        console.log('%cWelcome, curious developer! 👋', consoleStyles.title);
-        console.log('%c' + asciiArt, consoleStyles.ascii);
-        
-        // Warning message
-        console.log('%c⚠️ Warning: Tampering with this console may release the digital kraken!', consoleStyles.warning);
-        
-        // Easter egg hints
-        console.log('%c🔍 Hint: Try typing "unleashTheKraken()" in the console', consoleStyles.info);
-        console.log('%c🔍 Hint: There might be a "konami()" code somewhere...', consoleStyles.info);
-
-        // Easter egg functions
-        window.unleashTheKraken = () => {
-            console.clear();
-            console.log('%cYou summoned the kraken! 🐙', 'font-size: 30px; color: #00ff88;');
-            document.body.style.animation = 'shake 0.5s infinite';
-            // Restore after 3 seconds
-            setTimeout(() => {
-                document.body.style.animation = '';
-                console.clear();
-                console.log('%cThe kraken has returned to the depths... for now.', consoleStyles.info);
-            }, 3000);
-        };
-
-        // Konami code implementation
-        let konamiCode = [];
-        const validKonami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        
-        window.addEventListener('keydown', (e) => {
-            konamiCode.push(e.key);
-            if (konamiCode.length > validKonami.length) {
-                konamiCode.shift();
-            }
-            if (JSON.stringify(konamiCode) === JSON.stringify(validKonami)) {
-                activateKonamiCode();
-            }
-        });
-
-        function activateKonamiCode() {
-            console.log('%c🎮 KONAMI CODE ACTIVATED! 🎮', 'font-size: 24px; color: #ff3366;');
-            // Enable all features
-            Object.keys(featureFlags).forEach(flag => {
-                featureFlags[flag] = true;
-            });
-            updateFeatures();
+        function updateDevStats() {
+            const currentTime = performance.now();
+            frameCount++;
             
-            // Rainbow effect on title
-            const title = document.querySelector('.title');
-            title.style.animation = 'rainbow 2s linear infinite';
-            
-            // Add rainbow keyframes if they don't exist
-            if (!document.querySelector('#rainbow-keyframes')) {
-                const style = document.createElement('style');
-                style.id = 'rainbow-keyframes';
-                style.textContent = `
-                    @keyframes rainbow {
-                        0% { color: #ff0000; }
-                        17% { color: #ff00ff; }
-                        33% { color: #0000ff; }
-                        50% { color: #00ffff; }
-                        67% { color: #00ff00; }
-                        83% { color: #ffff00; }
-                        100% { color: #ff0000; }
-                    }
-                    @keyframes shake {
-                        0%, 100% { transform: translateX(0); }
-                        25% { transform: translateX(-5px); }
-                        75% { transform: translateX(5px); }
-                    }
-                `;
-                document.head.appendChild(style);
+            if (currentTime - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+
+            const pointCount = pointCloud ? pointCloud.children.length : 0;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const activeFeatures = Object.entries(featureFlags)
+                .filter(([_, value]) => value)
+                .map(([key]) => key);
+
+            devStateMonitor.innerHTML = `
+                <div>FPS: ${fps}</div>
+                <div>Points: ${pointCount}</div>
+                <div>Window: ${windowWidth}x${windowHeight}</div>
+                <div>Memory: ${Math.round(performance.memory?.usedJSHeapSize / 1048576 || 0)}MB</div>
+                <div>Time: ${new Date().toLocaleTimeString()}</div>
+                <div>Active Features: ${activeFeatures.join(', ')}</div>
+            `;
+
+            if (isDevStateActive) {
+                requestAnimationFrame(updateDevStats);
             }
         }
 
-        // Hidden debug features
-        window.debug = {
-            showFeatureFlags: () => console.table(featureFlags),
-            toggleFeature: (featureName) => {
-                if (featureFlags.hasOwnProperty(featureName)) {
-                    featureFlags[featureName] = !featureFlags[featureName];
-                    updateFeatures();
-                    console.log(`%c${featureName} is now ${featureFlags[featureName] ? 'enabled' : 'disabled'}`, consoleStyles.info);
-                } else {
-                    console.log(`%cFeature "${featureName}" not found`, consoleStyles.warning);
-                }
-            },
-            listCommands: () => {
-                console.log('%cAvailable Commands:', consoleStyles.title);
-                console.log('%c- debug.showFeatureFlags()', consoleStyles.info);
-                console.log('%c- debug.toggleFeature(featureName)', consoleStyles.info);
-                console.log('%c- debug.listCommands()', consoleStyles.info);
-                console.log('%c- unleashTheKraken()', consoleStyles.info);
-                console.log('%c- konami code: ↑↑↓↓←→←→ba', consoleStyles.info);
+        // Function to toggle dev state
+        window.devState = () => {
+            isDevStateActive = !isDevStateActive;
+            devStateMonitor.classList.toggle('active');
+            
+            if (isDevStateActive) {
+                updateDevStats();
+                console.log('Dev State Monitor enabled');
+            } else {
+                console.log('Dev State Monitor disabled');
             }
         };
+
+        // Function to reveal all features
+        window.revealAll = () => {
+            // Enable all features in featureFlags
+            Object.keys(featureFlags).forEach(key => {
+                featureFlags[key] = true;
+            });
+
+            // Show all hidden elements
+            document.querySelector('.subtitle').classList.add('active');
+            document.querySelector('.cta-button').classList.add('active');
+            document.querySelector('.social-links').classList.add('active');
+            document.querySelector('.menu').classList.add('active');
+
+            // Add rainbow effect to title
+            const title = document.querySelector('.title');
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes rainbow {
+                    0% { color: #ff0000; }
+                    17% { color: #ff00ff; }
+                    33% { color: #0000ff; }
+                    50% { color: #00ffff; }
+                    67% { color: #00ff00; }
+                    83% { color: #ffff00; }
+                    100% { color: #ff0000; }
+                }
+            `;
+            document.head.appendChild(style);
+            title.style.animation = 'rainbow 2s linear infinite';
+
+            console.log('🎉 All features revealed!');
+            console.log('Available features:', Object.keys(featureFlags).join(', '));
+        };
+
+        // Console welcome message
+        console.log('Welcome! Try these developer commands:');
+        console.log('devState() - Toggle performance monitor');
+        console.log('revealAll() - Reveal all hidden features');
     </script>
 </body>
 </html>
