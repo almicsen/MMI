@@ -4,40 +4,44 @@
       "title": "Trivia Time Live",
       "description": "An interactive live trivia experience that brings people together through knowledge and fun.",
       "startDate": null,
-      "status": "archived"
+      "status": "archived",
+      "link": null
     },
     {
       "title": "Live IQ Trivia",
       "description": "Test your knowledge and compete with others in real-time through our innovative trivia platform.",
       "startDate": null,
-      "status": "archived"
+      "status": "archived",
+      "link": null
     },
     {
       "title": "The American Agenda",
       "description": "A news site created by the people, for the people, and reported by the people.",
       "startDate": null,
-      "status": "active"
+      "status": "active",
+      "link": null
     },
     {
       "title": "HQFBL",
       "description": "A reverse-engineered version of the HQ Trivia app, run by fans..",
       "startDate": "2020-09-03",
       "endDate": "2021-07-20",
-      "status": "archived"
+      "status": "archived",
+      "link": null
     },
     {
       "title": "The Unpredictable Podcast",
       "description": "Two friends talking about whatever comes to mind.",
       "startDate": "2023-07-19",
       "status": "relaunching",
-      "link": "/podcast"
+      "link": null
     },
     {
       "title": "Twisted Ties: Undermining Reality",
       "description": "An upcoming groundbreaking series that challenges perspectives and pushes boundaries.",
       "startDate": "2024-01-01",
       "status": "development",
-      "link": "/twisted-ties"
+      "link": null
     }
   ]
 }
