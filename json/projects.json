@@ -18,7 +18,7 @@
       "title": "The American Agenda",
       "description": "A news site created by the people, for the people, and reported by the people.",
       "startDate": null,
-      "status": "active",
+      "status": "archived",
       "link": null
     },
     {
@@ -39,7 +39,7 @@
     {
       "title": "Twisted Ties: Undermining Reality",
       "description": "An upcoming groundbreaking series that challenges perspectives and pushes boundaries.",
-      "startDate": "2024-01-01",
+      "startDate": "2024-07-01",
       "status": "development",
       "link": null
     }
