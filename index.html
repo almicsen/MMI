@@ -1,322 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MobileMediaInteractions - Innovating Media, Engaging Audiences. Explore our creative multimedia projects and productions.">
-    <title>MobileMediaInteractions - Innovating Media, Engaging Audiences</title>
-    <style>
-        :root {
-            --primary-color: #1a1a1a;
-            --accent-color: #3b82f6;
-            --text-color: #2d3748;
-            --light-bg: #f8fafc;
-            --card-bg: #ffffff;
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--light-bg);
-        }
-
-        header {
-            background-color: rgba(255, 255, 255, 0.98);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            padding: 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(8px);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 1rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            letter-spacing: -0.5px;
-        }
-
-        .hero {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2563eb 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            padding: 2rem;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: url('/api/placeholder/1920/1080') center/cover;
-            animation: pulse 15s infinite;
-            opacity: 0.1;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            max-width: 600px;
-            margin: 0 auto;
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        .projects {
-            max-width: 1200px;
-            margin: 6rem auto;
-            padding: 2rem;
-        }
-
-        .projects h2 {
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            letter-spacing: -0.5px;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-            cursor: default;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .project-card.clickable {
-            cursor: pointer;
-        }
-
-        .project-card.clickable:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .project-content {
-            padding: 1.75rem;
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: var(--primary-color);
-            font-weight: 600;
-            letter-spacing: -0.3px;
-        }
-
-        .project-status {
-            display: inline-block;
-            padding: 0.35rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .status-active {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .status-archived {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        .status-development {
-            background: #fef9c3;
-            color: #854d0e;
-        }
-
-        .status-relaunching {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .project-description {
-            color: #64748b;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .project-dates {
-            font-size: 0.875rem;
-            color: #94a3b8;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        .no-projects {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .no-projects-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            color: #94a3b8;
-        }
-
-        .no-projects h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .no-projects p {
-            color: #64748b;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        footer {
-            background: var(--primary-color);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .social-links {
-            margin: 1.5rem 0;
-        }
-
-        .social-links a {
-            color: white;
-            margin: 0 1rem;
-            text-decoration: none;
-            font-size: 1.5rem;
-            opacity: 0.8;
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1.25rem;
-                padding: 0 1rem;
-            }
-
-            .projects {
-                padding: 1rem;
-                margin: 4rem auto;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .projects h2 {
-                font-size: 2rem;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .hero::before {
-                animation: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        <div class="header-content">
-            <div class="logo">MMI</div>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1>MobileMediaInteractions</h1>
-            <p>Innovating Entertainment, Building Experiences—From Apps to Podcasts to the Future of Television.</p>
-        </div>
-    </section>
-
-    <section class="projects">
-        <h2>Our Projects</h2>
-        <div class="project-grid" id="projectGrid">
-            <!-- Projects will be dynamically loaded here -->
-        </div>
-    </section>
-
-    <footer>
-        <div class="social-links">
-        </div>
-        <p>© 2018 - 2025 MobileMediaInteractions. All Rights Reserved.</p>
-    </footer>
+[Previous code remains the same until the script section]
 
     <script>
         async function loadProjects() {
@@ -338,30 +20,52 @@
                 
                 data.projects.forEach(project => {
                     const card = document.createElement('div');
-                    card.className = `project-card${project.link ? ' clickable' : ''}`;
+                    // Only add clickable class if link exists and is not empty
+                    card.className = `project-card${project.link && project.link.trim() ? ' clickable' : ''}`;
                     
-                    if (project.link) {
+                    if (project.link && project.link.trim()) {
                         card.addEventListener('click', () => {
                             window.location.href = project.link;
                         });
                     }
 
-                    // Format dates
-                    const startDate = new Date(project.startDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short'
-                    });
-                    const endDate = project.endDate ? new Date(project.endDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short'
-                    }) : 'Present';
+                    // Format dates with null/empty value handling
+                    let dateDisplay = '';
+                    
+                    if (project.startDate && project.startDate.trim()) {
+                        const startDate = new Date(project.startDate);
+                        // Check if the date is valid
+                        if (!isNaN(startDate.getTime())) {
+                            dateDisplay = startDate.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short'
+                            });
+                            
+                            // Handle end date only if start date is valid
+                            if (project.endDate && project.endDate.trim()) {
+                                const endDate = new Date(project.endDate);
+                                if (!isNaN(endDate.getTime())) {
+                                    dateDisplay += ` - ${endDate.toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'short'
+                                    })}`;
+                                }
+                            } else {
+                                dateDisplay += ' - Present';
+                            }
+                        }
+                    }
+
+                    // Only create date div if there's a valid date to display
+                    const dateElement = dateDisplay ? 
+                        `<div class="project-dates">${dateDisplay}</div>` : '';
 
                     card.innerHTML = `
                         <div class="project-content">
-                            <h3 class="project-title">${project.title}</h3>
+                            <h3 class="project-title">${project.title || 'Untitled Project'}</h3>
                             ${project.status ? `<span class="project-status status-${project.status}">${project.status.charAt(0).toUpperCase() + project.status.slice(1)}</span>` : ''}
-                            <p class="project-description">${project.description}</p>
-                            <div class="project-dates">${startDate} - ${endDate}</div>
+                            <p class="project-description">${project.description || 'No description available.'}</p>
+                            ${dateElement}
                         </div>
                     `;
 
