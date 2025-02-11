@@ -1,0 +1,53 @@
+{
+    "projects": [
+      {
+        "url_placement": "/projects/twisted-ties-undermining-reality",
+        "title": "Twisted Ties: Undermining Reality",
+        "description": "An upcoming groundbreaking series that challenges perspectives and pushes boundaries.",
+        "logo": "TTUR",
+        "media": [
+          {
+            "type": "embed",
+            "title": "In Development Promo",
+            "description": "A promotional video showing the series in development.",
+            "embed": "<iframe title='vimeo-player' src='https://player.vimeo.com/video/1011240262?h=40c9c30053' width='640' height='360' frameborder='0' allowfullscreen></iframe>",
+            "status": "Development",
+            "date": null
+          }
+        ]
+      },
+      {
+        "url_placement": "/projects/innershow",
+        "title": "INNERSHOW",
+        "description": "Test your knowledge and compete with others in real-time through our innovative trivia platform, with a unique twist.",
+        "logo": "IS",
+        "media": [
+          {
+            "type": "embed",
+            "title": "Waiting Lobby",
+            "description": "The waiting lobby for the live mobile game show.",
+            "embed": "<iframe title='vimeo-player' src='https://player.vimeo.com/video/551864787?h=faa38b8d61' width='640' height='360' frameborder='0' allowfullscreen></iframe>",
+            "status": "Archived",
+            "date": null
+          },
+          {
+            "type": "embed",
+            "title": "Intro",
+            "description": "The intro video for the live mobile game show.",
+            "embed": "<iframe title='vimeo-player' src='https://player.vimeo.com/video/557303220?h=4f65973329' width='640' height='360' frameborder='0' allowfullscreen></iframe>",
+            "status": "Archived",
+            "date": null
+          },
+          {
+            "type": "embed",
+            "title": "Unused Countdown",
+            "description": "A scrapped countdown video that was originally planned for the project, later abandoned for a minimalistic design.",
+            "embed": "<iframe title='vimeo-player' src='https://player.vimeo.com/video/1011895259?h=c9e6958f5f' width='640' height='360' frameborder='0' allowfullscreen></iframe>",
+            "status": "Archived",
+            "date": null
+          }
+        ]
+      }
+    ]
+  }
+  
