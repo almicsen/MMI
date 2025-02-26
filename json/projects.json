@@ -4,6 +4,8 @@
       "title": "Trivia Time Live",
       "description": "An interactive live trivia experience that brings people together through knowledge and fun.",
       "startDate": null,
+      "externalClients": false,
+      "isFeatured": false,
       "status": "archived",
       "link": null
     },
@@ -11,6 +13,8 @@
       "title": "Live IQ Trivia",
       "description": "Test your knowledge and compete with others in real-time through our innovative trivia platform.",
       "startDate": null,
+      "externalClients": true,
+      "isFeatured": false,
       "status": "archived",
       "link": null
     },
@@ -18,6 +22,8 @@
       "title": "INNERSHOW",
       "description": "Test your knowledge and compete with others in real-time through our innovative trivia platform, with a unique twist.",
       "startDate": null,
+      "externalClients": false,
+      "isFeatured": false,
       "status": "archived",
       "link": null
     },
@@ -25,6 +31,8 @@
       "title": "The American Agenda",
       "description": "A news site created by the people, for the people, and reported by the people.",
       "startDate": null,
+      "externalClients": true,
+      "isFeatured": false,
       "status": "archived",
       "link": null
     },
@@ -33,6 +41,8 @@
       "description": "A reverse-engineered version of the HQ Trivia app, run by fans.",
       "startDate": "2020-09-03",
       "endDate": "2021-07-20",
+      "externalClients": false,
+      "isFeatured": false,
       "status": "archived",
       "link": null
     },
@@ -40,7 +50,9 @@
       "title": "The Unpredictable Podcast",
       "description": "Two friends talking about whatever comes to mind.",
       "startDate": "2023-07-19",
-      "endDate": null,
+      "endDate": "2024-04-15",
+      "externalClients": false,
+      "isFeatured": false,
       "status": "relaunching",
       "link": null
     },
@@ -49,7 +61,11 @@
       "description": "An upcoming groundbreaking series that challenges perspectives and pushes boundaries.",
       "startDate": "2024-07",
       "status": "development",
+      "externalClients": false,
+      "isFeatured": false,
       "link": null
     }
-  ]
+  ],
+  "announcements": [],
+  "collaborations": []
 }
