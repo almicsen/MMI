@@ -85,5 +85,3 @@ The site adapts seamlessly to all screen sizes:
 This structure ensures the MobileMediaInteractions website is both functional and engaging, providing a solid foundation for showcasing the company’s work.
 
 ---
-
-These Markdown files provide comprehensive guides for structuring the `projects.json` file and understanding the website’s layout. They are detailed, self-contained, and formatted for clarity, making them ideal for reference or implementation. Let me know if you need further adjustments!
