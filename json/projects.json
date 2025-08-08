@@ -71,8 +71,21 @@
       "name": "The Unpredictable Podcast Returns",
       "status": "announced",
       "summary": "The Unpredictable Podcast will be returning late this year (2025).",
-      "link": null
+      "link": "https://open.spotify.com/show/5v7iGYtA9o82Vaca7KyVku?si=931232c33cbf4766"
+    },
+    {
+      "name": "Twisted Ties: Undermining Reality",
+      "status": "development",
+      "summary": "A gripping TV series in development, blending unpredictable storylines, complex characters, and thought-provoking mysteries that explore themes of family, friendship, and betrayal.",
+      "link": "https://vimeo.com/manage/videos/1011240262"
     }
   ],
-  "collaborations": []
+  "collaborations": [
+    {
+      "name": "Live IQ Trivia",
+      "status": "completed",
+      "summary": "Collaborated with Live IQ Trivia in mid 2019 to deliver engaging live trivia experiences.",
+      "link": null
+    }
+  ]
 }
