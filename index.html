@@ -1,356 +1,402 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MobileMediaInteractions - Innovating Media, Engaging Audiences.">
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="MobileMediaInteractions — Innovating Entertainment, Building Experiences." />
     <title>MobileMediaInteractions</title>
+
+    <!-- System color-scheme hint for built-in form controls, etc. -->
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Open Graph / Twitter (fill in as you like) -->
+    <meta property="og:title" content="MobileMediaInteractions" />
+    <meta property="og:description" content="Innovating Entertainment, Building Experiences." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon / Manifest (optional) -->
+    <!-- <link rel="icon" href="/favicon.ico" /> -->
+    <!-- <link rel="manifest" href="/site.webmanifest" /> -->
+
     <style>
+      /* ------------------------------
+         Modern base styles
+         - lightweight reset
+         - CSS variables
+         - prefers-reduced-motion safe animations
+         ------------------------------ */
+
+      :root {
+        --bg: #0b0c10;
+        --bg-elev-1: #ffffff;
+        --bg-elev-2: #f6f7fb;
+        --text: #1f2937;
+        --text-muted: #64748b;
+        --brand: #3b82f6;
+        --brand-600: #2563eb;
+        --ok-100: #dcfce7; --ok-700: #166534;
+        --warn-100: #fef9c3; --warn-700: #854d0e;
+        --info-100: #dbeafe; --info-700: #1e40af;
+        --radius: 16px;
+        --shadow-1: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.06);
+        --shadow-2: 0 2px 8px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.10);
+        --maxw: 1200px;
+      }
+
+      @media (prefers-color-scheme: dark) {
         :root {
-            --primary-color: #1a1a1a;
-            --accent-color: #3b82f6;
-            --text-color: #2d3748;
-            --light-bg: #f8fafc;
-            --card-bg: #ffffff;
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
+          --bg: #0b0c10;
+          --bg-elev-1: #111827;
+          --bg-elev-2: #0f172a;
+          --text: #e5e7eb;
+          --text-muted: #94a3b8;
+          --brand: #60a5fa;
+          --brand-600: #3b82f6;
+          --shadow-1: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px rgba(0,0,0,.18);
+          --shadow-2: 0 2px 8px rgba(0,0,0,.28), 0 16px 40px rgba(0,0,0,.20);
         }
+      }
 
-        html.dark-mode {
-            --primary-color: #f8fafc;
-            --text-color: #e2e8f0;
-            --light-bg: #1a1a1a;
-            --card-bg: #2d3748;
-        }
+      /* theme toggle overrides */
+      [data-theme="light"] {
+        --bg: #ffffff;
+        --bg-elev-1: #ffffff;
+        --bg-elev-2: #f6f7fb;
+        --text: #1f2937;
+        --text-muted: #64748b;
+        --brand: #3b82f6;
+        --brand-600: #2563eb;
+        --shadow-1: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.06);
+        --shadow-2: 0 2px 8px rgba(0,0,0,.10), 0 16px 40px rgba(0,0,0,.12);
+      }
+      [data-theme="dark"] {
+        --bg: #0b0c10;
+        --bg-elev-1: #111827;
+        --bg-elev-2: #0f172a;
+        --text: #e5e7eb;
+        --text-muted: #94a3b8;
+        --brand: #60a5fa;
+        --brand-600: #3b82f6;
+        --shadow-1: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px rgba(0,0,0,.18);
+        --shadow-2: 0 2px 8px rgba(0,0,0,.28), 0 16px 40px rgba(0,0,0,.20);
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+      }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--light-bg);
-        }
+      a { color: inherit; text-decoration: none; }
+      img { max-width: 100%; height: auto; }
 
-        header {
-            background: rgba(255, 255, 255, 0.98);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            padding: 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(8px);
-        }
+      .container { width: min(100% - 2rem, var(--maxw)); margin-inline: auto; }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 1rem;
-        }
+      /* Header */
+      header {
+        position: sticky; top: 0; z-index: 50;
+        backdrop-filter: blur(10px);
+        background: color-mix(in oklab, var(--bg-elev-1) 85%, transparent);
+        border-bottom: 1px solid color-mix(in oklab, var(--text-muted) 20%, transparent);
+      }
+      .nav { display: flex; align-items: center; justify-content: space-between; padding: .85rem 0; }
+      .logo { font-weight: 800; letter-spacing: .4px; }
+      .theme-btn {
+        display: inline-flex; align-items: center; gap: .5rem;
+        border: 1px solid color-mix(in oklab, var(--text-muted) 24%, transparent);
+        background: var(--bg-elev-1);
+        border-radius: 999px; padding: .45rem .8rem; cursor: pointer;
+        box-shadow: var(--shadow-1);
+      }
+      .theme-btn:focus-visible { outline: 2px solid var(--brand-600); outline-offset: 2px; }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
+      /* Hero */
+      .hero {
+        min-height: 60svh;
+        display: grid; place-items: center; text-align: center; isolation: isolate;
+        padding: 6rem 1rem 4rem;
+        position: relative; overflow: hidden;
+        color: white;
+      }
+      .hero::before {
+        content: ""; position: absolute; inset: -20% -10% -10% -10%; z-index: -1;
+        background: radial-gradient(60% 60% at 50% 35%, color-mix(in oklab, var(--brand-600) 65%, #0000) 0%, transparent 60%),
+                    conic-gradient(from 180deg at 50% 50%, var(--brand) 0 25%, #6366f1 25% 50%, #06b6d4 50% 75%, var(--brand-600) 75% 100%);
+        filter: blur(40px) saturate(120%);
+        opacity: .8;
+      }
+      .hero h1 { font-size: clamp(2rem, 4vw + 1rem, 4rem); margin: 0 0 1rem; font-weight: 900; }
+      .hero p { font-size: clamp(1rem, .8vw + .8rem, 1.25rem); opacity: .95; }
 
-        /* Theme Toggle Styles */
-        .theme-toggle {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
+      /* Sections */
+      main { display: grid; gap: 4rem; padding: 2rem 0 4rem; }
+      section > header h2 { text-align: center; font-size: clamp(1.5rem, 1.6vw + 1rem, 2.25rem); margin: 0 0 1.5rem; }
 
-        .theme-toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+      .grid {
+        display: grid; gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      }
 
-        .theme-toggle .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
+      .card, .empty {
+        background: var(--bg-elev-1);
+        border: 1px solid color-mix(in oklab, var(--text-muted) 18%, transparent);
+        border-radius: var(--radius);
+        padding: 1.2rem;
+        box-shadow: var(--shadow-1);
+        transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+      }
+      .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: color-mix(in oklab, var(--brand) 30%, transparent); }
+      .card h3 { margin: 0 0 .5rem; font-size: 1.1rem; }
+      .card p { margin: .25rem 0 0; color: var(--text-muted); font-size: .98rem; }
 
-        .theme-toggle .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
+      .badge { display: inline-block; padding: .25rem .65rem; border-radius: 999px; font-size: .8rem; font-weight: 600; margin-bottom: .6rem; }
+      .badge[data-status="active"] { background: var(--ok-100); color: var(--ok-700); }
+      .badge[data-status="development"] { background: var(--warn-100); color: var(--warn-700); }
+      .badge[data-status="announced"] { background: var(--info-100); color: var(--info-700); }
 
-        .theme-toggle input:checked + .slider {
-            background-color: var(--accent-color);
-        }
+      .empty { text-align: center; color: var(--text-muted); }
 
-        .theme-toggle input:checked + .slider:before {
-            transform: translateX(26px);
-        }
+      /* Skeletons */
+      .skeleton { position: relative; overflow: hidden; background: var(--bg-elev-2); border-radius: .5rem; }
+      .skeleton::after { content: ""; position: absolute; inset: 0; translate: -100% 0; background: linear-gradient(90deg, #0000, color-mix(in oklab, #fff 35%, #0000), #0000); animation: shimmer 1.2s infinite; }
+      @keyframes shimmer { to { translate: 100% 0; } }
 
-        .hero {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2563eb 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 2rem;
-        }
+      /* Footer */
+      footer { color: color-mix(in oklab, var(--text) 85%, #0000); padding: 3rem 0; text-align: center; border-top: 1px solid color-mix(in oklab, var(--text-muted) 18%, transparent); }
 
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            max-width: 600px;
-            margin: 0 auto;
-            opacity: 0.9;
-        }
-
-        /* Flexible Section Container */
-        .content-sections {
-            display: flex;
-            flex-direction: column;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .projects, .collaborations, .announcements {
-            margin: 4rem 0;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            color: var(--primary-color);
-        }
-
-        .project-grid, .collaboration-grid, .announcement-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card, .collaboration-card, .announcement-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            transition: var(--transition);
-        }
-
-        .project-card.clickable:hover, .collaboration-card.clickable:hover, .announcement-card.clickable:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-        }
-
-        .project-status {
-            display: inline-block;
-            padding: 0.35rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-        }
-
-        .status-active { background: #dcfce7; color: #166534; }
-        .status-development { background: #fef9c3; color: #854d0e; }
-        .status-announced { background: #dbeafe; color: #1e40af; }
-
-        .project-description {
-            color: #64748b;
-            font-size: 0.95rem;
-        }
-
-        .no-content {
-            text-align: center;
-            padding: 3rem;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        footer {
-            background: var(--primary-color);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.25rem; }
-            .content-sections { padding: 1rem; }
-            .project-grid, .collaboration-grid, .announcement-grid { grid-template-columns: 1fr; }
-            h2 { font-size: 2rem; }
-        }
+      /* Accessibility & motion */
+      @media (prefers-reduced-motion: reduce) {
+        * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <a href="#main" class="sr-only">Skip to content</a>
+
     <header>
-        <div class="header-content">
-            <div class="logo">MMI</div>
-            <label class="theme-toggle">
-                <input type="checkbox" id="theme-toggle">
-                <span class="slider"></span>
-            </label>
-        </div>
+      <div class="container nav" role="navigation" aria-label="Primary">
+        <div class="logo" aria-label="MobileMediaInteractions">MMI</div>
+        <button id="themeToggle" class="theme-btn" type="button" aria-pressed="false" aria-label="Toggle theme">
+          <span aria-hidden="true">🌓</span>
+          <span class="label">Theme</span>
+        </button>
+      </div>
     </header>
 
     <section class="hero">
-        <div>
-            <h1>MobileMediaInteractions</h1>
-            <p>Innovating Entertainment, Building Experiences.</p>
-        </div>
+      <div class="container">
+        <h1>MobileMediaInteractions</h1>
+        <p>Innovating Entertainment, Building Experiences.</p>
+      </div>
     </section>
 
-    <div class="content-sections">
-        <section class="projects">
-            <h2>Our Projects</h2>
-            <div class="project-grid" id="projectGrid"></div>
-        </section>
+    <main id="main" class="container">
+      <section class="projects" style="order:1">
+        <header><h2>Our Projects</h2></header>
+        <div id="projectGrid" class="grid" aria-live="polite" aria-busy="true"></div>
+      </section>
 
-        <section class="collaborations">
-            <h2>Our Collaborations</h2>
-            <div class="collaboration-grid" id="collaborationGrid"></div>
-        </section>
+      <section class="collaborations" style="order:2">
+        <header><h2>Our Collaborations</h2></header>
+        <div id="collaborationGrid" class="grid" aria-live="polite" aria-busy="true"></div>
+      </section>
 
-        <section class="announcements">
-            <h2>Coming Soon</h2>
-            <div class="announcement-grid" id="announcementGrid"></div>
-        </section>
-    </div>
+      <section class="announcements" style="order:3">
+        <header><h2>Coming Soon</h2></header>
+        <div id="announcementGrid" class="grid" aria-live="polite" aria-busy="true"></div>
+      </section>
+    </main>
 
     <footer>
-        <p>© 2025 MobileMediaInteractions. All Rights Reserved.</p>
+      <div class="container">
+        <small>© <span id="year"></span> MobileMediaInteractions. All Rights Reserved.</small>
+      </div>
     </footer>
 
-    <script>
-        async function loadData() {
-            try {
-                const response = await fetch('/json/projects.json');
-                const data = await response.json();
+    <script type="module">
+      // ------------------------------
+      // Utilities
+      // ------------------------------
+      const $ = (sel, ctx = document) => ctx.querySelector(sel);
+      const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-                // Set section order by importance and data availability
-                const projectsSection = document.querySelector('.projects');
-                const collaborationsSection = document.querySelector('.collaborations');
-                const announcementsSection = document.querySelector('.announcements');
+      // Year
+      $('#year').textContent = new Date().getFullYear();
 
-                projectsSection.style.order = 1; // Always first
-                collaborationsSection.style.order = (data.collaborations?.length > 0) ? 2 : 4;
-                announcementsSection.style.order = (data.announcements?.length > 0) ? 3 : 5;
+      // Theme: prefer saved -> system -> light
+      const root = document.documentElement;
+      const STORAGE_KEY = 'theme-preference';
+      const toggle = $('#themeToggle');
 
-                // Projects
-                const projectGrid = document.getElementById('projectGrid');
-                if (!data.projects || data.projects.length === 0) {
-                    projectGrid.innerHTML = '<div class="no-content"><h3>No Projects</h3><p>Check back soon!</p></div>';
-                } else {
-                    data.projects.forEach(project => {
-                        const card = document.createElement('div');
-                        card.className = `project-card${project.link ? ' clickable' : ''}`;
-                        if (project.link) card.addEventListener('click', () => window.location.href = project.link);
-                        card.innerHTML = `
-                            <h3 class="project-title">${project.title || 'Untitled'}</h3>
-                            ${project.status ? `<span class="project-status status-${project.status}">${project.status}</span>` : ''}
-                            <p class="project-description">${project.description || 'No description.'}</p>
-                        `;
-                        projectGrid.appendChild(card);
-                    });
-                }
+      const getSystemPref = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const getStored = () => localStorage.getItem(STORAGE_KEY);
+      const setTheme = (mode) => {
+        // mode: 'light' | 'dark' | 'auto'
+        root.setAttribute('data-theme', mode === 'auto' ? getSystemPref() : mode);
+        localStorage.setItem(STORAGE_KEY, mode);
+        toggle.setAttribute('aria-pressed', (root.getAttribute('data-theme') === 'dark').toString());
+        document.querySelector('meta[name="color-scheme"]').setAttribute('content', root.getAttribute('data-theme') === 'dark' ? 'dark light' : 'light dark');
+      };
 
-                // Collaborations
-                const collaborationGrid = document.getElementById('collaborationGrid');
-                if (!data.collaborations || data.collaborations.length === 0) {
-                    collaborationGrid.innerHTML = '<div class="no-content"><h3>No Collaborations</h3><p>Stay tuned!</p></div>';
-                } else {
-                    data.collaborations.forEach(collab => {
-                        const card = document.createElement('div');
-                        card.className = `collaboration-card${collab.link ? ' clickable' : ''}`;
-                        if (collab.link) card.addEventListener('click', () => window.location.href = collab.link);
-                        card.innerHTML = `
-                            <h3 class="project-title">${collab.name || 'Untitled'}</h3>
-                            ${collab.status ? `<span class="project-status status-${collab.status}">${collab.status}</span>` : ''}
-                            <p class="project-description">${collab.summary || 'No summary.'}</p>
-                        `;
-                        collaborationGrid.appendChild(card);
-                    });
-                }
+      // initialize
+      setTheme(getStored() || 'auto');
 
-                // Announcements
-                const announcementGrid = document.getElementById('announcementGrid');
-                if (!data.announcements || data.announcements.length === 0) {
-                    announcementGrid.innerHTML = '<div class="no-content"><h3>No Announcements</h3><p>More to come!</p></div>';
-                } else {
-                    data.announcements.forEach(announce => {
-                        const card = document.createElement('div');
-                        card.className = `announcement-card${announce.link ? ' clickable' : ''}`;
-                        if (announce.link) card.addEventListener('click', () => window.location.href = announce.link);
-                        card.innerHTML = `
-                            <h3 class="project-title">${announce.name || 'Untitled'}</h3>
-                            ${announce.status ? `<span class="project-status status-${announce.status}">${announce.status}</span>` : ''}
-                            <p class="project-description">${announce.summary || 'No summary.'}</p>
-                        `;
-                        announcementGrid.appendChild(card);
-                    });
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+      toggle.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme');
+        const mode = current === 'dark' ? 'light' : 'dark';
+        setTheme(mode);
+      });
+
+      // React to system changes if user selected auto
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getStored() === 'auto') setTheme('auto');
+      });
+
+      // ------------------------------
+      // Data loading with timeout + skeletons
+      // ------------------------------
+      const withTimeout = (ms, promise) => new Promise((resolve, reject) => {
+        const id = setTimeout(() => reject(new Error('Request timed out')), ms);
+        promise.then((res) => { clearTimeout(id); resolve(res); }, (err) => { clearTimeout(id); reject(err); });
+      });
+
+      const grids = {
+        projects: $('#projectGrid'),
+        collaborations: $('#collaborationGrid'),
+        announcements: $('#announcementGrid'),
+      };
+
+      // Render skeletons
+      function renderSkeletons(grid, count = 6) {
+        grid.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="skeleton" style="height: 18px; width: 50%; margin-bottom: .75rem;"></div>
+            <div class="skeleton" style="height: 10px; width: 30%; margin-bottom: .5rem; border-radius: 999px;"></div>
+            <div class="skeleton" style="height: 60px; width: 100%;"></div>
+          `;
+          grid.appendChild(card);
         }
+      }
 
-        // Theme Toggle Logic
-        const htmlElement = document.documentElement;
-        const themeToggle = document.getElementById('theme-toggle');
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark-mode') {
-            htmlElement.classList.add('dark-mode');
-            themeToggle.checked = true;
+      // Create card (anchor if link exists)
+      function makeCard({ heading, status, body, href }) {
+        const tag = href ? 'a' : 'article';
+        const el = document.createElement(tag);
+        el.className = 'card';
+        if (href) el.href = href;
+        el.innerHTML = `
+          ${status ? `<span class="badge" data-status="${String(status).toLowerCase()}">${status}</span>` : ''}
+          <h3>${heading || 'Untitled'}</h3>
+          <p>${body || 'No description.'}</p>
+        `;
+        return el;
+      }
+
+      async function loadData() {
+        Object.values(grids).forEach(g => renderSkeletons(g, 4));
+        try {
+          const res = await withTimeout(8000, fetch('/json/projects.json', { headers: { 'accept': 'application/json' } }));
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+
+          // Section ordering (keep original intent)
+          const projectsSection = document.querySelector('.projects');
+          const collaborationsSection = document.querySelector('.collaborations');
+          const announcementsSection = document.querySelector('.announcements');
+
+          projectsSection.style.order = 1;
+          collaborationsSection.style.order = (data?.collaborations?.length > 0) ? 2 : 4;
+          announcementsSection.style.order = (data?.announcements?.length > 0) ? 3 : 5;
+
+          // Clear and render each grid
+          // Projects: { title, status, description, link }
+          const pGrid = grids.projects; pGrid.innerHTML = '';
+          if (!data?.projects?.length) {
+            pGrid.innerHTML = `<div class="empty"><h3>No Projects</h3><p>Check back soon!</p></div>`;
+          } else {
+            data.projects.forEach(p => {
+              pGrid.appendChild(makeCard({
+                heading: p.title,
+                status: p.status,
+                body: p.description,
+                href: p.link || null,
+              }));
+            });
+          }
+          pGrid.setAttribute('aria-busy', 'false');
+
+          // Collaborations: { name, status, summary, link }
+          const cGrid = grids.collaborations; cGrid.innerHTML = '';
+          if (!data?.collaborations?.length) {
+            cGrid.innerHTML = `<div class="empty"><h3>No Collaborations</h3><p>Stay tuned!</p></div>`;
+          } else {
+            data.collaborations.forEach(c => {
+              cGrid.appendChild(makeCard({
+                heading: c.name,
+                status: c.status,
+                body: c.summary,
+                href: c.link || null,
+              }));
+            });
+          }
+          cGrid.setAttribute('aria-busy', 'false');
+
+          // Announcements: { name, status, summary, link }
+          const aGrid = grids.announcements; aGrid.innerHTML = '';
+          if (!data?.announcements?.length) {
+            aGrid.innerHTML = `<div class="empty"><h3>No Announcements</h3><p>More to come!</p></div>`;
+          } else {
+            data.announcements.forEach(a => {
+              aGrid.appendChild(makeCard({
+                heading: a.name,
+                status: a.status,
+                body: a.summary,
+                href: a.link || null,
+              }));
+            });
+          }
+          aGrid.setAttribute('aria-busy', 'false');
+        } catch (err) {
+          console.error(err);
+          Object.entries(grids).forEach(([key, grid]) => {
+            grid.innerHTML = `<div class="empty"><h3>Oops!</h3><p>We couldn't load ${key}. Please refresh.</p></div>`;
+            grid.setAttribute('aria-busy', 'false');
+          });
         }
+      }
 
-        themeToggle.addEventListener('change', () => {
-            if (themeToggle.checked) {
-                htmlElement.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark-mode');
-            } else {
-                htmlElement.classList.remove('dark-mode');
-                localStorage.setItem('theme', 'light-mode');
-            }
+      document.addEventListener('DOMContentLoaded', loadData);
+
+      // ------------------------------
+      // Subtle entrance animations (intersection observer)
+      // ------------------------------
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.animate([
+              { opacity: 0, transform: 'translateY(6px)' },
+              { opacity: 1, transform: 'translateY(0)' },
+            ], { duration: 280, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
+            io.unobserve(e.target);
+          }
         });
+      }, { threshold: 0.08 });
 
-        document.addEventListener('DOMContentLoaded', loadData);
+      ['projectGrid', 'collaborationGrid', 'announcementGrid'].forEach(id => {
+        const grid = document.getElementById(id);
+        const obs = new MutationObserver(() => {
+          $$('.card', grid).forEach(el => io.observe(el));
+        });
+        obs.observe(grid, { childList: true });
+      });
     </script>
-</body>
+  </body>
 </html>
