@@ -52,7 +52,7 @@
       "startDate": "2023-07-19",
       "endDate": "2024-04-15",
       "externalClients": false,
-      "isFeatured": false,
+      "isFeatured": true,
       "status": "relaunching",
       "link": null
     },
@@ -62,10 +62,17 @@
       "startDate": "2024-07",
       "status": "development",
       "externalClients": false,
-      "isFeatured": false,
+      "isFeatured": true,
       "link": null
     }
   ],
-  "announcements": [],
+  "announcements": [
+    {
+      "name": "The Unpredictable Podcast Returns",
+      "status": "announced",
+      "summary": "The Unpredictable Podcast will be returning late this year (2025).",
+      "link": null
+    }
+  ],
   "collaborations": []
 }
