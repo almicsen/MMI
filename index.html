@@ -38,9 +38,9 @@
         --ok-100: #dcfce7; --ok-700: #166534;
         --warn-100: #fef9c3; --warn-700: #854d0e;
         --info-100: #dbeafe; --info-700: #1e40af;
-        --radius: 16px;
-        --shadow-1: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.06);
-        --shadow-2: 0 2px 8px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.10);
+        --radius: 8px;
+        --shadow-1: 0 0 0 1px color-mix(in oklab, var(--text-muted) 12%, transparent), 0 6px 20px rgba(0,0,0,.06);
+        --shadow-2: 0 0 0 1px color-mix(in oklab, var(--text-muted) 16%, transparent), 0 12px 32px rgba(0,0,0,.08);
         --maxw: 1200px;
       }
 
@@ -53,8 +53,8 @@
           --text-muted: #94a3b8;
           --brand: #60a5fa;
           --brand-600: #3b82f6;
-          --shadow-1: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px rgba(0,0,0,.18);
-          --shadow-2: 0 2px 8px rgba(0,0,0,.28), 0 16px 40px rgba(0,0,0,.20);
+          --shadow-1: 0 0 0 1px color-mix(in oklab, var(--text-muted) 12%, transparent), 0 6px 20px rgba(0,0,0,.06);
+          --shadow-2: 0 0 0 1px color-mix(in oklab, var(--text-muted) 16%, transparent), 0 12px 32px rgba(0,0,0,.08);
         }
       }
 
@@ -67,8 +67,8 @@
         --text-muted: #64748b;
         --brand: #3b82f6;
         --brand-600: #2563eb;
-        --shadow-1: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.06);
-        --shadow-2: 0 2px 8px rgba(0,0,0,.10), 0 16px 40px rgba(0,0,0,.12);
+        --shadow-1: 0 0 0 1px color-mix(in oklab, var(--text-muted) 12%, transparent), 0 6px 20px rgba(0,0,0,.06);
+        --shadow-2: 0 0 0 1px color-mix(in oklab, var(--text-muted) 16%, transparent), 0 12px 32px rgba(0,0,0,.08);
       }
       [data-theme="dark"] {
         --bg: #0b0c10;
@@ -78,8 +78,8 @@
         --text-muted: #94a3b8;
         --brand: #60a5fa;
         --brand-600: #3b82f6;
-        --shadow-1: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px rgba(0,0,0,.18);
-        --shadow-2: 0 2px 8px rgba(0,0,0,.28), 0 16px 40px rgba(0,0,0,.20);
+        --shadow-1: 0 0 0 1px color-mix(in oklab, var(--text-muted) 12%, transparent), 0 6px 20px rgba(0,0,0,.06);
+        --shadow-2: 0 0 0 1px color-mix(in oklab, var(--text-muted) 16%, transparent), 0 12px 32px rgba(0,0,0,.08);
       }
 
       *, *::before, *::after { box-sizing: border-box; }
@@ -93,6 +93,9 @@
       }
 
       a { color: inherit; text-decoration: none; }
+      /* Skip link only appears when keyboard-focused */
+      .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+      .skip-link:focus { position: fixed; left: 16px; top: 16px; width: auto; height: auto; padding: .6rem .9rem; background: var(--bg-elev-1); border: 1px solid color-mix(in oklab, var(--text-muted) 22%, transparent); border-radius: 8px; box-shadow: var(--shadow-1); z-index: 100; }
       img { max-width: 100%; height: auto; }
 
       .container { width: min(100% - 2rem, var(--maxw)); margin-inline: auto; }
@@ -121,45 +124,44 @@
         display: grid; place-items: center; text-align: center; isolation: isolate;
         padding: 6rem 1rem 4rem;
         position: relative; overflow: hidden;
-        color: white;
+        color: var(--text);
       }
-      .hero::before {
-        content: ""; position: absolute; inset: -20% -10% -10% -10%; z-index: -1;
-        background: radial-gradient(60% 60% at 50% 35%, color-mix(in oklab, var(--brand-600) 65%, #0000) 0%, transparent 60%),
-                    conic-gradient(from 180deg at 50% 50%, var(--brand) 0 25%, #6366f1 25% 50%, #06b6d4 50% 75%, var(--brand-600) 75% 100%);
-        filter: blur(40px) saturate(120%);
-        opacity: .8;
-      }
+      .hero::before { content: ""; position: absolute; inset: -10% -5% auto -5%; height: 60%; z-index: -1; background: radial-gradient(40% 40% at 50% 20%, color-mix(in oklab, var(--brand-600) 28%, transparent), transparent 70%); filter: blur(30px) saturate(110%); opacity: .6; }
       .hero h1 { font-size: clamp(2rem, 4vw + 1rem, 4rem); margin: 0 0 1rem; font-weight: 900; }
       .hero p { font-size: clamp(1rem, .8vw + .8rem, 1.25rem); opacity: .95; }
 
       /* Sections */
-      main { display: grid; gap: 4rem; padding: 2rem 0 4rem; }
-      section > header h2 { text-align: center; font-size: clamp(1.5rem, 1.6vw + 1rem, 2.25rem); margin: 0 0 1.5rem; }
+      main { display: block; padding: 2rem 0 4rem; }
+      section > header h2 { text-align: center; font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem); margin: 0 0 1.25rem; font-weight: 800; letter-spacing: 0; }
+section > header h2::after { content: ""; display: block; height: 2px; width: 64px; margin: .75rem auto 0; background: color-mix(in oklab, var(--text) 14%, transparent); border-radius: 999px; opacity: .7; }
 
-      .grid {
-        display: grid; gap: 1.5rem;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-      }
+      .grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); align-items: stretch; }
 
-      .card, .empty {
-        background: var(--bg-elev-1);
-        border: 1px solid color-mix(in oklab, var(--text-muted) 18%, transparent);
-        border-radius: var(--radius);
-        padding: 1.2rem;
-        box-shadow: var(--shadow-1);
-        transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-      }
-      .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: color-mix(in oklab, var(--brand) 30%, transparent); }
-      .card h3 { margin: 0 0 .5rem; font-size: 1.1rem; }
-      .card p { margin: .25rem 0 0; color: var(--text-muted); font-size: .98rem; }
+      .card, .empty { background: var(--bg-elev-1); border: 1px solid color-mix(in oklab, var(--text-muted) 16%, transparent); border-radius: var(--radius); padding: 1.1rem 1.15rem; box-shadow: var(--shadow-1); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease; display: grid; align-content: start; gap: .55rem; position: relative; }
+      .card:hover { transform: translateY(-1px); box-shadow: var(--shadow-2); border-color: color-mix(in oklab, var(--text-muted) 22%, transparent); }
+      .card h3 { margin: .1rem 0 .25rem; font-size: 1.12rem; line-height: 1.25; letter-spacing: .2px; }
+      .card p { margin: 0; color: var(--text-muted); font-size: .98rem; }
 
-      .badge { display: inline-block; padding: .25rem .65rem; border-radius: 999px; font-size: .8rem; font-weight: 600; margin-bottom: .6rem; }
+      .badge { display: inline-flex; align-items: center; gap: .4rem; padding: .25rem .65rem; border-radius: 999px; font-size: .78rem; font-weight: 700; margin-bottom: .3rem; letter-spacing: .02em; }
       .badge[data-status="active"] { background: var(--ok-100); color: var(--ok-700); }
       .badge[data-status="development"] { background: var(--warn-100); color: var(--warn-700); }
       .badge[data-status="announced"] { background: var(--info-100); color: var(--info-700); }
 
       .empty { text-align: center; color: var(--text-muted); }
+
+      /* Tabs */
+      .tabs { display: inline-flex; gap: .5rem; background: var(--bg-elev-1); border: 1px solid color-mix(in oklab, var(--text-muted) 16%, transparent); border-radius: 8px; padding: .35rem; box-shadow: var(--shadow-1); margin: 0 auto 1.5rem; }
+      .tabs .tab { appearance: none; border: 0; background: transparent; padding: .55rem .9rem; border-radius: 6px; font-weight: 700; color: var(--text-muted); cursor: pointer; }
+      .tabs .tab[aria-selected="true"] { color: var(--text); background: var(--bg-elev-2); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--text-muted) 14%, transparent); }
+      [role="tabpanel"] { margin-top: 1rem; }
+      [role="tabpanel"][hidden] { display: none !important; }
+
+      /* One-off sheen effect for highlighted card */
+      .card.sheen::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+        background: linear-gradient(120deg, transparent 0%, color-mix(in oklab, #fff 55%, transparent) 20%, transparent 40%);
+        transform: translateX(-140%);
+        animation: sheen 900ms ease forwards; }
+      @keyframes sheen { to { transform: translateX(140%); } }
 
       /* Skeletons */
       .skeleton { position: relative; overflow: hidden; background: var(--bg-elev-2); border-radius: .5rem; }
@@ -167,7 +169,17 @@
       @keyframes shimmer { to { translate: 100% 0; } }
 
       /* Footer */
-      footer { color: color-mix(in oklab, var(--text) 85%, #0000); padding: 3rem 0; text-align: center; border-top: 1px solid color-mix(in oklab, var(--text-muted) 18%, transparent); }
+
+      /* External-link adornment */
+      .card .ext { opacity: .6; font-size: .9rem; margin-left: .25rem; }
+      a.card { text-decoration: none; }
+      a.card:hover .ext { opacity: .9; }
+
+      /* Section polish */
+      main > section { position: relative; }
+      main > section::before { content: ""; position: absolute; inset: -2rem 0 auto; height: 1px; background: linear-gradient(90deg, #0000, color-mix(in oklab, var(--text-muted) 20%, transparent), #0000); }
+      .empty { text-align: center; color: var(--text-muted); }
+      footer { color: color-mix(in oklab, var(--text) 85%, #0000); padding: 4rem 0; text-align: center; border-top: 1px solid color-mix(in oklab, var(--text-muted) 18%, transparent); }
 
       /* Accessibility & motion */
       @media (prefers-reduced-motion: reduce) {
@@ -176,7 +188,7 @@
     </style>
   </head>
   <body>
-    <a href="#main" class="sr-only">Skip to content</a>
+    <a href="#main" class="skip-link">Skip to content</a>
 
     <header>
       <div class="container nav" role="navigation" aria-label="Primary">
@@ -196,17 +208,22 @@
     </section>
 
     <main id="main" class="container">
-      <section class="projects" style="order:1">
+      <nav class="tabs" role="tablist" aria-label="Sections">
+        <button class="tab" role="tab" id="tab-projects" aria-controls="panel-projects" aria-selected="true">Projects</button>
+        <button class="tab" role="tab" id="tab-collaborations" aria-controls="panel-collaborations" aria-selected="false">Collaborations</button>
+        <button class="tab" role="tab" id="tab-announcements" aria-controls="panel-announcements" aria-selected="false">Coming Soon</button>
+      </nav>
+      <section id="panel-projects" class="projects" role="tabpanel" aria-labelledby="tab-projects">
         <header><h2>Our Projects</h2></header>
         <div id="projectGrid" class="grid" aria-live="polite" aria-busy="true"></div>
       </section>
 
-      <section class="collaborations" style="order:2">
+      <section id="panel-collaborations" class="collaborations" role="tabpanel" aria-labelledby="tab-collaborations" hidden>
         <header><h2>Our Collaborations</h2></header>
         <div id="collaborationGrid" class="grid" aria-live="polite" aria-busy="true"></div>
       </section>
 
-      <section class="announcements" style="order:3">
+      <section id="panel-announcements" class="announcements" role="tabpanel" aria-labelledby="tab-announcements" hidden>
         <header><h2>Coming Soon</h2></header>
         <div id="announcementGrid" class="grid" aria-live="polite" aria-busy="true"></div>
       </section>
@@ -224,6 +241,7 @@
       // ------------------------------
       const $ = (sel, ctx = document) => ctx.querySelector(sel);
       const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+      const slugify = (s = '') => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
       // Year
       $('#year').textContent = new Date().getFullYear();
@@ -291,13 +309,51 @@
         const tag = href ? 'a' : 'article';
         const el = document.createElement(tag);
         el.className = 'card';
-        if (href) el.href = href;
+        el.dataset.id = slugify(heading || '');
+        if (href) {
+          el.href = href;
+          el.target = '_blank';
+          el.rel = 'noopener noreferrer';
+          el.setAttribute('aria-label', `${heading || 'Untitled'} (opens in a new tab)`);
+        }
         el.innerHTML = `
           ${status ? `<span class="badge" data-status="${String(status).toLowerCase()}">${status}</span>` : ''}
-          <h3>${heading || 'Untitled'}</h3>
+          <h3>${heading || 'Untitled'}${href ? ' <span class="ext" aria-hidden="true">↗</span>' : ''}</h3>
           <p>${body || 'No description.'}</p>
         `;
         return el;
+      }
+
+      // Shuffle-in animation for grids, with a tasteful card-deck feel
+      function shuffleIn(grid, { specialId = null } = {}) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const cards = $$('.card', grid);
+        const base = 48; // ms between cards
+        const jitter = 90; // random extra delay
+        cards.forEach((card, i) => {
+          const delay = i * base + Math.random() * jitter;
+          const rot = (Math.random() * 2 - 1) * 1.4; // -1.4deg..1.4deg
+          card.dataset.animated = 'true';
+          card.animate([
+            { opacity: 0, transform: `translateY(14px) rotate(${rot}deg) scale(.985)` },
+            { opacity: 1, transform: 'translateY(0) rotate(0deg) scale(1)' }
+          ], { duration: 360, delay, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' });
+        });
+        if (specialId) {
+          const star = cards.find(c => c.dataset.id === specialId);
+          if (star) specialTwisted(star);
+        }
+      }
+
+      // One-off premium highlight for Twisted Ties
+      function specialTwisted(card) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        card.classList.add('sheen');
+        card.animate([
+          { boxShadow: 'var(--shadow-1)', transform: 'translateY(-1px) scale(.995)' },
+          { boxShadow: 'var(--shadow-2)', transform: 'translateY(0) scale(1)' }
+        ], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards', delay: 120 });
+        setTimeout(() => card.classList.remove('sheen'), 1000);
       }
 
       async function loadData() {
@@ -332,6 +388,7 @@
             });
           }
           pGrid.setAttribute('aria-busy', 'false');
+          shuffleIn(pGrid, { specialId: 'twisted-ties-undermining-reality' });
 
           // Collaborations: { name, status, summary, link }
           const cGrid = grids.collaborations; cGrid.innerHTML = '';
@@ -348,6 +405,7 @@
             });
           }
           cGrid.setAttribute('aria-busy', 'false');
+          shuffleIn(cGrid);
 
           // Announcements: { name, status, summary, link }
           const aGrid = grids.announcements; aGrid.innerHTML = '';
@@ -364,6 +422,7 @@
             });
           }
           aGrid.setAttribute('aria-busy', 'false');
+          shuffleIn(aGrid, { specialId: 'twisted-ties-undermining-reality' });
         } catch (err) {
           console.error(err);
           Object.entries(grids).forEach(([key, grid]) => {
@@ -374,6 +433,56 @@
       }
 
       document.addEventListener('DOMContentLoaded', loadData);
+
+      // ------------------------------
+      // Tabs (single-page panels with animation)
+      // ------------------------------
+      const tabButtons = $$('.tabs .tab');
+      const panels = {
+        projects: $('#panel-projects'),
+        collaborations: $('#panel-collaborations'),
+        announcements: $('#panel-announcements'),
+      };
+
+      function selectTab(name, pushHash = true) {
+        tabButtons.forEach(btn => btn.setAttribute('aria-selected', (btn.id === `tab-${name}`).toString()));
+        Object.entries(panels).forEach(([key, panel]) => {
+          const show = key === name;
+          if (show) {
+            panel.hidden = false;
+            panel.animate([
+              { opacity: 0, transform: 'translateY(6px)' },
+              { opacity: 1, transform: 'translateY(0)' },
+            ], { duration: 220, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' });
+          } else {
+            panel.hidden = true;
+          }
+        });
+        if (pushHash) history.replaceState(null, '', `#${name}`);
+      }
+
+      tabButtons.forEach((btn, i) => {
+        btn.addEventListener('click', () => selectTab(btn.id.replace('tab-', '')));
+        btn.addEventListener('keydown', (e) => {
+          const idx = tabButtons.indexOf(btn);
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            const dir = e.key === 'ArrowRight' ? 1 : -1;
+            const next = (idx + dir + tabButtons.length) % tabButtons.length;
+            tabButtons[next].focus();
+          }
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectTab(btn.id.replace('tab-', ''));
+          }
+        });
+      });
+
+      const initial = (location.hash || '').replace('#', '');
+      selectTab(['projects', 'collaborations', 'announcements'].includes(initial) ? initial : 'projects', false);
+      window.addEventListener('hashchange', () => {
+        const h = (location.hash || '').replace('#', '');
+        if (['projects', 'collaborations', 'announcements'].includes(h)) selectTab(h, false);
+      });
 
       // ------------------------------
       // Subtle entrance animations (intersection observer)
@@ -393,7 +502,7 @@
       ['projectGrid', 'collaborationGrid', 'announcementGrid'].forEach(id => {
         const grid = document.getElementById(id);
         const obs = new MutationObserver(() => {
-          $$('.card', grid).forEach(el => io.observe(el));
+          $$('.card', grid).forEach(el => { if (!el.dataset.animated) io.observe(el); });
         });
         obs.observe(grid, { childList: true });
       });
