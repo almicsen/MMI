@@ -31,6 +31,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# old static files (don't deploy these)
+index.html.old
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
