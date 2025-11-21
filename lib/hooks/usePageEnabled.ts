@@ -22,11 +22,15 @@ export function usePageEnabled(page: PageKey, redirectTo: string = '/') {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const checkPageEnabled = async () => {
       try {
         const config = await getConfig();
         const configKey = pageConfigMap[page];
         const isEnabled = config[configKey] !== false && (page !== 'blog' ? true : config.blogEnabled === true);
+        
+        if (!isMounted) return;
         
         setEnabled(isEnabled);
         
@@ -37,14 +41,23 @@ export function usePageEnabled(page: PageKey, redirectTo: string = '/') {
       } catch (error) {
         console.error('Error checking page enabled status:', error);
         // On error, assume enabled to avoid blocking users
-        setEnabled(true);
+        if (isMounted) {
+          setEnabled(true);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     checkPageEnabled();
-  }, [page, redirectTo, router]);
+    
+    return () => {
+      isMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, redirectTo]);
 
   return { enabled, loading };
 }

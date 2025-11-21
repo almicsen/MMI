@@ -25,13 +25,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const unsubscribe = onAuthStateChange(async (firebaseUser) => {
+      if (!isMounted) return;
+      
       setFirebaseUser(firebaseUser);
       
       if (firebaseUser) {
         try {
           const userData = await getUserData(firebaseUser.uid);
-          setUser(userData);
+          if (isMounted) {
+            setUser(userData);
+            setLoading(false);
+          }
         } catch (error: any) {
           console.error('Error fetching user data:', error);
           // If user document doesn't exist, getUserData will create it automatically
@@ -41,23 +48,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               // Wait a moment for document creation, then retry
               await new Promise(resolve => setTimeout(resolve, 500));
               const userData = await getUserData(firebaseUser.uid);
-              setUser(userData);
+              if (isMounted) {
+                setUser(userData);
+                setLoading(false);
+              }
             } catch (retryError) {
               console.error('Error on retry:', retryError);
-              setUser(null);
+              if (isMounted) {
+                setUser(null);
+                setLoading(false);
+              }
             }
           } else {
-            setUser(null);
+            if (isMounted) {
+              setUser(null);
+              setLoading(false);
+            }
           }
         }
       } else {
-        setUser(null);
+        if (isMounted) {
+          setUser(null);
+          setLoading(false);
+        }
       }
-      
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, []);
 
   return (

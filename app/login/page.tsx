@@ -24,7 +24,8 @@ export default function Login() {
         : '/profile';
       router.push(redirectPath);
     }
-  }, [user, authLoading, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, authLoading]);
 
   // Show loading state while checking auth
   if (authLoading) {

@@ -20,7 +20,8 @@ export default function Profile() {
     if (!authLoading && !user) {
       router.push('/login');
     }
-  }, [user, authLoading, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, authLoading]);
 
   if (authLoading) {
     return <LoadingState />;
