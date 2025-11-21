@@ -477,12 +477,18 @@ section > header h2::after { content: ""; display: block; height: 2px; width: 64
         });
       });
 
-      const initial = (location.hash || '').replace('#', '');
-      selectTab(['projects', 'collaborations', 'announcements'].includes(initial) ? initial : 'projects', false);
-      window.addEventListener('hashchange', () => {
-        const h = (location.hash || '').replace('#', '');
-        if (['projects', 'collaborations', 'announcements'].includes(h)) selectTab(h, false);
-      });
+      // Check if we're in a browser environment
+      if (typeof window !== 'undefined' && typeof location !== 'undefined') {
+        const initial = (location.hash || '').replace('#', '');
+        selectTab(['projects', 'collaborations', 'announcements'].includes(initial) ? initial : 'projects', false);
+        window.addEventListener('hashchange', () => {
+          const h = (location.hash || '').replace('#', '');
+          if (['projects', 'collaborations', 'announcements'].includes(h)) selectTab(h, false);
+        });
+      } else {
+        // Default to projects tab if not in browser
+        selectTab('projects', false);
+      }
 
       // ------------------------------
       // Subtle entrance animations (intersection observer)

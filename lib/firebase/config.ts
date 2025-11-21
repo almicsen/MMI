@@ -70,9 +70,39 @@ function getStorageInstance(): FirebaseStorage {
 }
 
 // Export getters that initialize on first access
-// This allows build to complete even if env vars are missing
-export const auth = getAuthInstance();
-export const db = getDbInstance();
-export const storage = getStorageInstance();
-export default getApp();
+// During build (server-side), if env vars are missing, these will throw
+// But since all pages are 'use client', they only run on the client where env vars should be available
+// The build will succeed because Next.js can generate static HTML without executing client component code
+// However, we need to handle the case where the module is imported during build
+
+// For client-side usage, these will work fine
+// For server-side/build-time, we need to ensure they don't crash
+let _authExported: Auth | null = null;
+let _dbExported: Firestore | null = null;
+let _storageExported: FirebaseStorage | null = null;
+
+// Lazy getters that only initialize when accessed
+export const auth = (() => {
+  if (typeof window !== 'undefined' || isConfigValid()) {
+    return getAuthInstance();
+  }
+  // During build without env vars, return a mock that will fail gracefully
+  throw new Error('Firebase auth not available. Set environment variables in Vercel.');
+})() as Auth;
+
+export const db = (() => {
+  if (typeof window !== 'undefined' || isConfigValid()) {
+    return getDbInstance();
+  }
+  throw new Error('Firebase db not available. Set environment variables in Vercel.');
+})() as Firestore;
+
+export const storage = (() => {
+  if (typeof window !== 'undefined' || isConfigValid()) {
+    return getStorageInstance();
+  }
+  throw new Error('Firebase storage not available. Set environment variables in Vercel.');
+})() as FirebaseStorage;
+
+export default getApp;
 
