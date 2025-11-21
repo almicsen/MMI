@@ -211,8 +211,10 @@ service cloud.firestore {
     // Site Notifications collection (in-app notifications)
     match /siteNotifications/{notificationId} {
       allow create: if isAuthenticated() && isAdmin();
+      // Users can read their own notifications
       allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
-      allow list: if isAuthenticated() && request.auth.uid != null;
+      // Users can list notifications (queries are filtered by userId in the code)
+      allow list: if isAuthenticated();
       allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
       allow delete: if isAuthenticated() && (isAdmin() || request.auth.uid == resource.data.userId);
     }

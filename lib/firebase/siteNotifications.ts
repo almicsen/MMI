@@ -22,16 +22,29 @@ export async function sendSiteNotification(
     sentBy?: string;
   }
 ): Promise<void> {
-  const notifications = userIds.map((userId) => ({
-    userId,
-    title: notification.title,
-    message: notification.message,
-    type: notification.type || 'info',
-    link: notification.link,
-    read: false,
-    createdAt: Timestamp.now(),
-    sentBy: notification.sentBy,
-  }));
+  const notifications = userIds.map((userId) => {
+    // Build notification object, filtering out undefined values
+    const notifData: any = {
+      userId,
+      title: notification.title,
+      message: notification.message,
+      type: notification.type || 'info',
+      read: false,
+      createdAt: Timestamp.now(),
+    };
+
+    // Only include link if it's provided and not empty
+    if (notification.link && notification.link.trim() !== '') {
+      notifData.link = notification.link;
+    }
+
+    // Only include sentBy if it's provided
+    if (notification.sentBy) {
+      notifData.sentBy = notification.sentBy;
+    }
+
+    return notifData;
+  });
 
   // Create notifications for all users
   const promises = notifications.map((notif) => addDoc(collection(db, 'siteNotifications'), notif));
