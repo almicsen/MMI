@@ -16,11 +16,8 @@ import { usePageEnabled } from '@/lib/hooks/usePageEnabled';
 
 export default function MMIPlus() {
   const { enabled, loading: pageCheckLoading } = usePageEnabled('mmiPlus');
-
-  // If page is disabled, the hook will redirect, so we don't need to render anything
-  if (pageCheckLoading || !enabled) {
-    return <LoadingState />;
-  }
+  
+  // All hooks must be called before any conditional returns (Rules of Hooks)
   const [activeTab, setActiveTab] = useState<'all' | 'series' | 'movies' | 'podcasts' | 'coming-soon'>('all');
   const [content, setContent] = useState<Content[]>([]);
   const [series, setSeries] = useState<Series[]>([]);
@@ -31,6 +28,11 @@ export default function MMIPlus() {
   const [selectedContent, setSelectedContent] = useState<ComingSoonContent | null>(null);
 
   useEffect(() => {
+    // Only load data if page is enabled
+    if (pageCheckLoading || !enabled) {
+      return;
+    }
+
     const loadData = async () => {
       setLoading(true);
       setError(null);
@@ -51,7 +53,12 @@ export default function MMIPlus() {
       }
     };
     loadData();
-  }, []);
+  }, [pageCheckLoading, enabled]);
+
+  // If page is disabled, the hook will redirect, so we don't need to render anything
+  if (pageCheckLoading || !enabled) {
+    return <LoadingState />;
+  }
 
   // Group content by series for podcasts and series
   const groupedBySeries = (() => {

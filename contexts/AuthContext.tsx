@@ -30,13 +30,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Track user activity
   useEffect(() => {
-    if (!user) return;
+    if (!user?.uid) return;
+
+    const userId = user.uid; // Capture uid to avoid dependency on user object
+    const currentPathname = pathname; // Capture pathname
 
     const updateActivity = async () => {
       try {
-        await updateUserActivity(user.uid, {
+        await updateUserActivity(userId, {
           isOnline: true,
-          currentPage: pathname,
+          currentPage: currentPathname,
           deviceType: detectDeviceType(),
           userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
         });
@@ -58,15 +61,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       if (activityIntervalRef.current) {
         clearInterval(activityIntervalRef.current);
+        activityIntervalRef.current = null;
       }
       // Mark as offline when component unmounts
-      if (user) {
-        markUserOffline(user.uid).catch(() => {
-          // Silently fail - don't crash on cleanup
-        });
-      }
+      markUserOffline(userId).catch(() => {
+        // Silently fail - don't crash on cleanup
+      });
     };
-  }, [user, pathname]);
+  }, [user?.uid, pathname]); // Only depend on uid and pathname, not the whole user object
 
   useEffect(() => {
     let isMounted = true;
@@ -124,8 +126,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = React.useMemo(
+    () => ({ user, firebaseUser, loading }),
+    [user?.uid, firebaseUser?.uid, loading] // Only recreate if these change
+  );
+
   return (
-    <AuthContext.Provider value={{ user, firebaseUser, loading }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
