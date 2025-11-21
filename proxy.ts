@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
-  // This is a basic middleware - actual auth checks happen client-side
+export function proxy(request: NextRequest) {
+  // This is a basic proxy - actual auth checks happen client-side
   // For production, you'd want to verify Firebase tokens server-side
   return NextResponse.next();
 }
