@@ -12,17 +12,67 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-let app: FirebaseApp;
-if (!getApps().length) {
-  app = initializeApp(firebaseConfig);
-} else {
-  app = getApps()[0];
+// Validate Firebase config
+const isConfigValid = () => {
+  return !!(firebaseConfig.apiKey && 
+         firebaseConfig.authDomain && 
+         firebaseConfig.projectId &&
+         firebaseConfig.storageBucket &&
+         firebaseConfig.messagingSenderId &&
+         firebaseConfig.appId);
+};
+
+// Initialize Firebase - use lazy initialization to avoid build-time errors
+let app: FirebaseApp | null = null;
+let _auth: Auth | null = null;
+let _db: Firestore | null = null;
+let _storage: FirebaseStorage | null = null;
+
+function getApp(): FirebaseApp {
+  if (!app) {
+    if (!isConfigValid()) {
+      if (typeof window === 'undefined') {
+        // During build, create a mock config to prevent crashes
+        // This will fail at runtime if env vars aren't set, but allows build to complete
+        throw new Error('Firebase configuration is missing. Please set environment variables in Vercel. See VERCEL-SETUP.md');
+      } else {
+        throw new Error('Firebase configuration is missing. Please check your environment variables.');
+      }
+    }
+    if (!getApps().length) {
+      app = initializeApp(firebaseConfig);
+    } else {
+      app = getApps()[0];
+    }
+  }
+  return app;
 }
 
-export const auth: Auth = getAuth(app);
-export const db: Firestore = getFirestore(app);
-export const storage: FirebaseStorage = getStorage(app);
+function getAuthInstance(): Auth {
+  if (!_auth) {
+    _auth = getAuth(getApp());
+  }
+  return _auth;
+}
 
-export default app;
+function getDbInstance(): Firestore {
+  if (!_db) {
+    _db = getFirestore(getApp());
+  }
+  return _db;
+}
+
+function getStorageInstance(): FirebaseStorage {
+  if (!_storage) {
+    _storage = getStorage(getApp());
+  }
+  return _storage;
+}
+
+// Export getters that initialize on first access
+// This allows build to complete even if env vars are missing
+export const auth = getAuthInstance();
+export const db = getDbInstance();
+export const storage = getStorageInstance();
+export default getApp();
 
