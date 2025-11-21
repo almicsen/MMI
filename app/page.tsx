@@ -50,12 +50,12 @@ export default function Home() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <section className="hero min-h-[60vh] flex items-center justify-center text-center mb-16">
-        <div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
+      <section className="hero min-h-[50vh] md:min-h-[60vh] flex items-center justify-center text-center mb-12 md:mb-16 px-4">
+        <div className="max-w-4xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900 dark:text-white break-words">
             MobileMediaInteractions
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400">
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-400">
             Innovating Entertainment, Building Experiences.
           </p>
         </div>

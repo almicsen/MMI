@@ -37,3 +37,8 @@ index.html.old
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# firebase
+functions/node_modules/
+functions/.env
+functions/.env.local

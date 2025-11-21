@@ -207,5 +207,14 @@ service cloud.firestore {
       // Only admins can delete
       allow delete: if isAdmin();
     }
+
+    // Site Notifications collection (in-app notifications)
+    match /siteNotifications/{notificationId} {
+      allow create: if isAuthenticated() && isAdmin();
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow list: if isAuthenticated() && request.auth.uid != null;
+      allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow delete: if isAuthenticated() && (isAdmin() || request.auth.uid == resource.data.userId);
+    }
   }
 }

@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
 import { getConfig } from '@/lib/firebase/firestore';
 import { Config } from '@/lib/firebase/types';
+import NotificationCenter from './NotificationCenter';
 
 export default function Header() {
   const pathname = usePathname();
@@ -15,26 +16,33 @@ export default function Header() {
   const { user, loading } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [config, setConfig] = useState<Config | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     
     // Load config to determine which pages are enabled
+    // Default to all enabled initially so guests see navigation immediately
+    const defaultConfig: Config = {
+      blogEnabled: true,
+      aboutEnabled: true,
+      servicesEnabled: true,
+      contactEnabled: true,
+      projectsEnabled: true,
+      mmiPlusEnabled: true,
+    };
+    
+    // Set default config immediately so nav shows for guests
+    setConfig(defaultConfig);
+    
     const loadConfig = async () => {
       try {
         const configData = await getConfig();
         setConfig(configData);
       } catch (error) {
         console.error('Error loading config:', error);
-        // Default to all enabled if config fails to load
-        setConfig({
-          blogEnabled: true,
-          aboutEnabled: true,
-          servicesEnabled: true,
-          contactEnabled: true,
-          projectsEnabled: true,
-          mmiPlusEnabled: true,
-        });
+        // Keep default config if load fails (so guests always see nav)
+        // Don't reset to null - keep the default
       }
     };
     loadConfig();
@@ -55,7 +63,8 @@ export default function Header() {
     enabledLinks.forEach((href) => {
       router.prefetch(href);
     });
-  }, [config, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config]);
 
   // Build nav links based on config (default to enabled if config not loaded yet)
   const allNavLinks = [
@@ -68,63 +77,100 @@ export default function Header() {
     { href: '/contact', label: 'Contact', enabled: config?.contactEnabled !== false },
   ];
 
-  // Filter to only show enabled links (or all if config not loaded yet)
+  // Filter to only show enabled links (always show links if config exists, default to all if not)
   const navLinks = config 
     ? allNavLinks.filter(link => link.enabled)
     : allNavLinks;
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-gray-900/85 border-b border-gray-200 dark:border-gray-800">
-      <nav className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <InstantLink href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-          MMI
-        </InstantLink>
-        
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <InstantLink
-              key={link.href}
-              href={link.href}
-              className={`text-sm font-medium transition-colors ${
-                pathname === link.href
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
-              }`}
+      <nav className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          <InstantLink href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            MMI
+          </InstantLink>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <InstantLink
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors ${
+                  pathname === link.href
+                    ? 'text-blue-600 dark:text-blue-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                }`}
+              >
+                {link.label}
+              </InstantLink>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-4">
+            {mounted && (
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? '☀️' : '🌙'}
+              </button>
+            )}
+
+            {/* Notification Center - Only show for logged-in users */}
+            {!loading && user && <NotificationCenter />}
+            
+            {!loading && (
+              user ? (
+                <InstantLink
+                  href={user.role === 'admin' ? '/admin' : user.role === 'employee' ? '/dashboard' : '/profile'}
+                  className="px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  {user.role === 'admin' ? 'Admin' : user.role === 'employee' ? 'Dashboard' : 'Profile'}
+                </InstantLink>
+              ) : (
+                <InstantLink
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Login
+                </InstantLink>
+              )
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Toggle menu"
             >
-              {link.label}
-            </InstantLink>
-          ))}
+              {mobileMenuOpen ? '✕' : '☰'}
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          {mounted && (
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? '☀️' : '🌙'}
-            </button>
-          )}
-          
-          {!loading && (
-            user ? (
-              <InstantLink
-                href={user.role === 'admin' ? '/admin' : user.role === 'employee' ? '/dashboard' : '/profile'}
-                className="px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-              >
-                {user.role === 'admin' ? 'Admin' : user.role === 'employee' ? 'Dashboard' : 'Profile'}
-              </InstantLink>
-            ) : (
-              <InstantLink
-                href="/login"
-                className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Login
-              </InstantLink>
-            )
-          )}
-        </div>
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-800 pt-4">
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <InstantLink
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-sm font-medium transition-colors py-2 ${
+                    pathname === link.href
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                  }`}
+                >
+                  {link.label}
+                </InstantLink>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
     </header>
   );

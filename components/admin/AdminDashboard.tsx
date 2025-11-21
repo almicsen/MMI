@@ -11,8 +11,9 @@ import AnalyticsDashboard from './AnalyticsDashboard';
 import PlayerConfigManager from './PlayerConfigManager';
 import RecommendationsPanel from './RecommendationsPanel';
 import NotificationsManager from './NotificationsManager';
+import ActiveUsersPanel from './ActiveUsersPanel';
 
-type Tab = 'pages' | 'users' | 'content' | 'coming-soon' | 'projects-collaborations' | 'config' | 'analytics' | 'player-config' | 'recommendations' | 'notifications';
+type Tab = 'pages' | 'users' | 'content' | 'coming-soon' | 'projects-collaborations' | 'config' | 'analytics' | 'player-config' | 'recommendations' | 'notifications' | 'active-users';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>('pages');
@@ -22,7 +23,7 @@ export default function AdminDashboard() {
       <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Admin Dashboard</h1>
 
       <div className="flex gap-2 mb-8 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
-        {(['pages', 'users', 'content', 'coming-soon', 'projects-collaborations', 'config', 'analytics', 'player-config', 'recommendations', 'notifications'] as Tab[]).map((tab) => (
+        {(['pages', 'users', 'content', 'coming-soon', 'projects-collaborations', 'config', 'analytics', 'player-config', 'recommendations', 'notifications', 'active-users'] as Tab[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -32,7 +33,11 @@ export default function AdminDashboard() {
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
             }`}
           >
-            {tab === 'coming-soon' ? 'Coming Soon' : tab === 'player-config' ? 'Player Config' : tab === 'projects-collaborations' ? 'Projects & Collaborations' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {tab === 'coming-soon' ? 'Coming Soon' : 
+             tab === 'player-config' ? 'Player Config' : 
+             tab === 'projects-collaborations' ? 'Projects & Collaborations' : 
+             tab === 'active-users' ? 'Active Users' :
+             tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
         ))}
       </div>
@@ -48,6 +53,7 @@ export default function AdminDashboard() {
         {activeTab === 'player-config' && <PlayerConfigManager />}
         {activeTab === 'recommendations' && <RecommendationsPanel />}
         {activeTab === 'notifications' && <NotificationsManager />}
+        {activeTab === 'active-users' && <ActiveUsersPanel />}
       </div>
     </div>
   );

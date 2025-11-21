@@ -8,6 +8,7 @@ import { User } from '@/lib/firebase/types';
 import { MMINotifications } from '@/lib/notifications';
 import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { sendSiteNotification } from '@/lib/firebase/siteNotifications';
 
 interface Notification {
   id: string;
@@ -92,10 +93,15 @@ export default function NotificationsManager() {
   
   // Send notification form
   const [sendForm, setSendForm] = useState({
-    type: 'email' as 'email' | 'push' | 'both',
+    type: 'site' as 'email' | 'push' | 'both' | 'site',
     selectedUsers: [] as string[],
     template: 'welcome',
     templateData: {} as Record<string, any>,
+    // For site notifications
+    title: '',
+    message: '',
+    notificationType: 'info' as 'info' | 'success' | 'warning' | 'error',
+    link: '',
   });
 
   useEffect(() => {
@@ -139,15 +145,43 @@ export default function NotificationsManager() {
       limit(100)
     );
     const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        ...data,
-        createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
-        sentAt: data.sentAt?.toDate ? data.sentAt.toDate() : data.sentAt,
-      } as Notification;
-    });
+    const now = Date.now();
+    const oneMinuteAgo = now - 60 * 1000; // 1 minute in milliseconds
+    
+    // Process notifications and mark old pending ones as failed
+    const notifications = await Promise.all(
+      snapshot.docs.map(async (doc) => {
+        const data = doc.data();
+        const createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt;
+        const notification: Notification = {
+          id: doc.id,
+          ...data,
+          createdAt: createdAt instanceof Date ? createdAt : (createdAt ? new Date(createdAt) : new Date()),
+          sentAt: data.sentAt?.toDate ? data.sentAt.toDate() : data.sentAt,
+        } as Notification;
+
+        // If notification is pending and older than 1 minute, mark as failed
+        if (notification.status === 'pending' && notification.createdAt) {
+          const createdAtTime = notification.createdAt.getTime();
+          if (createdAtTime < oneMinuteAgo) {
+            try {
+              await updateDoc(doc.ref, {
+                status: 'failed',
+                error: 'Notification pending for more than 1 minute',
+              });
+              notification.status = 'failed';
+              notification.error = 'Notification pending for more than 1 minute';
+            } catch (error) {
+              console.error('Error updating notification status:', error);
+            }
+          }
+        }
+
+        return notification;
+      })
+    );
+
+    return notifications;
   };
 
   const handleSendNotification = async (e: React.FormEvent) => {
@@ -160,26 +194,59 @@ export default function NotificationsManager() {
 
     setSending(true);
     try {
-      // Get emails or UIDs for selected users
-      const recipients = sendForm.selectedUsers.map((uid) => {
-        const user = users.find((u) => u.uid === uid);
-        return user?.email || uid;
-      });
+      if (sendForm.type === 'site') {
+        // Send site notification (in-app)
+        if (!sendForm.title || !sendForm.message) {
+          toast.showWarning('Please provide both title and message for site notifications');
+          setSending(false);
+          return;
+        }
 
-      await MMINotifications.send({
-        type: sendForm.type,
-        to: recipients,
-        template: sendForm.template,
-        data: sendForm.templateData,
-      });
+        await sendSiteNotification(sendForm.selectedUsers, {
+          title: sendForm.title,
+          message: sendForm.message,
+          type: sendForm.notificationType,
+          link: sendForm.link || undefined,
+          sentBy: currentUser?.uid,
+        });
 
-      toast.showSuccess(`Notification sent to ${recipients.length} recipient(s)!`);
-      setSendForm({
-        type: 'email',
-        selectedUsers: [],
-        template: 'welcome',
-        templateData: {},
-      });
+        toast.showSuccess(`Site notification sent to ${sendForm.selectedUsers.length} user(s)!`);
+        setSendForm({
+          type: 'site',
+          selectedUsers: [],
+          template: 'welcome',
+          templateData: {},
+          title: '',
+          message: '',
+          notificationType: 'info',
+          link: '',
+        });
+      } else {
+        // Send email/push notification (existing system)
+        const recipients = sendForm.selectedUsers.map((uid) => {
+          const user = users.find((u) => u.uid === uid);
+          return user?.email || uid;
+        });
+
+        await MMINotifications.send({
+          type: sendForm.type as 'email' | 'push' | 'both',
+          to: recipients,
+          template: sendForm.template,
+          data: sendForm.templateData,
+        });
+
+        toast.showSuccess(`Notification sent to ${recipients.length} recipient(s)!`);
+        setSendForm({
+          type: 'site',
+          selectedUsers: [],
+          template: 'welcome',
+          templateData: {},
+          title: '',
+          message: '',
+          notificationType: 'info',
+          link: '',
+        });
+      }
       loadData();
     } catch (error: any) {
       console.error('Error sending notification:', error);
@@ -281,6 +348,14 @@ export default function NotificationsManager() {
 
   return (
     <div className="space-y-6">
+      {/* Info Banner */}
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+        <p className="text-sm text-blue-800 dark:text-blue-300">
+          <strong>Note:</strong> Notifications are created with "pending" status. Firebase Cloud Functions will process them automatically. 
+          Notifications pending for more than 1 minute will be marked as "failed". See <code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">FIREBASE-CLOUD-FUNCTIONS-SETUP.md</code> to set up.
+        </p>
+      </div>
+
       {/* Send Notification Form */}
       <div>
         <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Send Notification</h2>
@@ -291,7 +366,18 @@ export default function NotificationsManager() {
             <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
               Notification Type *
             </label>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="type"
+                  value="site"
+                  checked={sendForm.type === 'site'}
+                  onChange={(e) => setSendForm({ ...sendForm, type: e.target.value as any })}
+                  className="rounded"
+                />
+                <span className="text-gray-700 dark:text-gray-300">Site Notification (In-App)</span>
+              </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
@@ -328,63 +414,132 @@ export default function NotificationsManager() {
             </div>
           </div>
 
-          {/* Template Selection */}
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-              Template *
-            </label>
-            <select
-              required
-              value={sendForm.template}
-              onChange={(e) => handleTemplateChange(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            >
-              {Object.values(templateConfigs).map((config) => (
-                <option key={config.name} value={config.name}>
-                  {config.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Site Notification Fields */}
+          {sendForm.type === 'site' && (
+            <>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={sendForm.title}
+                  onChange={(e) => setSendForm({ ...sendForm, title: e.target.value })}
+                  placeholder="Notification title"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+              </div>
 
-          {/* Template-Specific Fields */}
-          {templateConfigs[sendForm.template]?.fields.length > 0 && (
-            <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                Template Data
-              </h3>
-              {templateConfigs[sendForm.template].fields.map((field) => (
-                <div key={field.key}>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                    {field.label} *
-                  </label>
-                  {field.type === 'select' ? (
-                    <select
-                      required
-                      value={sendForm.templateData[field.key] || ''}
-                      onChange={(e) => handleTemplateDataChange(field.key, e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    >
-                      <option value="">Select {field.label}</option>
-                      {field.options?.map((option) => (
-                        <option key={option} value={option}>
-                          {option.charAt(0).toUpperCase() + option.slice(1).replace('-', ' ')}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      type="text"
-                      required
-                      value={sendForm.templateData[field.key] || ''}
-                      onChange={(e) => handleTemplateDataChange(field.key, e.target.value)}
-                      placeholder={field.placeholder}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    />
-                  )}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  Message *
+                </label>
+                <textarea
+                  required
+                  value={sendForm.message}
+                  onChange={(e) => setSendForm({ ...sendForm, message: e.target.value })}
+                  placeholder="Notification message"
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  Type
+                </label>
+                <select
+                  value={sendForm.notificationType}
+                  onChange={(e) => setSendForm({ ...sendForm, notificationType: e.target.value as any })}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                >
+                  <option value="info">Info</option>
+                  <option value="success">Success</option>
+                  <option value="warning">Warning</option>
+                  <option value="error">Error</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  Link (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={sendForm.link}
+                  onChange={(e) => setSendForm({ ...sendForm, link: e.target.value })}
+                  placeholder="/mmi-plus or /about (optional)"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                  Optional: Link to navigate when notification is clicked
+                </p>
+              </div>
+            </>
+          )}
+
+          {/* Template Selection - Only show for email/push notifications */}
+          {sendForm.type !== 'site' && (
+            <>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  Template *
+                </label>
+                <select
+                  required
+                  value={sendForm.template}
+                  onChange={(e) => handleTemplateChange(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                >
+                  {Object.values(templateConfigs).map((config) => (
+                    <option key={config.name} value={config.name}>
+                      {config.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Template-Specific Fields */}
+              {templateConfigs[sendForm.template]?.fields.length > 0 && (
+                <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Template Data
+                  </h3>
+                  {templateConfigs[sendForm.template].fields.map((field) => (
+                    <div key={field.key}>
+                      <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                        {field.label} *
+                      </label>
+                      {field.type === 'select' ? (
+                        <select
+                          required
+                          value={sendForm.templateData[field.key] || ''}
+                          onChange={(e) => handleTemplateDataChange(field.key, e.target.value)}
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        >
+                          <option value="">Select {field.label}</option>
+                          {field.options?.map((option) => (
+                            <option key={option} value={option}>
+                              {option.charAt(0).toUpperCase() + option.slice(1).replace('-', ' ')}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          type="text"
+                          required
+                          value={sendForm.templateData[field.key] || ''}
+                          onChange={(e) => handleTemplateDataChange(field.key, e.target.value)}
+                          placeholder={field.placeholder}
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        />
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
 
           {/* Recipient Selection */}

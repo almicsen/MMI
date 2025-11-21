@@ -69,6 +69,9 @@ function replaceVariables(text: string, data: Record<string, any>): string {
 /**
  * Send a notification
  * Usage: sendNotification({ type: 'email', to: 'user@example.com', template: 'welcome' })
+ * 
+ * Creates notification with 'pending' status. Cloud Functions will process it and mark as 'sent' or 'failed'.
+ * If Cloud Functions aren't set up, notifications pending >1 minute will be marked as failed client-side.
  */
 export async function sendNotification(options: NotificationOptions): Promise<void> {
   const template = templates[options.template];
@@ -90,7 +93,7 @@ export async function sendNotification(options: NotificationOptions): Promise<vo
       pushTitle: replaceVariables(template.pushTitle || template.subject || '', options.data || {}),
       pushBody: replaceVariables(template.pushBody || template.body, options.data || {}),
       priority: options.priority || 'normal',
-      status: 'pending',
+      status: 'pending' as const, // Cloud Functions will process and update status
       createdAt: Timestamp.now(),
     };
 

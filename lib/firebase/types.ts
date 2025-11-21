@@ -19,6 +19,12 @@ export interface User {
   likes?: string[]; // Array of content IDs user has liked
   favorites?: string[]; // Array of content IDs user has favorited
   watchlist?: string[]; // Array of content IDs in watchlist
+  // Activity tracking
+  lastSeen?: Date;
+  isOnline?: boolean;
+  currentPage?: string;
+  deviceType?: 'mobile' | 'tablet' | 'desktop';
+  userAgent?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -260,5 +266,32 @@ export interface XRayData {
     locationName?: string;
     fact?: string;
   };
+}
+
+export interface SiteNotification {
+  id: string;
+  userId: string; // Target user UID
+  title: string;
+  message: string;
+  type?: 'info' | 'success' | 'warning' | 'error';
+  link?: string; // Optional link to navigate to
+  read: boolean;
+  createdAt: Date;
+  readAt?: Date;
+  sentBy?: string; // Admin UID who sent it
+}
+
+export interface UserActivity {
+  uid: string;
+  email: string;
+  displayName?: string;
+  photoURL?: string;
+  role: UserRole;
+  isOnline: boolean;
+  lastSeen: Date;
+  currentPage?: string;
+  deviceType?: 'mobile' | 'tablet' | 'desktop';
+  userAgent?: string;
+  sessionStart?: Date;
 }
 
