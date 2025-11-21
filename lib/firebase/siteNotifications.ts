@@ -81,25 +81,68 @@ export function subscribeToUserNotifications(
   userId: string,
   callback: (notifications: SiteNotification[]) => void
 ): () => void {
-  const q = query(
-    collection(db, 'siteNotifications'),
-    where('userId', '==', userId),
-    orderBy('createdAt', 'desc'),
-    limit(50)
-  );
+  if (!userId) {
+    console.warn('subscribeToUserNotifications called without userId');
+    callback([]);
+    return () => {};
+  }
 
-  return onSnapshot(q, (snapshot) => {
-    const notifications = snapshot.docs.map((docSnap) => {
-      const data = docSnap.data();
-      return {
-        id: docSnap.id,
-        ...data,
-        createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt),
-        readAt: data.readAt?.toDate ? data.readAt.toDate() : undefined,
-      } as SiteNotification;
-    });
-    callback(notifications);
-  });
+  try {
+    const q = query(
+      collection(db, 'siteNotifications'),
+      where('userId', '==', userId),
+      orderBy('createdAt', 'desc'),
+      limit(50)
+    );
+
+    let lastNotifications: SiteNotification[] = [];
+
+    return onSnapshot(
+      q,
+      (snapshot) => {
+        try {
+          const notifications = snapshot.docs.map((docSnap) => {
+            const data = docSnap.data();
+            return {
+              id: docSnap.id,
+              ...data,
+              createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt),
+              readAt: data.readAt?.toDate ? data.readAt.toDate() : undefined,
+            } as SiteNotification;
+          });
+
+          // Only call callback if notifications actually changed (prevent infinite loops)
+          const notificationsChanged = 
+            notifications.length !== lastNotifications.length ||
+            notifications.some((n, i) => 
+              !lastNotifications[i] || 
+              n.id !== lastNotifications[i].id || 
+              n.read !== lastNotifications[i].read
+            );
+
+          if (notificationsChanged) {
+            lastNotifications = notifications;
+            callback(notifications);
+          }
+        } catch (error) {
+          console.error('Error processing notification snapshot:', error);
+          callback([]);
+        }
+      },
+      (error) => {
+        console.error('Error in notification subscription:', error);
+        // If it's a permission error or index error, just return empty array
+        if (error.code === 'permission-denied' || error.code === 'failed-precondition') {
+          console.warn('Firestore index required. Create index at:', error.message);
+          callback([]);
+        }
+      }
+    );
+  } catch (error) {
+    console.error('Error setting up notification subscription:', error);
+    // Return a no-op unsubscribe function
+    return () => {};
+  }
 }
 
 /**

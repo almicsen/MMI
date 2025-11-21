@@ -17,16 +17,46 @@ export default function NotificationCenter() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
-
-    const unsubscribe = subscribeToUserNotifications(user.uid, (notifs) => {
-      setNotifications(notifs);
-      setUnreadCount(notifs.filter((n) => !n.read).length);
+    if (!user) {
       setLoading(false);
-    });
+      setNotifications([]);
+      setUnreadCount(0);
+      return;
+    }
 
-    return () => unsubscribe();
-  }, [user]);
+    let isMounted = true;
+
+    try {
+      const unsubscribe = subscribeToUserNotifications(user.uid, (notifs) => {
+        if (!isMounted) return;
+        
+        try {
+          setNotifications(notifs);
+          setUnreadCount(notifs.filter((n) => !n.read).length);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error processing notifications:', error);
+          if (isMounted) {
+            setLoading(false);
+          }
+        }
+      });
+
+      return () => {
+        isMounted = false;
+        try {
+          unsubscribe();
+        } catch (error) {
+          console.error('Error unsubscribing from notifications:', error);
+        }
+      };
+    } catch (error) {
+      console.error('Error setting up notification subscription:', error);
+      if (isMounted) {
+        setLoading(false);
+      }
+    }
+  }, [user?.uid]); // Only depend on user.uid, not the whole user object
 
   const handleNotificationClick = async (notification: SiteNotification) => {
     if (!notification.read) {

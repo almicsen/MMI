@@ -41,15 +41,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
         });
       } catch (error) {
+        // Silently fail - don't crash the app if activity tracking fails
         console.error('Error updating user activity:', error);
       }
     };
 
-    // Update immediately
-    updateActivity();
+    // Update immediately (with error handling)
+    updateActivity().catch(console.error);
 
     // Update every 30 seconds
-    activityIntervalRef.current = setInterval(updateActivity, 30000);
+    activityIntervalRef.current = setInterval(() => {
+      updateActivity().catch(console.error);
+    }, 30000);
 
     // Cleanup on unmount
     return () => {
@@ -58,7 +61,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       // Mark as offline when component unmounts
       if (user) {
-        markUserOffline(user.uid).catch(console.error);
+        markUserOffline(user.uid).catch(() => {
+          // Silently fail - don't crash on cleanup
+        });
       }
     };
   }, [user, pathname]);
