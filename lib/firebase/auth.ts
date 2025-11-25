@@ -122,6 +122,7 @@ export const getUserData = async (uid: string): Promise<User> => {
     role: data.role || 'guest',
     displayName: data.displayName,
     photoURL: data.photoURL,
+    customPhotoURL: data.customPhotoURL,
     progress: data.progress,
     permissions: data.permissions,
     likes: data.likes,
@@ -130,6 +131,14 @@ export const getUserData = async (uid: string): Promise<User> => {
     createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
     updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt,
   } as User;
+};
+
+/**
+ * Get the effective photo URL for a user (customPhotoURL takes precedence)
+ */
+export const getUserPhotoURL = (user: User | null): string | undefined => {
+  if (!user) return undefined;
+  return user.customPhotoURL || user.photoURL;
 };
 
 export const updateUserRole = async (uid: string, role: UserRole): Promise<void> => {

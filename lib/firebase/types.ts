@@ -5,7 +5,8 @@ export interface User {
   email: string;
   role: UserRole;
   displayName?: string;
-  photoURL?: string;
+  photoURL?: string; // Google profile photo
+  customPhotoURL?: string; // Custom uploaded photo (overrides photoURL if set)
   progress?: {
     [contentId: string]: {
       progress: number; // percentage 0-100
@@ -55,10 +56,21 @@ export interface Collaboration {
 
 export interface Content {
   id: string;
-  type: 'series' | 'movie' | 'podcast';
+  type: 'series' | 'movie' | 'podcast' | 'audiobook';
   title: string;
   description: string;
   mediaUrl: string;
+  // MMI+ Original flag for intro injection
+  isMMIOriginal?: boolean;
+  // Trailer support (video for movies/series, audio for podcasts/audiobooks)
+  trailerUrl?: string; // Video trailer URL (for movies/series) or audio sample (for podcasts/audiobooks)
+  trailerType?: 'video' | 'audio'; // Type of trailer
+  // Audiobook specific fields
+  bookFileUrl?: string; // EPUB file URL for synced reading
+  chapters?: AudiobookChapter[];
+  // Paid content
+  isPaid?: boolean; // If true, requires payment to access
+  price?: number; // Price in USD (if isPaid is true)
   thumbnailUrl?: string;
   seriesId?: string; // for episodes
   episodeNumber?: number;
@@ -68,6 +80,15 @@ export interface Content {
   scheduledReleaseDate?: Date; // If set, content will be published at this date/time
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface AudiobookChapter {
+  id: string;
+  title: string;
+  startTime: number; // Start time in seconds
+  endTime?: number; // End time in seconds (optional, defaults to next chapter start)
+  pageNumber?: number; // Corresponding page in the book (for EPUB sync)
+  description?: string;
 }
 
 export interface Series {
@@ -102,7 +123,12 @@ export interface Config {
   contactEnabled?: boolean;
   projectsEnabled?: boolean;
   mmiPlusEnabled?: boolean;
+  messagesEnabled?: boolean; // Enable/disable messages page
   maintenanceMode?: boolean;
+  // Profile photo settings
+  allowProfilePhotoUpload?: boolean;
+  allowProfilePhotoOverride?: boolean; // Allow overriding Google profile photo
+  allowCameraForProfilePhoto?: boolean; // Allow using device camera
 }
 
 export interface PendingUpload {
@@ -249,6 +275,10 @@ export interface ContentPlayerConfig {
   };
   xRayEnabled: boolean;
   xRayData?: XRayData[];
+  // Intro injection settings
+  videoIntroUrl?: string; // MMI+ video intro URL (for video content)
+  audioIntroUrl?: string; // MMI+ audio intro URL (for audio/podcast content)
+  introDuration?: number; // Duration of intro in seconds
 }
 
 export interface XRayData {
@@ -275,6 +305,7 @@ export interface SiteNotification {
   message: string;
   type?: 'info' | 'success' | 'warning' | 'error';
   link?: string; // Optional link to navigate to
+  openInAppBrowser?: boolean; // If true, opens link in in-app browser instead of full navigation
   read: boolean;
   createdAt: Date;
   readAt?: Date;
@@ -293,5 +324,209 @@ export interface UserActivity {
   deviceType?: 'mobile' | 'tablet' | 'desktop';
   userAgent?: string;
   sessionStart?: Date;
+}
+
+export type APITier = 'free' | 'starter' | 'business' | 'enterprise';
+
+export interface APIKey {
+  id?: string;
+  key: string; // Hashed API key
+  userId: string; // User who owns the key
+  name: string; // User-friendly name for the key
+  allowedUrls: string[]; // URLs that are exempt from origin checking
+  scopes: string[]; // Permissions: ['read', 'write', 'notifications', 'content']
+  tier: APITier; // Pricing tier
+  rateLimit?: {
+    requests: number; // Requests per period
+    period: number; // Period in seconds
+  };
+  monthlyQuota?: number; // Monthly request limit
+  monthlyQuotaUsed?: number; // Current month's usage
+  quotaResetDate?: Date; // When monthly quota resets
+  lastUsed?: Date;
+  createdAt: Date;
+  expiresAt?: Date;
+  active: boolean;
+  description?: string;
+  // Billing
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  // Manual overrides
+  manualOverrides?: {
+    additionalRequests?: number; // Temporary request boost
+    overrideExpiresAt?: Date;
+    customRateLimit?: {
+      requests: number;
+      period: number;
+    };
+    overrideExpiresAtRateLimit?: Date;
+  };
+}
+
+export interface APIKeyRequest {
+  id?: string;
+  name: string;
+  email: string;
+  company?: string;
+  useCase: string; // Required detailed use case
+  expectedMonthlyVolume: number;
+  deploymentPreference: 'saas' | 'self-hosted';
+  status: 'pending' | 'approved' | 'rejected';
+  reviewedBy?: string; // Admin UID
+  reviewedAt?: Date;
+  rejectionReason?: string;
+  createdAt: Date;
+  // Auto-generated on approval
+  apiKeyId?: string;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+}
+
+export interface APIUsage {
+  id?: string;
+  apiKeyId: string;
+  endpoint: string;
+  method: string;
+  statusCode: number;
+  responseTime: number; // milliseconds
+  timestamp: Date;
+  ipAddress?: string;
+  userAgent?: string;
+  tier?: APITier; // Track which tier made the request
+}
+
+export interface AuditLog {
+  id?: string;
+  action: 'key_created' | 'key_approved' | 'key_rejected' | 'key_suspended' | 'key_activated' | 'limit_override' | 'tier_changed';
+  apiKeyId?: string;
+  requestId?: string;
+  adminUserId: string;
+  adminEmail: string;
+  details: Record<string, any>; // Flexible details object
+  timestamp: Date;
+}
+
+export interface SelfHostLicense {
+  id?: string;
+  licenseKey: string; // Hashed license key
+  customerId: string; // Stripe customer ID or internal customer ID
+  domain?: string; // Allowed domain
+  hardwareFingerprint?: string; // Hardware fingerprint
+  lastValidated?: Date;
+  expiresAt?: Date;
+  active: boolean;
+  createdAt: Date;
+}
+
+export interface ContentPurchase { // For paid content purchases
+  id?: string;
+  userId: string;
+  contentId: string;
+  price: number;
+  purchasedAt: Date;
+  paymentMethod?: 'stripe' | 'tokens'; // Payment method
+  transactionId?: string;
+  tokensUsed?: number; // If paid with tokens
+}
+
+export interface MMIToken { // MMI Token system
+  id?: string;
+  userId: string;
+  balance: number; // Current token balance
+  totalEarned: number; // Total tokens ever earned
+  totalSpent: number; // Total tokens ever spent
+  lastUpdated: Date;
+}
+
+export interface TokenTransaction { // Token transaction history
+  id?: string;
+  userId: string;
+  type: 'earned' | 'spent' | 'purchase' | 'reward';
+  amount: number; // Positive for earned, negative for spent
+  description: string;
+  source?: string; // e.g., 'trivia', 'content_purchase', 'admin_grant'
+  createdAt: Date;
+}
+
+export interface TriviaChallenge { // Trivia challenge configuration
+  id?: string;
+  name: string;
+  questionsCount: number; // Total questions (will be divided: 1/3 easy, 1/3 medium, 1/3 hard)
+  timePerQuestion: number; // Seconds per question
+  tokenReward: number; // Tokens per correct answer
+  bonusQuestions?: { [questionNumber: number]: number }; // Question number -> multiplier (e.g., { 5: 2, 10: 3 } means Q5 has 2x bonus, Q10 has 3x bonus)
+  active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface TriviaQuestion { // From Open Trivia DB
+  category: string;
+  type: 'multiple';
+  difficulty: 'easy' | 'medium' | 'hard';
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+}
+
+export interface TriviaSession { // User's trivia session
+  id?: string;
+  userId: string;
+  challengeId: string;
+  questions: Array<{
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    userAnswer?: string;
+    isCorrect?: boolean;
+    timeSpent: number; // seconds
+    questionNumber: number; // Question number (1-indexed)
+    bonusMultiplier?: number; // Bonus multiplier for this question
+  }>;
+  score: number; // Correct answers
+  totalQuestions: number;
+  tokensEarned: number;
+  completed: boolean;
+  startedAt: Date;
+  completedAt?: Date;
+  lastAttemptDate?: string; // YYYY-MM-DD format for daily limit tracking
+  currentQuestionIndex?: number; // For state saving
+}
+
+// Messaging System (Slack-like)
+export interface Conversation { // 1:1 conversation between two users
+  id?: string;
+  participants: string[]; // Array of user UIDs [user1, user2] (sorted for consistency)
+  lastMessage?: {
+    text: string;
+    senderId: string;
+    timestamp: Date;
+  };
+  lastActivity: Date;
+  unreadCount?: { [userId: string]: number }; // Unread count per user
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Message { // Individual message in a conversation
+  id?: string;
+  conversationId: string;
+  senderId: string;
+  senderName?: string;
+  senderPhotoURL?: string;
+  text: string;
+  timestamp: Date;
+  readBy?: string[]; // Array of user UIDs who have read this message
+  edited?: boolean;
+  editedAt?: Date;
+  attachments?: MessageAttachment[];
+}
+
+export interface MessageAttachment {
+  type: 'image' | 'file' | 'link';
+  url: string;
+  name?: string;
+  size?: number;
+  mimeType?: string;
 }
 

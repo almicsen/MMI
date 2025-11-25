@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { getConfig } from '@/lib/firebase/firestore';
 import { Config } from '@/lib/firebase/types';
 
-type PageKey = 'about' | 'services' | 'blog' | 'contact' | 'projects' | 'mmiPlus';
+type PageKey = 'about' | 'services' | 'blog' | 'contact' | 'projects' | 'mmiPlus' | 'messages';
 
 const pageConfigMap: Record<PageKey, keyof Config> = {
   about: 'aboutEnabled',
@@ -14,6 +14,7 @@ const pageConfigMap: Record<PageKey, keyof Config> = {
   contact: 'contactEnabled',
   projects: 'projectsEnabled',
   mmiPlus: 'mmiPlusEnabled',
+  messages: 'messagesEnabled',
 };
 
 export function usePageEnabled(page: PageKey, redirectTo: string = '/') {
@@ -28,7 +29,17 @@ export function usePageEnabled(page: PageKey, redirectTo: string = '/') {
       try {
         const config = await getConfig();
         const configKey = pageConfigMap[page];
-        const isEnabled = config[configKey] !== false && (page !== 'blog' ? true : config.blogEnabled === true);
+        
+        // Special handling for pages that default to false (blog, messages)
+        let isEnabled: boolean;
+        if (page === 'blog') {
+          isEnabled = config.blogEnabled === true;
+        } else if (page === 'messages') {
+          isEnabled = config.messagesEnabled === true;
+        } else {
+          // Other pages default to enabled (true) if not explicitly false
+          isEnabled = config[configKey] !== false;
+        }
         
         if (!isMounted) return;
         

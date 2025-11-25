@@ -3,6 +3,8 @@
  * Handles direct uploads from browser to Cloudinary
  */
 
+import { logCDNUpload } from './firebase/cdn';
+
 export interface CloudinaryUploadResult {
   secure_url: string;
   public_id: string;
@@ -72,6 +74,25 @@ export async function uploadToCloudinary(
     }
 
     const data = await response.json();
+    
+    // Log upload to CDN tracking (async, don't wait)
+    logCDNUpload({
+      url: data.secure_url,
+      publicId: data.public_id,
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      folder: folder,
+      uploadedBy: 'system', // Will be updated by caller if user context available
+      status: 'success',
+      metadata: {
+        width: data.width,
+        height: data.height,
+        format: data.format,
+        duration: data.duration, // For videos
+      },
+    }).catch((err) => console.error('Failed to log CDN upload:', err));
+
     return {
       secure_url: data.secure_url,
       public_id: data.public_id,
@@ -82,6 +103,19 @@ export async function uploadToCloudinary(
     };
   } catch (error: any) {
     console.error('Cloudinary upload error:', error);
+    
+    // Log failed upload
+    logCDNUpload({
+      url: '',
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      folder: folder,
+      uploadedBy: 'system',
+      status: 'failed',
+      error: error.message || 'Upload failed',
+    }).catch((err) => console.error('Failed to log CDN upload error:', err));
+    
     throw new Error(error.message || 'Failed to upload file to Cloudinary');
   }
 }

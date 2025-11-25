@@ -13,11 +13,6 @@ type Tab = 'projects' | 'collaborations' | 'coming-soon';
 
 export default function ProjectsPage() {
   const { enabled, loading: pageCheckLoading } = usePageEnabled('projects');
-
-  // If page is disabled, the hook will redirect, so we don't need to render anything
-  if (pageCheckLoading || !enabled) {
-    return <LoadingState />;
-  }
   const [activeTab, setActiveTab] = useState<Tab>('projects');
   const [projects, setProjects] = useState<Project[]>([]);
   const [collaborations, setCollaborations] = useState<Collaboration[]>([]);
@@ -26,6 +21,10 @@ export default function ProjectsPage() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    // Only load data if page is enabled
+    if (pageCheckLoading || !enabled) {
+      return;
+    }
     const loadData = async () => {
       setLoading(true);
       setError(null);
@@ -46,7 +45,12 @@ export default function ProjectsPage() {
       }
     };
     loadData();
-  }, []);
+  }, [pageCheckLoading, enabled]);
+
+  // If page is disabled, the hook will redirect, so we don't need to render anything
+  if (pageCheckLoading || !enabled) {
+    return <LoadingState />;
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {

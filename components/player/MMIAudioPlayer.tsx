@@ -4,21 +4,45 @@
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { Content } from '@/lib/firebase/types';
+import { Content, ContentPlayerConfig } from '@/lib/firebase/types';
 import { trackView } from '@/lib/firebase/analytics';
 import { useAuth } from '@/contexts/AuthContext';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import IntroInjector from './IntroInjector';
 
 interface MMIAudioPlayerProps {
   content: Content;
   onProgressUpdate?: (progress: number) => void;
   className?: string;
+  config?: ContentPlayerConfig;
 }
 
 export default function MMIAudioPlayer({
   content,
   onProgressUpdate,
   className = '',
+  config,
 }: MMIAudioPlayerProps) {
+  const [playerConfig, setPlayerConfig] = useState<ContentPlayerConfig | null>(config || null);
+  
+  useEffect(() => {
+    const loadConfig = async () => {
+      if (config) {
+        setPlayerConfig(config);
+        return;
+      }
+      try {
+        const configDoc = await getDoc(doc(db, 'playerConfigs', content.id));
+        if (configDoc.exists()) {
+          setPlayerConfig(configDoc.data() as ContentPlayerConfig);
+        }
+      } catch (error) {
+        console.error('Error loading player config:', error);
+      }
+    };
+    loadConfig();
+  }, [content.id, config]);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { user } = useAuth();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -127,6 +151,14 @@ export default function MMIAudioPlayer({
         }}
         onPlay={handlePlay}
         onPause={handlePause}
+      />
+      <IntroInjector
+        content={content}
+        config={playerConfig || undefined}
+        mediaElement={audioRef.current}
+        onIntroComplete={() => {
+          // Intro completed, continue with main content
+        }}
       />
     </div>
   );

@@ -19,6 +19,7 @@ export async function sendSiteNotification(
     message: string;
     type?: 'info' | 'success' | 'warning' | 'error';
     link?: string;
+    openInAppBrowser?: boolean;
     sentBy?: string;
   }
 ): Promise<void> {
@@ -36,6 +37,10 @@ export async function sendSiteNotification(
     // Only include link if it's provided and not empty
     if (notification.link && notification.link.trim() !== '') {
       notifData.link = notification.link;
+      // Only include openInAppBrowser if link is provided
+      if (notification.openInAppBrowser !== undefined) {
+        notifData.openInAppBrowser = notification.openInAppBrowser;
+      }
     }
 
     // Only include sentBy if it's provided

@@ -102,6 +102,7 @@ export default function NotificationsManager() {
     message: '',
     notificationType: 'info' as 'info' | 'success' | 'warning' | 'error',
     link: '',
+    openInAppBrowser: false,
   });
 
   useEffect(() => {
@@ -207,6 +208,7 @@ export default function NotificationsManager() {
           message: sendForm.message,
           type: sendForm.notificationType,
           link: sendForm.link || undefined,
+          openInAppBrowser: sendForm.openInAppBrowser,
           sentBy: currentUser?.uid,
         });
 
@@ -220,6 +222,7 @@ export default function NotificationsManager() {
           message: '',
           notificationType: 'info',
           link: '',
+          openInAppBrowser: false,
         });
       } else {
         // Send email/push notification (existing system)
@@ -245,6 +248,7 @@ export default function NotificationsManager() {
           message: '',
           notificationType: 'info',
           link: '',
+          openInAppBrowser: false,
         });
       }
       loadData();
@@ -469,9 +473,27 @@ export default function NotificationsManager() {
                   type="text"
                   value={sendForm.link}
                   onChange={(e) => setSendForm({ ...sendForm, link: e.target.value })}
-                  placeholder="/mmi-plus or /about (optional)"
+                  placeholder="/mmi-plus or https://example.com (optional)"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 />
+                {sendForm.link && (
+                  <div className="mt-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={sendForm.openInAppBrowser}
+                        onChange={(e) => setSendForm({ ...sendForm, openInAppBrowser: e.target.checked })}
+                        className="w-4 h-4 text-cyan-600 border-gray-300 rounded focus:ring-cyan-500"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">
+                        Open in in-app browser (mobile-friendly)
+                      </span>
+                    </label>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-6">
+                      If unchecked, opens in full navigation. If checked, opens in a native-looking in-app browser.
+                    </p>
+                  </div>
+                )}
                 <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                   Optional: Link to navigate when notification is clicked
                 </p>

@@ -14,7 +14,7 @@ import { Content, Series, ContentAnalytics } from './types';
 export interface ContentRecommendation {
   contentId: string;
   title: string;
-  type: 'series' | 'movie' | 'podcast';
+  type: 'series' | 'movie' | 'podcast' | 'audiobook';
   recommendation: 'continue' | 'cancel' | 'improve' | 'promote';
   reason: string;
   score: number; // 0-100, higher is better

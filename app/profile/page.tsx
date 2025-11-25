@@ -6,7 +6,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { logout, changeEmail, resetPassword } from '@/lib/firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
+import { getConfig } from '@/lib/firebase/firestore';
 import LoadingState from '@/components/LoadingState';
+import ProfilePhotoUpload from '@/components/ProfilePhotoUpload';
 
 export default function Profile() {
   const { user, firebaseUser, loading: authLoading } = useAuth();
@@ -15,6 +17,7 @@ export default function Profile() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [config, setConfig] = useState<any>(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -22,6 +25,18 @@ export default function Profile() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, authLoading]);
+
+  useEffect(() => {
+    const loadConfig = async () => {
+      try {
+        const configData = await getConfig();
+        setConfig(configData);
+      } catch (error) {
+        console.error('Error loading config:', error);
+      }
+    };
+    loadConfig();
+  }, []);
 
   if (authLoading) {
     return <LoadingState />;
@@ -71,6 +86,26 @@ export default function Profile() {
     }
   };
 
+  const handleProfilePhotoUpload = async (photoUrl: string) => {
+    if (!user?.uid) return;
+    try {
+      setLoading(true);
+      setError('');
+      setSuccess('');
+      await updateDoc(doc(db, 'users', user.uid), {
+        customPhotoURL: photoUrl, // Store custom photo separately
+        updatedAt: new Date(),
+      });
+      setSuccess('Profile photo updated successfully!');
+      // Refresh user data
+      window.location.reload();
+    } catch (err: any) {
+      setError(err.message || 'Failed to update profile photo');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-2xl">
       <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Profile</h1>
@@ -89,18 +124,31 @@ export default function Profile() {
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
         <div>
-          <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Account Information</h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            <strong>Email:</strong> {user.email}
-          </p>
-          <p className="text-gray-600 dark:text-gray-400">
-            <strong>Role:</strong> {user.role}
-          </p>
-          {user.displayName && (
-            <p className="text-gray-600 dark:text-gray-400">
-              <strong>Name:</strong> {user.displayName}
-            </p>
+          <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Account Information</h2>
+          {config?.allowProfilePhotoUpload !== false && (
+            <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+              <ProfilePhotoUpload
+                currentPhotoUrl={user.photoURL}
+                onUploadComplete={handleProfilePhotoUpload}
+                allowCamera={config?.allowCameraForProfilePhoto !== false}
+                allowOverride={config?.allowProfilePhotoOverride !== false}
+                userId={user.uid}
+              />
+            </div>
           )}
+          <div className="space-y-2">
+            <p className="text-gray-600 dark:text-gray-400">
+              <strong>Email:</strong> {user.email}
+            </p>
+            <p className="text-gray-600 dark:text-gray-400">
+              <strong>Role:</strong> {user.role}
+            </p>
+            {user.displayName && (
+              <p className="text-gray-600 dark:text-gray-400">
+                <strong>Name:</strong> {user.displayName}
+              </p>
+            )}
+          </div>
         </div>
 
         <div>

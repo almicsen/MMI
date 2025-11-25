@@ -14,12 +14,11 @@ export default function BlogPostPage() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // If page is disabled, the hook will redirect, so we don't need to render anything
-  if (pageCheckLoading || !enabled) {
-    return <LoadingState />;
-  }
-
   useEffect(() => {
+    // Only load data if page is enabled
+    if (pageCheckLoading || !enabled) {
+      return;
+    }
     const loadPost = async () => {
       try {
         if (params.id && typeof params.id === 'string') {
@@ -33,7 +32,12 @@ export default function BlogPostPage() {
       }
     };
     loadPost();
-  }, [params.id]);
+  }, [params.id, pageCheckLoading, enabled]);
+
+  // If page is disabled, the hook will redirect, so we don't need to render anything
+  if (pageCheckLoading || !enabled) {
+    return <LoadingState />;
+  }
 
   if (loading) {
     return (
