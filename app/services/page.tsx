@@ -11,12 +11,11 @@ export default function Services() {
   const [content, setContent] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // If page is disabled, the hook will redirect, so we don't need to render anything
-  if (pageCheckLoading || !enabled) {
-    return <LoadingState />;
-  }
-
   useEffect(() => {
+    // Only load data if page is enabled
+    if (pageCheckLoading || !enabled) {
+      return;
+    }
     const loadContent = async () => {
       try {
         const docRef = doc(db, 'pages', 'services');
@@ -55,7 +54,12 @@ export default function Services() {
       }
     };
     loadContent();
-  }, []);
+  }, [pageCheckLoading, enabled]);
+
+  // If page is disabled, the hook will redirect, so we don't need to render anything
+  if (pageCheckLoading || !enabled) {
+    return <LoadingState />;
+  }
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">

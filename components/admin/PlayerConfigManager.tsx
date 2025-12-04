@@ -8,7 +8,11 @@ import { db } from '@/lib/firebase/config';
 import { useToast } from '@/contexts/ToastContext';
 import VideoTimelineEditor from './VideoTimelineEditor';
 
-export default function PlayerConfigManager() {
+interface PlayerConfigManagerProps {
+  onContentSelect?: (contentId: string | null) => void;
+}
+
+export default function PlayerConfigManager({ onContentSelect }: PlayerConfigManagerProps) {
   const toast = useToast();
   const [contentList, setContentList] = useState<Content[]>([]);
   const [selectedContent, setSelectedContent] = useState<string>('');
@@ -32,6 +36,9 @@ export default function PlayerConfigManager() {
 
   useEffect(() => {
     if (selectedContent) {
+      // Notify parent to update preview
+      onContentSelect?.(selectedContent);
+      
       const loadConfig = async () => {
         setLoading(true);
         try {
@@ -60,6 +67,8 @@ export default function PlayerConfigManager() {
         }
       };
       loadConfig();
+    } else {
+      onContentSelect?.(null);
     }
   }, [selectedContent]);
 

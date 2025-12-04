@@ -218,5 +218,164 @@ service cloud.firestore {
       allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
       allow delete: if isAuthenticated() && (isAdmin() || request.auth.uid == resource.data.userId);
     }
+
+    // User Activity collection
+    match /userActivity/{userId} {
+      allow create, update: if isAuthenticated() && request.auth.uid == userId;
+      allow read: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Telemetry collection (error/warning logs)
+    match /telemetry/{logId} {
+      // System can create logs (via client-side code)
+      allow create: if isAuthenticated();
+      // Only admins can read telemetry
+      allow read: if isAdmin();
+      // Only admins can update (resolve logs)
+      allow update: if isAdmin();
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+
+    // CDN Uploads collection (tracking uploads to Cloudinary)
+    match /cdnUploads/{uploadId} {
+      // System can create upload logs
+      allow create: if isAuthenticated();
+      // Only admins can read CDN uploads
+      allow read: if isAdmin();
+      // Only admins can update/delete
+      allow update, delete: if isAdmin();
+    }
+
+    // API Keys collection
+    match /apiKeys/{keyId} {
+      // Users can create their own API keys
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      // Users can read their own API keys
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      // Users can update their own API keys
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      // Users can delete their own API keys
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      // Admins can read all API keys
+      allow read: if isAdmin();
+    }
+
+    // API Usage collection (logging)
+    match /apiUsage/{usageId} {
+      // System can create usage logs (via API middleware)
+      allow create: if true; // API middleware creates these
+      // Only admins can read usage logs
+      allow read: if isAdmin();
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+
+    // Security Events collection
+    match /securityEvents/{eventId} {
+      // Security events are created by the system (via API routes)
+      allow create: if true; // Publicly writable by API routes
+      // Only admins can read security events
+      allow read: if isAdmin();
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+
+    // IP Blacklist collection
+    match /ipBlacklist/{ipId} {
+      // Only admins can manage IP blacklist
+      allow read, write: if isAdmin();
+    }
+
+    // IP Whitelist collection
+    match /ipWhitelist/{ipId} {
+      // Only admins can manage IP whitelist
+      allow read, write: if isAdmin();
+    }
+
+    // Content Purchases collection
+    match /purchases/{purchaseId} {
+      // Users can read their own purchases
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      // Users can create purchases (payment processing)
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.userId;
+      // Admins can read all purchases
+      allow read: if isAdmin();
+      // No updates or deletes (purchases are final)
+      allow update, delete: if false;
+    }
+
+    // MMI Tokens collection
+    match /mmiTokens/{userId} {
+      // Users can read their own token balance
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      // System can create/update tokens (via server functions)
+      allow write: if isAdmin();
+    }
+
+    // Token Transactions collection
+    match /tokenTransactions/{transactionId} {
+      // Users can read their own transactions
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      // System can create transactions (via server functions)
+      allow create: if isAuthenticated();
+      // Admins can read all transactions
+      allow read: if isAdmin();
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+
+    // Trivia Challenges collection
+    match /triviaChallenges/{challengeId} {
+      // Anyone can read active challenges
+      allow read: if resource.data.active == true || isAdmin();
+      // Only admins can create, update, delete
+      allow write: if isAdmin();
+    }
+
+    // Trivia Sessions collection
+    match /triviaSessions/{sessionId} {
+      // Users can read their own sessions
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      // Users can create their own sessions
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.userId;
+      // Users can update their own sessions
+      allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      // Admins can read all sessions
+      allow read: if isAdmin();
+      // No deletes
+      allow delete: if false;
+    }
+
+    // Conversations collection (1:1 messaging)
+    match /conversations/{conversationId} {
+      // Users can read conversations they're part of
+      allow read: if isAuthenticated() && request.auth.uid in resource.data.participants;
+      // Only employees and admins can create conversations
+      allow create: if isEmployeeOrAdmin() && request.auth.uid in request.resource.data.participants;
+      // Users can update conversations they're part of
+      allow update: if isAuthenticated() && request.auth.uid in resource.data.participants;
+      // No deletes
+      allow delete: if false;
+    }
+
+    // Messages collection
+    match /messages/{messageId} {
+      // Users can read messages from conversations they're part of
+      // We need to check if the user is in the conversation
+      allow read: if isAuthenticated() && 
+        exists(/databases/$(database)/documents/conversations/$(resource.data.conversationId)) &&
+        request.auth.uid in get(/databases/$(database)/documents/conversations/$(resource.data.conversationId)).data.participants;
+      // Only employees and admins can send messages
+      allow create: if isEmployeeOrAdmin() && 
+        request.auth.uid == request.resource.data.senderId &&
+        exists(/databases/$(database)/documents/conversations/$(request.resource.data.conversationId)) &&
+        request.auth.uid in get(/databases/$(database)/documents/conversations/$(request.resource.data.conversationId)).data.participants;
+      // Users can update their own messages
+      allow update: if isAuthenticated() && request.auth.uid == resource.data.senderId;
+      // No deletes
+      allow delete: if false;
+    }
   }
 }

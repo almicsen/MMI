@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { subscribeToActiveUsers, UserActivity } from '@/lib/firebase/userActivity';
 import { useToast } from '@/contexts/ToastContext';
+import { getUserPhotoURL } from '@/lib/firebase/auth';
 
 export default function ActiveUsersPanel() {
   const toast = useToast();
@@ -102,14 +103,14 @@ export default function ActiveUsersPanel() {
                   <tr key={user.uid} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        {user.photoURL ? (
+                        {getUserPhotoURL(user as any) ? (
                           <img
-                            src={user.photoURL}
+                            src={getUserPhotoURL(user as any)!}
                             alt={user.displayName || user.email}
-                            className="h-8 w-8 rounded-full"
+                            className="h-8 w-8 rounded-full border border-cyan-500/30"
                           />
                         ) : (
-                          <div className="h-8 w-8 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-sm font-medium text-white">
                             {(user.displayName || user.email || 'U')[0].toUpperCase()}
                           </div>
                         )}

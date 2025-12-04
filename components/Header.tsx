@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react';
 import { getConfig } from '@/lib/firebase/firestore';
 import { Config } from '@/lib/firebase/types';
 import NotificationCenter from './NotificationCenter';
+import TokenBalance from './TokenBalance';
+import MessagingButton from './messaging/MessagingButton';
 
 export default function Header() {
   const pathname = usePathname();
@@ -118,8 +120,14 @@ export default function Header() {
               </button>
             )}
 
-            {/* Notification Center - Only show for logged-in users */}
-            {!loading && user && <NotificationCenter />}
+            {/* Token Balance, Messaging & Notification Center - Only show for logged-in users */}
+            {!loading && user && (
+              <>
+                <TokenBalance />
+                <MessagingButton />
+                <NotificationCenter />
+              </>
+            )}
             
             {!loading && (
               user ? (

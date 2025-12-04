@@ -220,7 +220,7 @@ export const getConfig = async (): Promise<Config> => {
   const docRef = doc(db, 'config', 'main');
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) {
-    // Return default config (all pages enabled except blog)
+    // Return default config (all pages enabled except blog and messages)
     return { 
       blogEnabled: false,
       aboutEnabled: true,
@@ -228,6 +228,10 @@ export const getConfig = async (): Promise<Config> => {
       contactEnabled: true,
       projectsEnabled: true,
       mmiPlusEnabled: true,
+      messagesEnabled: false, // Messages page disabled by default
+      allowProfilePhotoUpload: true,
+      allowProfilePhotoOverride: true,
+      allowCameraForProfilePhoto: true,
     };
   }
   const data = docSnap.data() as Config;
@@ -239,7 +243,11 @@ export const getConfig = async (): Promise<Config> => {
     contactEnabled: data.contactEnabled !== false,
     projectsEnabled: data.projectsEnabled !== false,
     mmiPlusEnabled: data.mmiPlusEnabled !== false,
+    messagesEnabled: data.messagesEnabled === true, // Default to false if not explicitly true
     maintenanceMode: data.maintenanceMode || false,
+    allowProfilePhotoUpload: data.allowProfilePhotoUpload ?? true,
+    allowProfilePhotoOverride: data.allowProfilePhotoOverride ?? true,
+    allowCameraForProfilePhoto: data.allowCameraForProfilePhoto ?? true,
   };
 };
 
@@ -258,6 +266,7 @@ export const getUsers = async (): Promise<User[]> => {
       role: data.role || 'guest',
       displayName: data.displayName,
       photoURL: data.photoURL,
+      customPhotoURL: data.customPhotoURL,
       progress: data.progress,
       permissions: data.permissions,
       likes: data.likes,

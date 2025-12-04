@@ -11,6 +11,7 @@ import { trackView } from '@/lib/firebase/analytics';
 import { useAuth } from '@/contexts/AuthContext';
 import { getNextEpisode } from '@/lib/firebase/userRecommendations';
 import MiniPlayer from './MiniPlayer';
+import IntroInjector from './IntroInjector';
 
 interface MMIVideoPlayerProps {
   content: Content;

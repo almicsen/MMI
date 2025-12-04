@@ -14,6 +14,7 @@ export default function ConfigManager() {
     contactEnabled: true,
     projectsEnabled: true,
     mmiPlusEnabled: true,
+    messagesEnabled: false,
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -113,6 +114,16 @@ export default function ConfigManager() {
             className="rounded"
           />
         </label>
+
+        <label className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+          <span>Enable Messages Page</span>
+          <input
+            type="checkbox"
+            checked={config.messagesEnabled === true}
+            onChange={(e) => setConfig({ ...config, messagesEnabled: e.target.checked })}
+            className="rounded"
+          />
+        </label>
       </div>
 
       <div className="space-y-3 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
@@ -126,6 +137,50 @@ export default function ConfigManager() {
             className="rounded"
           />
         </label>
+      </div>
+
+      <div className="space-y-3 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Profile Photo Settings</h3>
+        <label className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+          <div>
+            <span className="block">Allow Profile Photo Upload</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">Users can upload custom profile photos</span>
+          </div>
+          <input
+            type="checkbox"
+            checked={config.allowProfilePhotoUpload !== false}
+            onChange={(e) => setConfig({ ...config, allowProfilePhotoUpload: e.target.checked })}
+            className="rounded"
+          />
+        </label>
+        {config.allowProfilePhotoUpload !== false && (
+          <>
+            <label className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+              <div>
+                <span className="block">Allow Override Google Photo</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Allow overriding Google profile photo</span>
+              </div>
+              <input
+                type="checkbox"
+                checked={config.allowProfilePhotoOverride !== false}
+                onChange={(e) => setConfig({ ...config, allowProfilePhotoOverride: e.target.checked })}
+                className="rounded"
+              />
+            </label>
+            <label className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+              <div>
+                <span className="block">Allow Camera for Profile Photo</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Users can use device camera to take photos</span>
+              </div>
+              <input
+                type="checkbox"
+                checked={config.allowCameraForProfilePhoto !== false}
+                onChange={(e) => setConfig({ ...config, allowCameraForProfilePhoto: e.target.checked })}
+                className="rounded"
+              />
+            </label>
+          </>
+        )}
       </div>
 
       <button

@@ -1,0 +1,30 @@
+/* Preview-specific styles to hide scrollbars when loaded in iframe */
+/* This file is loaded when ?preview=mobile&hideScrollbars=true is in the URL */
+
+html, body {
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+* {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+body {
+  position: relative;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+

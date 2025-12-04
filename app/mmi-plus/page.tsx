@@ -11,14 +11,18 @@ import SeriesCard from '@/components/mmip/SeriesCard';
 import RatingDisplay from '@/components/RatingDisplay';
 import { getContent, getSeries, getComingSoon } from '@/lib/firebase/firestore';
 import { getContentRating } from '@/lib/firebase/ratings';
-import { Content, Series, ComingSoonContent } from '@/lib/firebase/types';
+import { Content, Series, ComingSoonContent, TriviaChallenge } from '@/lib/firebase/types';
 import { usePageEnabled } from '@/lib/hooks/usePageEnabled';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import TriviaChallengeComponent from '@/components/trivia/TriviaChallenge';
+import TokenBalance from '@/components/TokenBalance';
 
 export default function MMIPlus() {
   const { enabled, loading: pageCheckLoading } = usePageEnabled('mmiPlus');
   
   // All hooks must be called before any conditional returns (Rules of Hooks)
-  const [activeTab, setActiveTab] = useState<'all' | 'series' | 'movies' | 'podcasts' | 'coming-soon'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'series' | 'movies' | 'podcasts' | 'audiobooks' | 'coming-soon'>('all');
   const [content, setContent] = useState<Content[]>([]);
   const [series, setSeries] = useState<Series[]>([]);
   const [comingSoon, setComingSoon] = useState<ComingSoonContent[]>([]);
@@ -26,6 +30,9 @@ export default function MMIPlus() {
   const [error, setError] = useState<Error | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedContent, setSelectedContent] = useState<ComingSoonContent | null>(null);
+  const [triviaChallenges, setTriviaChallenges] = useState<TriviaChallenge[]>([]);
+  const [selectedTrivia, setSelectedTrivia] = useState<TriviaChallenge | null>(null);
+  const [showTrivia, setShowTrivia] = useState(false);
 
   useEffect(() => {
     // Only load data if page is enabled
@@ -53,7 +60,25 @@ export default function MMIPlus() {
       }
     };
     loadData();
+    loadTriviaChallenges();
   }, [pageCheckLoading, enabled]);
+
+  const loadTriviaChallenges = async () => {
+    try {
+      const q = query(
+        collection(db, 'triviaChallenges'),
+        where('active', '==', true),
+        orderBy('createdAt', 'desc')
+      );
+      const snapshot = await getDocs(q);
+      setTriviaChallenges(snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as TriviaChallenge[]);
+    } catch (error) {
+      console.error('Error loading trivia challenges:', error);
+    }
+  };
 
   // If page is disabled, the hook will redirect, so we don't need to render anything
   if (pageCheckLoading || !enabled) {
@@ -78,7 +103,8 @@ export default function MMIPlus() {
         const matchesTab =
           activeTab === 'all' ||
           (activeTab === 'series' && item.type === 'series') ||
-          (activeTab === 'podcasts' && item.type === 'podcast');
+          (activeTab === 'podcasts' && item.type === 'podcast') ||
+          (activeTab === 'audiobooks' && item.type === 'audiobook');
         
         const matchesSearch =
           searchQuery === '' ||
@@ -106,7 +132,8 @@ export default function MMIPlus() {
       activeTab === 'all' ||
       (activeTab === 'series' && item.type === 'series') ||
       (activeTab === 'movies' && item.type === 'movie') ||
-      (activeTab === 'podcasts' && item.type === 'podcast');
+      (activeTab === 'podcasts' && item.type === 'podcast') ||
+      (activeTab === 'audiobooks' && item.type === 'audiobook');
     
     const matchesSearch =
       searchQuery === '' ||
@@ -121,9 +148,63 @@ export default function MMIPlus() {
     (group) => group.episodes.length > 0
   );
 
+  if (showTrivia && selectedTrivia) {
+    return (
+      <TriviaChallengeComponent
+        challenge={selectedTrivia}
+        onComplete={(tokensEarned) => {
+          setShowTrivia(false);
+          setSelectedTrivia(null);
+          // Show success message
+          alert(`Congratulations! You earned ${tokensEarned} tokens!`);
+        }}
+        onExit={() => {
+          setShowTrivia(false);
+          setSelectedTrivia(null);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">MMI+</h1>
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">MMI+</h1>
+        <TokenBalance />
+      </div>
+      
+      {/* Trivia Challenges Section */}
+      {triviaChallenges.length > 0 && (
+        <div className="mb-8 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-xl border border-purple-500/30 p-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">🧠 Trivia Challenges</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">Test your knowledge and earn MMI Tokens!</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {triviaChallenges.map((challenge) => (
+              <button
+                key={challenge.id}
+                onClick={() => {
+                  setSelectedTrivia(challenge);
+                  setShowTrivia(true);
+                }}
+                className="bg-white dark:bg-gray-800 rounded-lg p-4 text-left hover:shadow-lg transition-shadow border border-purple-500/20"
+              >
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{challenge.name}</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-500 mb-2">
+                  Mixed difficulty (easy • medium • hard)
+                </p>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {challenge.questionsCount} questions • {challenge.timePerQuestion}s each
+                  </span>
+                  <span className="font-semibold text-yellow-600">
+                    Up to {challenge.questionsCount * challenge.tokenReward} 🪙
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       
       <div className="mb-6">
         <input
@@ -136,7 +217,7 @@ export default function MMIPlus() {
       </div>
 
       <div className="flex gap-2 mb-8 overflow-x-auto">
-        {(['all', 'series', 'movies', 'podcasts', 'coming-soon'] as const).map((tab) => (
+        {(['all', 'series', 'movies', 'podcasts', 'audiobooks', 'coming-soon'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -223,12 +304,26 @@ export default function MMIPlus() {
                       </div>
                     )}
                     <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                        {item.title}
-                      </h3>
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex-1">
+                          {item.title}
+                        </h3>
+                        {item.isPaid && (
+                          <span className="px-2 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs rounded-full font-semibold ml-2">
+                            ${item.price?.toFixed(2) || '0.00'}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-2">
                         {item.description}
                       </p>
+                      {item.trailerUrl && (
+                        <div className="mb-2">
+                          <span className="text-xs text-blue-600 dark:text-blue-400">
+                            {item.type === 'audiobook' ? '📖 Sample Available' : '▶ Trailer Available'}
+                          </span>
+                        </div>
+                      )}
                       <RatingDisplay contentId={item.id} />
                       {item.duration && (
                         <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">

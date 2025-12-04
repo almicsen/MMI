@@ -1,0 +1,47 @@
+{
+  "show": {
+    "showId": 55555,
+    "startTime": "2025-12-12T20:00:00.000Z",
+    "prize": "$5,000",
+    "prizeAmount": 5000,
+    "points": 250,
+    "vertical": "heart",
+    "status": "soon",
+    "display": {
+      "theme": "dating",
+      "backgroundColor": "#FF6B9D",
+      "backgroundImageUrl": "https://cdn.hqtrivia.com/heart/bg_1.jpg",
+      "iconUrl": "https://cdn.hqtrivia.com/heart/icon.png",
+      "tagline": "Find your match"
+    },
+    "live": {
+      "isLive": false,
+      "streamUrl": null,
+      "socketUrl": null,
+      "viewerCount": null
+    }
+  },
+  "lobby": {
+    "participantCount": 500,
+    "message": "Get ready for HQ Heart",
+    "rules": "Vote and earn hearts",
+    "theme": "Winter Love",
+    "episodes": [
+      {
+        "episodeNumber": 1,
+        "title": "Introductions",
+        "description": "Meet the contestants",
+        "finalistCount": 10,
+        "status": "upcoming",
+        "winners": null
+      }
+    ]
+  },
+  "user": {
+    "isEligible": true,
+    "hasTicket": false,
+    "ticketsRequired": 1,
+    "hearts": 50,
+    "canEarn": true
+  }
+}

@@ -1,0 +1,41 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to get user role
+    function getUserRole() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+    
+    // Helper function to check if user is employee or admin
+    function isEmployeeOrAdmin() {
+      return isAuthenticated() && (getUserRole() == 'employee' || getUserRole() == 'admin');
+    }
+    
+    // Content files
+    match /content/{allPaths=**} {
+      // Everyone can read
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin() && request.resource.size < 100 * 1024 * 1024; // 100MB limit
+    }
+    
+    // User uploads (pending approval)
+    match /uploads/{allPaths=**} {
+      // Employees and admins can write
+      allow write: if isEmployeeOrAdmin() && request.resource.size < 100 * 1024 * 1024; // 100MB limit
+      // Everyone can read
+      allow read: if true;
+    }
+  }
+}
+

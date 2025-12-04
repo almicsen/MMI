@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { subscribeToUserNotifications, markNotificationRead, markAllNotificationsRead, getUnreadCount } from '@/lib/firebase/siteNotifications';
 import { SiteNotification } from '@/lib/firebase/types';
 import { useToast } from '@/contexts/ToastContext';
+import InAppBrowser from './InAppBrowser';
 
 export default function NotificationCenter() {
   const { user } = useAuth();
@@ -15,6 +16,7 @@ export default function NotificationCenter() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [inAppBrowserUrl, setInAppBrowserUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -64,9 +66,18 @@ export default function NotificationCenter() {
     }
 
     if (notification.link) {
-      router.push(notification.link);
+      if (notification.openInAppBrowser) {
+        // Open in in-app browser
+        setInAppBrowserUrl(notification.link);
+        setIsOpen(false);
+      } else {
+        // Full navigation
+        router.push(notification.link);
+        setIsOpen(false);
+      }
+    } else {
+      setIsOpen(false);
     }
-    setIsOpen(false);
   };
 
   const handleMarkAllRead = async () => {
@@ -117,8 +128,8 @@ export default function NotificationCenter() {
             onClick={() => setIsOpen(false)}
           />
 
-          {/* Notification Panel */}
-          <div className="absolute right-0 mt-2 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50 max-h-96 overflow-hidden flex flex-col">
+          {/* Notification Panel - Mobile Optimized */}
+          <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50 max-h-[calc(100vh-120px)] sm:max-h-96 overflow-hidden flex flex-col">
             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Notifications {unreadCount > 0 && `(${unreadCount})`}
@@ -180,6 +191,14 @@ export default function NotificationCenter() {
             </div>
           </div>
         </>
+      )}
+
+      {/* In-App Browser */}
+      {inAppBrowserUrl && (
+        <InAppBrowser
+          url={inAppBrowserUrl}
+          onClose={() => setInAppBrowserUrl(null)}
+        />
       )}
     </div>
   );

@@ -1,0 +1,91 @@
+{
+  "projects": [
+    {
+      "title": "Trivia Time Live",
+      "description": "An interactive live trivia experience that brings people together through knowledge and fun.",
+      "startDate": null,
+      "externalClients": false,
+      "isFeatured": false,
+      "status": "archived",
+      "link": null
+    },
+    {
+      "title": "Live IQ Trivia",
+      "description": "Test your knowledge and compete with others in real-time through our innovative trivia platform.",
+      "startDate": null,
+      "externalClients": true,
+      "isFeatured": false,
+      "status": "archived",
+      "link": null
+    },
+    {
+      "title": "INNERSHOW",
+      "description": "Test your knowledge and compete with others in real-time through our innovative trivia platform, with a unique twist.",
+      "startDate": null,
+      "externalClients": false,
+      "isFeatured": false,
+      "status": "archived",
+      "link": null
+    },
+    {
+      "title": "The American Agenda",
+      "description": "A news site created by the people, for the people, and reported by the people.",
+      "startDate": null,
+      "externalClients": true,
+      "isFeatured": false,
+      "status": "archived",
+      "link": null
+    },
+    {
+      "title": "HQFBL",
+      "description": "A reverse-engineered version of the HQ Trivia app, run by fans.",
+      "startDate": "2020-09-03",
+      "endDate": "2021-07-20",
+      "externalClients": false,
+      "isFeatured": false,
+      "status": "archived",
+      "link": null
+    },
+    {
+      "title": "The Unpredictable Podcast",
+      "description": "Two friends talking about whatever comes to mind.",
+      "startDate": "2023-07-19",
+      "endDate": "2024-04-15",
+      "externalClients": false,
+      "isFeatured": true,
+      "status": "relaunching",
+      "link": null
+    },
+    {
+      "title": "Twisted Ties: Undermining Reality",
+      "description": "An upcoming groundbreaking series that challenges perspectives and pushes boundaries.",
+      "startDate": "2024-07",
+      "status": "development",
+      "externalClients": false,
+      "isFeatured": true,
+      "link": null
+    }
+  ],
+  "announcements": [
+    {
+      "name": "The Unpredictable Podcast Returns",
+      "status": "announced",
+      "summary": "The Unpredictable Podcast will be returning late this year (2025).",
+      "link": "https://open.spotify.com/show/5v7iGYtA9o82Vaca7KyVku?si=931232c33cbf4766"
+    },
+    {
+      "name": "Twisted Ties: Undermining Reality",
+      "status": "development",
+      "summary": "A gripping TV series in development, blending unpredictable storylines, complex characters, and thought-provoking mysteries that explore themes of family, friendship, and betrayal.",
+      "link": "https://vimeo.com/manage/videos/1011240262"
+    }
+  ],
+  "collaborations": [
+    {
+      "name": "Live IQ Trivia",
+      "status": "completed",
+      "summary": "Collaborated with Live IQ Trivia in mid 2019 to deliver engaging live trivia experiences.",
+      "link": null
+    }
+  ]
+}
