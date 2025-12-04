@@ -1,27 +1,23 @@
 {
-  "shows": [
-    {
-      "showId": 55555,
-      "vertical": "heart",
-      "showType": "hq",
-      "gameType": "trivia",
-      "opt": "hq-heart",
-      "startTime": "2025-12-12T20:00:00.000Z",
-      "display": {
-        "title": "HQ Heart",
-        "summary": "Vote on contestants and find your match",
-        "accentColor": "#FF6B9D",
-        "description": "Predict outcomes and win hearts",
-        "image": "https://cdn.hqtrivia.com/heart/heart_logo.png",
-        "logo": "https://cdn.hqtrivia.com/heart/heart_logo.png",
-        "bgImage": "https://cdn.hqtrivia.com/heart/bg_1.png",
-        "bgVideo": "https://cdn.hqtrivia.com/videos/heart_bg_loop.mp4",
-        "subtitle": "Matchmaking special"
-      },
-      "media": [],
-      "prizeCents": 500000,
-      "prizePoints": null,
-      "currency": "USD"
-    }
-  ]
+  "showType": "hq",
+  "showId": 55555,
+  "gameType": "heart",
+  "vertical": "heart",
+  "opt": "hq-heart",
+  "startTime": "2025-12-12T20:00:00.000Z",
+  "display": {
+    "title": "HQ Heart",
+    "summary": "Vote on contestants for prizes",
+    "accentColor": "#FF6B9D",
+    "description": "Predict outcomes, vote in rounds, and earn hearts",
+    "image": "https://cdn.canobal.com/hqtv/heart/hqtv_heart_logo.png",
+    "logo": "https://cdn.canobal.com/hqtv/heart/hqtv_heart_logo.png",
+    "bgImage": "https://cdn.canobal.com/hqtv/heart/hqtv_heart_frame.png",
+    "bgVideo": "https://cdn.canobal.com/hqtv/heart/hqtv_heart_frame.mp4",
+    "subtitle": "HQ Heart live show"
+  },
+  "media": [],
+  "prizeCents": 500000,
+  "prizePoints": null,
+  "currency": "USD"
 }
