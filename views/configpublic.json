@@ -1,0 +1,11 @@
+{
+    "verification": {
+        "provider": "p1"
+    },
+    "showReferrals": true,
+    "telemetry": {
+        "enabled": true,
+        "batchSize": 50,
+        "host": "https://telemetry.prod.hype.space"
+    }
+}

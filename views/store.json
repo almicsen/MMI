@@ -1,0 +1,454 @@
+{
+    "products": {
+        "iap": [{
+                "sku": "com.intermedia.store.coins.500",
+                "name": "500 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 500
+            },
+            {
+                "sku": "com.intermedia.store.coins.1500",
+                "name": "1,500 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 1500
+            },
+            {
+                "sku": "com.intermedia.store.coins.1750",
+                "name": "1,750 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 1750
+            },
+            {
+                "sku": "com.intermedia.store.coins.3000",
+                "name": "3,000 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 3000
+            },
+            {
+                "sku": "com.intermedia.store.coins.5000",
+                "name": "5,000 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 5000
+            },
+            {
+                "sku": "com.intermedia.store.coins.6500",
+                "name": "6,500 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 6500
+            },
+            {
+                "sku": "com.intermedia.store.coins.10000",
+                "name": "10,000 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 10000
+            },
+            {
+                "sku": "com.intermedia.store.coins.15000",
+                "name": "15,000 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/coin@3x.png",
+                "coinValue": 15000
+            },
+            {
+                "sku": "com.intermedia.store.bundle.coins.100.el.1",
+                "name": "1 Extra Life and 100 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/bundle-el1-coins100-free.png",
+                "coinValue": 100
+            },
+            {
+                "sku": "com.intermedia.store.bundle.coins.100.el.3",
+                "name": "3 Extra Lives and 100 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/bundle-el3-coins100-free.png",
+                "coinValue": 100
+            },
+            {
+                "sku": "com.intermedia.store.bundle.coins.100.el.5",
+                "name": "5 Extra Lives and 100 Coins",
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/bundle-el5-coins100-free.png",
+                "coinValue": 100
+            }
+        ],
+        "items": [{
+                "sku": "com.intermedia.hq.item.extralife.1x",
+                "name": "Extra Lives",
+                "coinPrice": 400,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/el-1.png",
+                "awards": [{
+                    "itemType": "extra-life",
+                    "quantity": 1
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.extralife.3x",
+                "name": "3 Extra Lives",
+                "coinPrice": 1000,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/el-3.png",
+                "awards": [{
+                    "itemType": "extra-life",
+                    "quantity": 3
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.extralife.5x",
+                "name": "5 Extra Lives",
+                "coinPrice": 1500,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/el-5.png",
+                "awards": [{
+                    "itemType": "extra-life",
+                    "quantity": 5
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.erasers.1x",
+                "name": "1 Eraser",
+                "coinPrice": 100,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/eraser-1.png",
+                "awards": [{
+                    "itemType": "eraser",
+                    "quantity": 1
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.erasers.3x",
+                "name": "3 Erasers",
+                "coinPrice": 250,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/eraser-3.png",
+                "awards": [{
+                    "itemType": "eraser",
+                    "quantity": 3
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.erasers.5x",
+                "name": "5 Erasers",
+                "coinPrice": 400,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/eraser-5.png",
+                "awards": [{
+                    "itemType": "eraser",
+                    "quantity": 5
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.multiplier.5x",
+                "name": "5x Point Multiplier",
+                "coinPrice": 400,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/multiplier-5.png",
+                "awards": [{
+                    "itemType": "5x-pts-multi",
+                    "quantity": 1
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.multiplier.10x",
+                "name": "10x Point Multiplier",
+                "coinPrice": 650,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/multiplier-10.png",
+                "awards": [{
+                    "itemType": "10x-pts-multi",
+                    "quantity": 1
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.multiplier.15x",
+                "name": "15x Point Multiplier",
+                "coinPrice": 900,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/multiplier-15.png",
+                "awards": [{
+                    "itemType": "15x-pts-multi",
+                    "quantity": 1
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.offair.unlock.1x",
+                "name": "1 Game Unlock",
+                "coinPrice": 100,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/offair-unlock.png",
+                "awards": [{
+                    "itemType": "offair-unlock",
+                    "quantity": 1
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.bundles.offair.1a",
+                "name": "Daily Challenge Multiplier",
+                "coinPrice": 1000,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/multiplier-15.png",
+                "awards": [{
+                    "itemType": "offair-10x-pts-multi",
+                    "quantity": 1
+                }]
+            },
+            {
+                "sku": "com.intermedia.hq.item.bundles.offair.2a",
+                "name": "HQ Bundle",
+                "coinPrice": 1700,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/multiplier-15.png",
+                "awards": [{
+                        "itemType": "offair-10x-pts-multi",
+                        "quantity": 1
+                    },
+                    {
+                        "itemType": "offair-unlock",
+                        "quantity": 3
+                    },
+                    {
+                        "itemType": "extra-life",
+                        "quantity": 3
+                    }
+                ]
+            },
+            {
+                "sku": "com.intermedia.hq.item.bundles.offair.3a",
+                "name": "Mega Bundle",
+                "coinPrice": 2000,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/multiplier-15.png",
+                "awards": [{
+                        "itemType": "offair-10x-pts-multi",
+                        "quantity": 1
+                    },
+                    {
+                        "itemType": "offair-unlock",
+                        "quantity": 5
+                    },
+                    {
+                        "itemType": "extra-life",
+                        "quantity": 3
+                    },
+                    {
+                        "itemType": "eraser",
+                        "quantity": 10
+                    }
+                ]
+            },
+            {
+                "sku": "com.intermedia.hq.heart.item.boost",
+                "name": "Boost",
+                "coinPrice": 500,
+                "iconUrl": "https://cdn.prod.hype.space/static/store/products/heart-boost.png",
+                "awards": [{
+                    "itemType": "heart-boost",
+                    "quantity": 1
+                }]
+            }
+        ]
+    },
+    "itemTypes": {
+        "extra-life": {
+            "nameSingular": "Extra Life",
+            "namePlural": "Extra Lives",
+            "iconUrl": "https://cdn.prod.hype.space/static/store/items/extralife@3x.png"
+        },
+        "eraser": {
+            "nameSingular": "Eraser",
+            "namePlural": "Erasers",
+            "iconUrl": "https://cdn.prod.hype.space/static/store/items/eraser@3x.png"
+        },
+        "5x-pts-multi": {
+            "nameSingular": "5x Point Multiplier",
+            "namePlural": "5x Point Multipliers",
+            "iconUrl": "https://cdn.prod.hype.space/static/store/items/pointmultiplier@3x.png"
+        },
+        "10x-pts-multi": {
+            "nameSingular": "10x Point Multiplier",
+            "namePlural": "10x Point Multipliers",
+            "iconUrl": "https://cdn.prod.hype.space/static/store/items/pointmultiplier@3x.png"
+        },
+        "15x-pts-multi": {
+            "nameSingular": "15x Point Multiplier",
+            "namePlural": "15x Point Multipliers",
+            "iconUrl": "https://cdn.prod.hype.space/static/store/items/pointmultiplier@3x.png"
+        },
+        "offair-unlock": {
+            "nameSingular": "Game Unlock",
+            "namePlural": "Game Unlocks",
+            "iconUrl": "https://cdn.prod.hype.space/static/store/items/unlock@3x.png"
+        },
+        "offair-10x-pts-multi": {
+            "nameSingular": "10x Offair Points Multiplier",
+            "namePlural": "10x Offair Points Multipliers",
+            "iconUrl": "https://cdn.prod.hype.space/static/store/items/pointmultiplier@3x.png"
+        }
+    },
+    "groupedPlacements": {
+        "storefront": [{
+                "name": "Extra Lives",
+                "description": "Wrong answer? Continue playing with an extra life.",
+                "itemType": "extra-life",
+                "products": [{
+                        "sku": "com.intermedia.hq.item.extralife.1x",
+                        "backgroundColor": "#ECEBF0",
+                        "highlighted": false,
+                        "accentColor": null,
+                        "label": null
+                    },
+                    {
+                        "sku": "com.intermedia.hq.item.extralife.3x",
+                        "backgroundColor": "#ECEBF0",
+                        "highlighted": false,
+                        "accentColor": null,
+                        "label": null
+                    },
+                    {
+                        "sku": "com.intermedia.hq.item.extralife.5x",
+                        "backgroundColor": "#ECEBF0",
+                        "highlighted": false,
+                        "accentColor": null,
+                        "label": null
+                    }
+                ]
+            },
+            {
+                "name": "go play tetretalk pls https://tetretalk.com",
+                "description": "Use an Eraser to eliminate one wrong answer during a question.",
+                "itemType": "eraser",
+                "products": [{
+                        "sku": "com.intermedia.hq.item.erasers.1x",
+                        "backgroundColor": "#ECEBF0",
+                        "highlighted": false,
+                        "accentColor": null,
+                        "label": null
+                    },
+                    {
+                        "sku": "com.intermedia.hq.item.erasers.3x",
+                        "backgroundColor": "#ECEBF0",
+                        "highlighted": false,
+                        "accentColor": null,
+                        "label": null
+                    },
+                    {
+                        "sku": "com.intermedia.hq.item.erasers.5x",
+                        "backgroundColor": "#ECEBF0",
+                        "highlighted": false,
+                        "accentColor": null,
+                        "label": null
+                    }
+                ]
+            }
+                       
+        ],
+        "buyBackInItem": [{
+            "name": "Buy an Extra Life to stay in the game!",
+            "description": "",
+            "itemType": "extra-life",
+            "products": [{
+                "sku": "com.intermedia.hq.item.extralife.1x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": "#F7D555",
+                "label": null
+            }]
+        }],
+        "buyBackInBundle": [{
+            "name": "Stay in the game!",
+            "description": "Buy an Extra Life and get 100 bonus Coins!",
+            "itemType": "extra-life",
+            "products": [{
+                "sku": "com.intermedia.store.bundle.coins.100.el.1",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": "#F7D555",
+                "label": null
+            }]
+        }]
+    },
+    "placements": {
+        "triviaIngame": [{
+                "sku": "com.intermedia.hq.item.extralife.1x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            },
+            {
+                "sku": "com.intermedia.hq.item.extralife.3x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            },
+            {
+                "sku": "com.intermedia.hq.item.extralife.5x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            },
+            {
+                "sku": "com.intermedia.hq.item.erasers.1x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            },
+            {
+                "sku": "com.intermedia.hq.item.erasers.3x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            },
+            {
+                "sku": "com.intermedia.hq.item.erasers.5x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            }
+        ],
+        "needCoins": [{
+            "name": "You need more Coins to buy that Power Up",
+            "description": "",
+            "itemType": "coins",
+            "productIds": [
+                "com.intermedia.store.coins.500",
+                "com.intermedia.store.coins.1750",
+                "com.intermedia.store.coins.3000"
+            ]
+        }],
+        "offairTriviaBundles": [{
+            "name": "Boosts",
+            "description": "",
+            "itemType": null,
+            "productIds": [
+                "com.intermedia.hq.item.bundles.offair.1a",
+                "com.intermedia.hq.item.bundles.offair.2a",
+                "com.intermedia.hq.item.bundles.offair.3a"
+            ]
+        }],
+        "offairTriviaItems": [{
+            "sku": "com.intermedia.hq.item.offair.unlock.1x",
+            "backgroundColor": "#ECEBF0",
+            "highlighted": false,
+            "accentColor": null,
+            "label": null
+        }],
+        "endGameMultipliers": [{
+                "sku": "com.intermedia.hq.item.multiplier.5x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            },
+            {
+                "sku": "com.intermedia.hq.item.multiplier.10x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            },
+            {
+                "sku": "com.intermedia.hq.item.multiplier.15x",
+                "backgroundColor": "#ECEBF0",
+                "highlighted": false,
+                "accentColor": null,
+                "label": null
+            }
+        ],
+        "heartIngame": [{
+            "sku": "com.intermedia.hq.heart.item.boost",
+            "backgroundColor": "#ECEBF0",
+            "highlighted": false,
+            "accentColor": null,
+            "label": null
+        }]
+    }
+}

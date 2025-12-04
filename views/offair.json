@@ -1,0 +1,25 @@
+{
+    "gameUuid": "ckbcy4xg5005201lp8wm1ayn1",
+    "questionCount": 7,
+    "question": {
+        "question": "The answer is C",
+        "answers": [{
+                "offairAnswerId": "cjykhnfum0xqrdwm2h4hnc7w0",
+                "text": "A"
+            },
+            {
+                "offairAnswerId": "cjykhnfum0xqsdwm286bb1y54",
+                "text": "B"
+            },
+            {
+                "offairAnswerId": "cjykhnfum0xqtdwm20qb62g7x",
+                "text": "C"
+            }
+        ],
+        "questionNumber": 7,
+        "totalTimeMs": 10000,
+        "timeLeftMs": 10000,
+        "erase1": false
+    },
+    "erase1s": 7
+}

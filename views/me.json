@@ -1,0 +1,106 @@
+{
+  "userId": 0,
+  "username": "Admin",
+  "avatarUrl": "https://cdn.prod.hype.space/a/13927523-X9qLEF",
+  "created": "2020-05-18T05:03:07+00:00Z",
+  "broadcasts": { "data": [] },
+  "featured": true,
+  "voip": false,
+  "deviceTokens": [
+    "09258c17e5252eaf321efe799aac7ff944682c23e6e3cb246cc422cf61f7b806",
+    "fc1238f8a6f04e5e093b52f96177935fb09182532a3b5b47cb07c42fa3982e73"
+  ],
+  "hasPhone": true,
+  "phoneNumber": "+15555555555",
+  "referralUrl": "https://hqtrivia.com/i/HQJokes",
+  "lives": 1250,
+  "referred": false,
+  "referringUserId": null,
+  "highScore": 0,
+  "gamesPlayed": 0,
+  "winCount": 0,
+  "blocked": false,
+  "blocksMe": false,
+  "preferences": {
+    "hq-heart": false,
+    "hq-jokes": false,
+    "hq-sports": false,
+    "hq-tunes": false,
+    "hq-words": false,
+    "sharingEnabled": false,
+    "hq-general": true,
+    "hq-after-dark": false
+  },
+  "friendIds": [26513625, 2612218, 26627417, 26702417, 26645349],
+  "achievementCount": 0,
+  "items": { "lives": 2500, "superSpins": 2500 },
+  "coins": 2500,
+  "stk": "NA==",
+  "leaderboard": {
+    "wins": 0,
+    "rank": 0,
+    "alltime": { "total": "$0", "wins": 0, "rank": 101 },
+    "weekly": { "total": "$0", "wins": 0, "rank": 101 },
+    "totalCents": 0,
+    "total": "$0",
+    "unclaimed": "$0"
+  },
+  "erase1s": 2500,
+  "seasonXp": [
+    {
+      "currentPoints": 1000000,
+      "name": "2020season15",
+      "isActive": true,
+      "verticals": ["general", "sports", "words", "irl", "tunes"],
+      "currentLevel": {
+        "level": 10,
+        "minPoints": 1000000,
+        "maxPoints": 1000000
+      },
+      "achievedLevel": {
+        "level": 10,
+        "minPoints": 1000000,
+        "maxPoints": 1000000,
+        "display": {
+          "description": "You unlocked a *Free Pass* through Q10 in Trivia and Sports and *10 Bonus Strikes* in Words.",
+          "textColor": "#FFFFFF",
+          "accentColor": "#3F4153",
+          "textAccentColor": "#FED430",
+          "cardBackgroundImage": "https://cdn.prod.hype.space/static/levels/gfx_card_level_10@3x.png",
+          "backgroundColor": "#191B23",
+          "backgroundImage": "https://cdn.prod.hype.space/static/levels/level10@3x.png?v=2"
+        }
+      },
+      "quotas": {
+        "currentReferrals": 0,
+        "currentSharesToFacebook": 0,
+        "currentSharesToTwitter": 0
+      },
+      "pointsEarnedOverlayDelayMs": 3000,
+      "pointsEarnedOverlayDurationMs": 6000
+    }
+  ],
+  "pointsMultiplierCounts": {
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "10": 0,
+    "15": 0
+  },
+  "streakInfo": {
+    "userId": 26497282,
+    "target": 5,
+    "startDate": "2020-05-17T07:00:00.000Z",
+    "current": 4,
+    "total": 0,
+    "lastPlayed": "2020-05-18T04:01:21.856Z",
+    "notify": true,
+    "lifeUuid": null,
+    "lifetime": {
+      "userId": 26497282,
+      "numStreaks": 2,
+      "lastPlayed": "2020-05-15T07:00:00.000Z"
+    }
+  }
+}

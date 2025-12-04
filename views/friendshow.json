@@ -1,0 +1,132 @@
+{
+  "viewers": [
+    {
+      "userId": 756448,
+      "username": "SuperScopeSix",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/756448-xZYrpR",
+      "viewerState": "eliminated"
+    },
+    {
+      "userId": 1231464,
+      "username": "amdq2112",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/1231464-PZBRlT",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 8530202,
+      "username": "Tamarillicent",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/55/8530202-3zlcqQ.jpg",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 10043596,
+      "username": "Crys2101",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/10043596-ueUqxg",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 12364113,
+      "username": "skyepierce",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/f2/12364113-D9uc6B.jpg",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 19387974,
+      "username": "squirrelyRN",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/19387974-oVXmmk",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 19747082,
+      "username": "jesscuter",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/19747082-ivVAzz",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 20442878,
+      "username": "2112gdma",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/20442878-uoDflX",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 24781271,
+      "username": "Svella91",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/0c/24781271-EMYCIm",
+      "viewerState": "playing"
+    },
+    {
+      "userId": 26457474,
+      "username": "Djh108",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/blue.png",
+      "viewerState": "playing"
+    }
+  ],
+  "notInGame": [
+    {
+      "userId": 10023169,
+      "username": "v Arrive",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/a5/10023169-WNkPna.jpg",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 11024027,
+      "username": "summerpiercee",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/8f/11024027-D5iCvn.jpg",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 13165404,
+      "username": "aqibm",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/a5/13165404-SYq455.jpg",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 14767234,
+      "username": "fortun906",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/a0/14767234-CQFzVR.jpg",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 15092879,
+      "username": "AaronT1980",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/purple.png",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 16230423,
+      "username": "tclu",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/red.png",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 17941721,
+      "username": "RebekahN14",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/95/17941721-QpS9xY.jpg",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 20683629,
+      "username": "jmp041982",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/bf/20683629-UbDVlk.jpg",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 21165917,
+      "username": "tammympierce",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/red.png",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 24906289,
+      "username": "beckaaaay",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/24906289-jqyPMr",
+      "viewerState": "notInGame"
+    },
+    {
+      "userId": 25274865,
+      "username": "gratshow2457853",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/fc/25274865-QzVWHL",
+      "viewerState": "notInGame"
+    }
+  ]
+}

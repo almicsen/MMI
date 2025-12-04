@@ -1,0 +1,38 @@
+{
+    "title": "Enter a Referral Code",
+    "subtitle": "Enter your code to get a free reward that will help you win HQ!",
+    "shows": [{
+            "vertical": "general",
+            "display": {
+                "title": "HQ Trivia",
+                "accentColor": "#FFFFFF",
+                "description": "Entering their code will also help your friend!",
+                "logo": "https://cdn.prod.hype.space/static/channel/TRIVIA/Trivia@3x.png?v=3",
+                "bgImage": "https://cdn.prod.hype.space/static/channel/TRIVIA/Trivia-frame.png"
+            },
+            "referredByUserId": 20442878,
+            "referredByUsername": "rus" 
+        },
+        {
+            "vertical": "sports",
+            "display": {
+                "title": "HQ Sports",
+                "accentColor": "#FFFFFF",
+                "description": "Entering their code will also help your friend!",
+                "logo": "https://cdn.prod.hype.space/static/channel/SPORTS/HQ-Sports-Home-Frame-Logo.png",
+                "bgImage": "https://cdn.prod.hype.space/static/channel/SPORTS/HQ-Sports-Frame-BG.png"
+            }
+        },
+        {
+            "vertical": "words",
+            "display": {
+                "title": "HQ Words",
+                "accentColor": "#1F2353",
+                "description": "Entering their code will also help your friend!",
+                "logo": "https://cdn.prod.hype.space/static/channel/WORDS/Words@3x.png?v=4",
+                "bgImage": "https://cdn.prod.hype.space/static/channel/WORDS/Words-frame.png"
+            }
+        }
+    ],
+    "canEnterReferral": true
+}

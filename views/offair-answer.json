@@ -1,0 +1,38 @@
+{
+    "seasonXp": 250,
+    "pointsEarned": 250,
+    "coinsEarned": 2,
+    "youGotItRight": true,
+    "answerCounts": [{
+            "offairAnswerId": "cjykhnfum0xqrdwm2h4hnc7w0",
+            "answer": "A",
+            "correct": false
+        },
+        {
+            "offairAnswerId": "cjykhnfum0xqsdwm286bb1y54",
+            "answer": "B",
+            "correct": false
+        },
+        {
+            "offairAnswerId": "cjykhnfum0xqtdwm20qb62g7x",
+            "answer": "C",
+            "correct": true
+        }
+    ],
+    "yourOffairAnswerId": "cjykhnfum0xqtdwm20qb62g7x",
+    "questionNumber": 7,
+    "answerResults": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+    ],
+    "nextQuestion": {
+        "category": "Nature",
+        "nativeAdDurationMs": null
+    },
+    "showAd": false,
+    "gameSummary": null
+}

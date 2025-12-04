@@ -1,0 +1,723 @@
+{
+    "data": [{
+            "userId": 756448,
+            "username": "SuperScopeSix",
+            "avatarUrl": "https://cdn.prod.hype.space/a/756448-xZYrpR",
+            "created": "2017-11-30T06:28:42.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/SuperScopeSix",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$10.22",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 2154,
+                "total": "$21.54",
+                "unclaimed": "$2.81"
+            },
+            "highScore": 14,
+            "gamesPlayed": 1093,
+            "winCount": 68,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 1231464,
+            "username": "amdq2112",
+            "avatarUrl": "https://cdn.prod.hype.space/a/1231464-PZBRlT",
+            "created": "2017-12-10T20:19:02.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/amdq2112",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$27.41",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 2870,
+                "total": "$28.70",
+                "unclaimed": "$0"
+            },
+            "highScore": 15,
+            "gamesPlayed": 1082,
+            "winCount": 87,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 8530202,
+            "username": "Tamarillicent",
+            "avatarUrl": "https://cdn.prod.hype.space/a/55/8530202-3zlcqQ.jpg",
+            "created": "2018-01-23T01:53:08.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/Tamarillicent",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$18.13",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 2094,
+                "total": "$20.94",
+                "unclaimed": "$2.81"
+            },
+            "highScore": 18,
+            "gamesPlayed": 572,
+            "winCount": 5,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 10023169,
+            "username": "v Arrive",
+            "avatarUrl": "https://cdn.prod.hype.space/a/a5/10023169-WNkPna.jpg",
+            "created": "2018-01-31T19:20:47.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/v Arrive",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$16.49",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 1659,
+                "total": "$16.59",
+                "unclaimed": "$0.02"
+            },
+            "highScore": 12,
+            "gamesPlayed": 222,
+            "winCount": 4,
+            "achievementCount": 10,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 10043596,
+            "username": "Crys2101",
+            "avatarUrl": "https://cdn.prod.hype.space/a/10043596-ueUqxg",
+            "created": "2018-01-31T20:48:53.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/Crys2101",
+            "leaderboard": {
+                "wins": 1,
+                "rank": 101,
+                "alltime": {
+                    "total": "$31.40",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$11.75",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "totalCents": 3178,
+                "total": "$31.78",
+                "unclaimed": "$13.63"
+            },
+            "highScore": 17,
+            "gamesPlayed": 820,
+            "winCount": 19,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 11024027,
+            "username": "summerpiercee",
+            "avatarUrl": "https://cdn.prod.hype.space/a/8f/11024027-D5iCvn.jpg",
+            "created": "2018-02-08T02:21:57.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/summerpiercee",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 0,
+                "total": "$0",
+                "unclaimed": "$0"
+            },
+            "highScore": 9,
+            "gamesPlayed": 89,
+            "winCount": 0,
+            "achievementCount": 3,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 12364113,
+            "username": "skyepierce",
+            "avatarUrl": "https://cdn.prod.hype.space/a/f2/12364113-D9uc6B.jpg",
+            "created": "2018-02-23T23:19:09.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/skyepierce",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$2.04",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 1089,
+                "total": "$10.89",
+                "unclaimed": "$5.50"
+            },
+            "highScore": 16,
+            "gamesPlayed": 889,
+            "winCount": 55,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 13165404,
+            "username": "aqibm",
+            "avatarUrl": "https://cdn.prod.hype.space/a/a5/13165404-SYq455.jpg",
+            "created": "2018-03-05T21:41:24.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/aqibm",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$9.52",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 952,
+                "total": "$9.52",
+                "unclaimed": "$0"
+            },
+            "highScore": 12,
+            "gamesPlayed": 196,
+            "winCount": 2,
+            "achievementCount": 17,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 14767234,
+            "username": "fortun906",
+            "avatarUrl": "https://cdn.prod.hype.space/a/a0/14767234-CQFzVR.jpg",
+            "created": "2018-03-27T02:15:21.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/fortun906",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$69.19",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 6919,
+                "total": "$69.19",
+                "unclaimed": "$0"
+            },
+            "highScore": 12,
+            "gamesPlayed": 216,
+            "winCount": 2,
+            "achievementCount": 16,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 15092879,
+            "username": "AaronT1980",
+            "avatarUrl": "https://cdn.prod.hype.space/da/purple.png",
+            "created": "2018-03-29T01:50:16.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/AaronT1980",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 0,
+                "total": "$0",
+                "unclaimed": "$0"
+            },
+            "highScore": 9,
+            "gamesPlayed": 81,
+            "winCount": 0,
+            "achievementCount": 0,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 16230423,
+            "username": "tclu",
+            "avatarUrl": "https://cdn.prod.hype.space/da/red.png",
+            "created": "2018-04-10T01:40:56.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/tclu",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$13.52",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 1371,
+                "total": "$13.71",
+                "unclaimed": "$2.72"
+            },
+            "highScore": 12,
+            "gamesPlayed": 29,
+            "winCount": 3,
+            "achievementCount": 4,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 17941721,
+            "username": "RebekahN14",
+            "avatarUrl": "https://cdn.prod.hype.space/a/95/17941721-QpS9xY.jpg",
+            "created": "2018-04-29T18:35:55.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/RebekahN14",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$9.52",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 952,
+                "total": "$9.52",
+                "unclaimed": "$0.02"
+            },
+            "highScore": 12,
+            "gamesPlayed": 115,
+            "winCount": 1,
+            "achievementCount": 5,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 19387974,
+            "username": "squirrelyRN",
+            "avatarUrl": "https://cdn.prod.hype.space/a/19387974-oVXmmk",
+            "created": "2018-05-23T01:02:18.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/squirrelyRN",
+            "leaderboard": {
+                "wins": 1,
+                "rank": 101,
+                "alltime": {
+                    "total": "$40.22",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$2.64",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "totalCents": 4069,
+                "total": "$40.69",
+                "unclaimed": "$2.66"
+            },
+            "highScore": 15,
+            "gamesPlayed": 828,
+            "winCount": 37,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 19747082,
+            "username": "jesscuter",
+            "avatarUrl": "https://cdn.prod.hype.space/a/19747082-ivVAzz",
+            "created": "2018-05-30T06:25:43.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/jesscuter",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$2.68",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 415,
+                "total": "$4.15",
+                "unclaimed": "$1.47"
+            },
+            "highScore": 20,
+            "gamesPlayed": 296,
+            "winCount": 12,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 20442878,
+            "username": "2112gdma",
+            "avatarUrl": "https://cdn.prod.hype.space/a/20442878-uoDflX",
+            "created": "2018-06-10T22:17:27.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/2112gdma",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$1.50",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 155,
+                "total": "$1.55",
+                "unclaimed": "$0"
+            },
+            "highScore": 16,
+            "gamesPlayed": 235,
+            "winCount": 6,
+            "achievementCount": 30,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 20683629,
+            "username": "jmp041982",
+            "avatarUrl": "https://cdn.prod.hype.space/a/bf/20683629-UbDVlk.jpg",
+            "created": "2018-06-15T20:49:08.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/jmp041982",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$4.42",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 442,
+                "total": "$4.42",
+                "unclaimed": "$4.06"
+            },
+            "highScore": 18,
+            "gamesPlayed": 364,
+            "winCount": 20,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 21165917,
+            "username": "tammympierce",
+            "avatarUrl": "https://cdn.prod.hype.space/da/red.png",
+            "created": "2018-06-27T01:59:53.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/tammympierce",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 0,
+                "total": "$0",
+                "unclaimed": "$0"
+            },
+            "highScore": 14,
+            "gamesPlayed": 176,
+            "winCount": 0,
+            "achievementCount": 26,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 24781271,
+            "username": "Svella91",
+            "avatarUrl": "https://cdn.prod.hype.space/a/0c/24781271-EMYCIm",
+            "created": "2019-01-25T03:16:54.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/Svella91",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 2715,
+                "total": "$27.15",
+                "unclaimed": "$4.16"
+            },
+            "highScore": 16,
+            "gamesPlayed": 563,
+            "winCount": 11,
+            "achievementCount": 33,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 24906289,
+            "username": "beckaaaay",
+            "avatarUrl": "https://cdn.prod.hype.space/a/24906289-jqyPMr",
+            "created": "2019-02-10T05:15:34.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/beckaaaay",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$5.05",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 641,
+                "total": "$6.41",
+                "unclaimed": "$0"
+            },
+            "highScore": 13,
+            "gamesPlayed": 269,
+            "winCount": 21,
+            "achievementCount": 32,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 25274865,
+            "username": "gratshow2457853",
+            "avatarUrl": "https://cdn.prod.hype.space/a/fc/25274865-QzVWHL",
+            "created": "2019-03-30T22:29:11.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/gratshow2457853",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$1.16",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 279,
+                "total": "$2.79",
+                "unclaimed": "$2.79"
+            },
+            "highScore": 12,
+            "gamesPlayed": 172,
+            "winCount": 1,
+            "achievementCount": 31,
+            "blocked": false,
+            "blocksMe": false
+        },
+        {
+            "userId": 26457474,
+            "username": "Djh108",
+            "avatarUrl": "https://cdn.prod.hype.space/da/blue.png",
+            "created": "2019-12-10T01:56:41.000Z",
+            "broadcasts": {
+                "data": []
+            },
+            "featured": false,
+            "referralUrl": "https://hqtrivia.com/i/Djh108",
+            "leaderboard": {
+                "wins": 0,
+                "rank": 101,
+                "alltime": {
+                    "total": "$0.87",
+                    "wins": 1,
+                    "rank": 101
+                },
+                "weekly": {
+                    "total": "$0",
+                    "wins": 0,
+                    "rank": 101
+                },
+                "totalCents": 234,
+                "total": "$2.34",
+                "unclaimed": "$2.34"
+            },
+            "highScore": 12,
+            "gamesPlayed": 54,
+            "winCount": 2,
+            "achievementCount": 9,
+            "blocked": false,
+            "blocksMe": false
+        }
+    ],
+    "links": {
+        "next": null,
+        "prev": "/friends/",
+        "self": "/friends/"
+    },
+    "count": 21
+}

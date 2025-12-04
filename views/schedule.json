@@ -1,0 +1,58 @@
+{
+    "shows": [{
+            "showType": "hq",
+            "showId": 13851,
+            "gameType": "trivia",
+            "vertical": "general",
+            "opt": "hq-general",
+            "startTime": "2020-05-23T01:00:00.000Z",
+            "display": {
+                "title": "HQ Trivia",
+                "summary": "Answer trivia for cash prizes",
+                "accentColor": "#FFFFFF",
+                "description": "Are you a sponge of random facts? HQ Trivia is the viral hit live mobile game show where your trivia smarts helps you win real cash. Answer questions that range from easy to hard, and if you get them all right, you win or split the cash prize.",
+                "image": "/",
+                "logo": "/",
+                "bgImage": "https://media.discordapp.net/attachments/711443242406641679/713526387474038784/image0.jpg",
+                "bgVideo": "https://cdn.prod.hype.space/static/channel/TRIVIA/HQ-Trivia-portrait-70percentSpeed-190kbps-HVEC_H265.mp4",
+                "subtitle": ""
+            },
+            "media": [],
+            "prizeCents": 500000,
+            "currency": "USD"
+        },
+        {
+            "showType": "hq-sports",
+            "showId": 13849,
+            "gameType": "trivia",
+            "vertical": "sports",
+            "opt": "hq-sports",
+            "startTime": "2020-05-24T21:00:00.000Z",
+            "display": {
+                "title": "HQ Sports",
+                "summary": "Play sports trivia for cash prizes",
+                "accentColor": "#FFFFFF",
+                "description": "If you're a sports fan, then this game is for you. HQ Sports lets you put your hard-earned knowledge to the test by answering sports trivia questions to win cash. Answer all of the questions correctly to win or split the cash prize.",
+                "image": "https://cdn.prod.hype.space/static/channel/SPORTS/HQ-Sports-Home-Frame-Logo.png",
+                "logo": "https://cdn.prod.hype.space/static/channel/SPORTS/HQ-Sports-Home-Frame-Logo.png",
+                "bgImage": "https://cdn.prod.hype.space/static/channel/SPORTS/HQ-Sports-Frame-BG.png",
+                "bgVideo": "https://cdn.prod.hype.space/static/channel/SPORTS/HQSports_02_190kbps.mp4"
+            },
+            "media": [],
+            "prizeCents": 500000,
+            "currency": "USD"
+        }
+    ],
+    "announcements": [],
+    "offairTrivias": {
+        "isGameInProgress": false,
+        "waitTimeMs": 4910556,
+        "powerups": {
+            "offair-10x-pts-multi": 0,
+            "OFFAIR_PTS_MULTI_10": 0,
+            "offair-unlock": 0,
+            "OFFAIR_UNLOCK": 0
+        },
+        "games": []
+    }
+}

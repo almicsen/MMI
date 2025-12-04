@@ -1,0 +1,444 @@
+{
+    "earnedAchievementCount": 3,
+    "families": [{
+            "name": "Business",
+            "earnedAchievements": [{
+                    "achievementId": 16,
+                    "name": "Business Associate",
+                    "description": "Start preparing your IPO.",
+                    "family": "category:business",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-business_lg.png",
+                    "progressPct": 50,
+                    "completed": false,
+                    "lastUpdated": 1537233024171,
+                    "earnedAt": "2018-09-18T01:10:24.171Z"
+                },
+                {
+                    "achievementId": 15,
+                    "name": "Business CEO",
+                    "description": "You put the busy in business.",
+                    "family": "category:business",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-business_lg.png",
+                    "progressPct": 25,
+                    "completed": false,
+                    "lastUpdated": 1537233024171,
+                    "earnedAt": "2018-09-18T01:10:24.171Z"
+                },
+                {
+                    "achievementId": 17,
+                    "name": "Business Captain of Industry",
+                    "description": "You made it, you've earned the corner office. Get yourself a nice plant.",
+                    "family": "category:business",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-business_lg.png",
+                    "progressPct": 12.5,
+                    "completed": false,
+                    "lastUpdated": 1537233024171,
+                    "earnedAt": "2018-09-18T01:10:24.171Z"
+                }
+            ]
+        },
+        {
+            "name": "Entertainment",
+            "earnedAchievements": [{
+                    "achievementId": 23,
+                    "name": "Celebrity D-Lister",
+                    "description": "Here's a round of applause 👏.",
+                    "family": "category:entertainment",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-entertainment_lg.png",
+                    "progressPct": 0,
+                    "completed": false,
+                    "lastUpdated": 0,
+                    "earnedAt": "1970-01-01T00:00:00.000Z"
+                },
+                {
+                    "achievementId": 22,
+                    "name": "Celebrity B-Lister",
+                    "description": "Take a bow! ⭐",
+                    "family": "category:entertainment",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-entertainment_lg.png",
+                    "progressPct": 0,
+                    "completed": false,
+                    "lastUpdated": 0,
+                    "earnedAt": "1970-01-01T00:00:00.000Z"
+                },
+                {
+                    "achievementId": 21,
+                    "name": "Celebrity A-Lister",
+                    "description": "Almost as good as front row seats!",
+                    "family": "category:entertainment",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-entertainment_lg.png",
+                    "progressPct": 0,
+                    "completed": false,
+                    "lastUpdated": 0,
+                    "earnedAt": "1970-01-01T00:00:00.000Z"
+                }
+            ]
+        },
+        {
+            "name": "Geography",
+            "earnedAchievements": [{
+                    "achievementId": 1,
+                    "name": "Geography Pathfinder",
+                    "description": "You didn't get lost on these Qs.",
+                    "family": "category:geography",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-geography_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1585616807591,
+                    "earnedAt": "2020-03-31T01:06:47.591Z"
+                },
+                {
+                    "achievementId": 34,
+                    "name": "Geography Adventurer",
+                    "description": "Where we're going, we don't need roads.",
+                    "family": "category:geography",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-geography_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1586912820337,
+                    "earnedAt": "2020-04-15T01:07:00.337Z"
+                },
+                {
+                    "achievementId": 33,
+                    "name": "Geography Globetrotter",
+                    "description": "You can move mountains with your knowledge.",
+                    "family": "category:geography",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-geography_lg.png",
+                    "progressPct": 50,
+                    "completed": false,
+                    "lastUpdated": 1586912820337,
+                    "earnedAt": "2020-04-15T01:07:00.337Z"
+                }
+            ]
+        },
+        {
+            "name": "History",
+            "earnedAchievements": [{
+                    "achievementId": 29,
+                    "name": "History Scholar",
+                    "description": "History will look favorably upon this moment.",
+                    "family": "category:history",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-history_lg.png",
+                    "progressPct": 50,
+                    "completed": false,
+                    "lastUpdated": 1585703309728,
+                    "earnedAt": "2020-04-01T01:08:29.728Z"
+                },
+                {
+                    "achievementId": 28,
+                    "name": "History Professor",
+                    "description": "You could conquer an empire with that knowledge.",
+                    "family": "category:history",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-history_lg.png",
+                    "progressPct": 16.666666666666668,
+                    "completed": false,
+                    "lastUpdated": 1585703309728,
+                    "earnedAt": "2020-04-01T01:08:29.728Z"
+                },
+                {
+                    "achievementId": 27,
+                    "name": "History Curator",
+                    "description": "You're a true Wonder of the World.",
+                    "family": "category:history",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-history_lg.png",
+                    "progressPct": 8.333333333333334,
+                    "completed": false,
+                    "lastUpdated": 1585703309728,
+                    "earnedAt": "2020-04-01T01:08:29.728Z"
+                }
+            ]
+        },
+        {
+            "name": "Literature",
+            "earnedAchievements": [{
+                    "achievementId": 14,
+                    "name": "Literature Beach Reader",
+                    "description": "Things just got lit 📚",
+                    "family": "category:literature",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-literature_lg.png",
+                    "progressPct": 25,
+                    "completed": false,
+                    "lastUpdated": 1585703206740,
+                    "earnedAt": "2020-04-01T01:06:46.740Z"
+                },
+                {
+                    "achievementId": 13,
+                    "name": "Literature Novelist",
+                    "description": "Time to start looking for more shelf space.",
+                    "family": "category:literature",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-literature_lg.png",
+                    "progressPct": 14.285714285714286,
+                    "completed": false,
+                    "lastUpdated": 1585703206740,
+                    "earnedAt": "2020-04-01T01:06:46.740Z"
+                },
+                {
+                    "achievementId": 12,
+                    "name": "Literature Best Seller",
+                    "description": "This is one for the books!",
+                    "family": "category:literature",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-literature_lg.png",
+                    "progressPct": 8.333333333333334,
+                    "completed": false,
+                    "lastUpdated": 1585703206740,
+                    "earnedAt": "2020-04-01T01:06:46.740Z"
+                }
+            ]
+        },
+        {
+            "name": "Movies",
+            "earnedAchievements": [{
+                    "achievementId": 20,
+                    "name": "Movie Extra",
+                    "description": "This is a blockbuster opener.",
+                    "family": "category:movies",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-movies_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1540861550966,
+                    "earnedAt": "2018-10-30T01:05:50.966Z"
+                },
+                {
+                    "achievementId": 19,
+                    "name": "Movie Star",
+                    "description": "And the award goes to... you! ✉️",
+                    "family": "category:movies",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-movies_lg.png",
+                    "progressPct": 57.142857142857146,
+                    "completed": false,
+                    "lastUpdated": 1540861590051,
+                    "earnedAt": "2018-10-30T01:06:30.051Z"
+                },
+                {
+                    "achievementId": 18,
+                    "name": "Movie Icon",
+                    "description": "Lights, Camera, Champion!",
+                    "family": "category:movies",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-movies_lg.png",
+                    "progressPct": 36.36363636363637,
+                    "completed": false,
+                    "lastUpdated": 1540861590051,
+                    "earnedAt": "2018-10-30T01:06:30.051Z"
+                }
+            ]
+        },
+        {
+            "name": "Music",
+            "earnedAchievements": [{
+                    "achievementId": 32,
+                    "name": "Music DJ",
+                    "description": "This isn't your first jam session.",
+                    "family": "category:music",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-music_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1534900185784,
+                    "earnedAt": "2018-08-22T01:09:45.784Z"
+                },
+                {
+                    "achievementId": 31,
+                    "name": "Music Composer",
+                    "description": "Keeping the beat alive!",
+                    "family": "category:music",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-music_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1535074656026,
+                    "earnedAt": "2018-08-24T01:37:36.026Z"
+                },
+                {
+                    "achievementId": 30,
+                    "name": "Music Virtuoso",
+                    "description": "Top of the charts!",
+                    "family": "category:music",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-music_lg.png",
+                    "progressPct": 66.66666666666667,
+                    "completed": false,
+                    "lastUpdated": 1535074771527,
+                    "earnedAt": "2018-08-24T01:39:31.527Z"
+                }
+            ]
+        },
+        {
+            "name": "Nature",
+            "earnedAchievements": [{
+                    "achievementId": 11,
+                    "name": "Nature Hiker",
+                    "description": "Nature called. You answered. 📞",
+                    "family": "category:nature",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-nature_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1586912728435,
+                    "earnedAt": "2020-04-15T01:05:28.435Z"
+                },
+                {
+                    "achievementId": 10,
+                    "name": "Nature Camper",
+                    "description": "This is pretty wild.",
+                    "family": "category:nature",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-nature_lg.png",
+                    "progressPct": 66.66666666666667,
+                    "completed": false,
+                    "lastUpdated": 1587085576610,
+                    "earnedAt": "2020-04-17T01:06:16.610Z"
+                },
+                {
+                    "achievementId": 9,
+                    "name": "Nature Sherpa",
+                    "description": "It just comes naturally to you.",
+                    "family": "category:nature",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-nature_lg.png",
+                    "progressPct": 33.333333333333336,
+                    "completed": false,
+                    "lastUpdated": 1587085576610,
+                    "earnedAt": "2020-04-17T01:06:16.610Z"
+                }
+            ]
+        },
+        {
+            "name": "Science",
+            "earnedAchievements": [{
+                    "achievementId": 2,
+                    "name": "Science Researcher",
+                    "description": "You're a natural phenomenon.",
+                    "family": "category:science",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-science_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1586221551374,
+                    "earnedAt": "2020-04-07T01:05:51.374Z"
+                },
+                {
+                    "achievementId": 25,
+                    "name": "Science Lab Director",
+                    "description": "Scientifically speaking, you crushed it.",
+                    "family": "category:science",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-science_lg.png",
+                    "progressPct": 50,
+                    "completed": false,
+                    "lastUpdated": 1586221551374,
+                    "earnedAt": "2020-04-07T01:05:51.374Z"
+                },
+                {
+                    "achievementId": 24,
+                    "name": "Science Nobel Laureate",
+                    "description": "No need to research: You rule. 👊",
+                    "family": "category:science",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-science_lg.png",
+                    "progressPct": 25,
+                    "completed": false,
+                    "lastUpdated": 1586221551374,
+                    "earnedAt": "2020-04-07T01:05:51.374Z"
+                }
+            ]
+        },
+        {
+            "name": "Sports",
+            "earnedAchievements": [{
+                    "achievementId": 3,
+                    "name": "Sports Rookie",
+                    "description": "Almost as good as season tickets.",
+                    "family": "category:sports",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-sports_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1589144830820,
+                    "earnedAt": "2020-05-10T21:07:10.820Z"
+                },
+                {
+                    "achievementId": 4,
+                    "name": "Sports All-Star",
+                    "description": "You've set a new PR!",
+                    "family": "category:sports",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-sports_lg.png",
+                    "progressPct": 66.66666666666667,
+                    "completed": false,
+                    "lastUpdated": 1589490462738,
+                    "earnedAt": "2020-05-14T21:07:42.738Z"
+                },
+                {
+                    "achievementId": 5,
+                    "name": "Sports Hall of Famer",
+                    "description": "Goooooaaaaaaal! 🏆",
+                    "family": "category:sports",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-sports_lg.png",
+                    "progressPct": 25,
+                    "completed": false,
+                    "lastUpdated": 1589490462738,
+                    "earnedAt": "2020-05-14T21:07:42.738Z"
+                }
+            ]
+        },
+        {
+            "name": "TV",
+            "earnedAchievements": [{
+                    "achievementId": 8,
+                    "name": "TV PA",
+                    "description": "Binge on this.",
+                    "family": "category:tv",
+                    "familyOrder": 0,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-tv_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1537233068855,
+                    "earnedAt": "2018-09-18T01:11:08.855Z"
+                },
+                {
+                    "achievementId": 7,
+                    "name": "TV Show Runner",
+                    "description": "Your brain is truly binge-worthy.",
+                    "family": "category:tv",
+                    "familyOrder": 1,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-tv_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1537233189040,
+                    "earnedAt": "2018-09-18T01:13:09.040Z"
+                },
+                {
+                    "achievementId": 6,
+                    "name": "TV Executive Producer",
+                    "description": "Spoiler alert: You're a winner, baby!",
+                    "family": "category:tv",
+                    "familyOrder": 2,
+                    "imageUrl": "https://cdn.prod.hype.space/achievements/category-tv_lg.png",
+                    "progressPct": 100,
+                    "completed": true,
+                    "lastUpdated": 1586135236967,
+                    "earnedAt": "2020-04-06T01:07:16.967Z"
+                }
+            ]
+        }
+    ]
+}

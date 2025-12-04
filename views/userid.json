@@ -1,0 +1,34 @@
+{
+    "userId": 38764,
+    "username": "rus",
+    "avatarUrl": "https://cdn.prod.hype.space/a/38764-BVzLZ5",
+    "created": "2017-05-01T15:53:39.000Z",
+    "broadcasts": {
+        "data": []
+    },
+    "featured": false,
+    "referralUrl": "https://hqtrivia.com/i/rus",
+    "leaderboard": {
+        "wins": 0,
+        "rank": 101,
+        "alltime": {
+            "total": "Been here ever since beta",
+            "wins": 1,
+            "rank": 101
+        },
+        "weekly": {
+            "total": "$0",
+            "wins": 0,
+            "rank": 101
+        },
+        "totalCents": 222,
+        "total": "$2.22",
+        "unclaimed": "$0.20"
+    },
+    "highScore": 19,
+    "gamesPlayed": 1913,
+    "winCount": 14,
+    "achievementCount": 33,
+    "blocked": false,
+    "blocksMe": false
+}

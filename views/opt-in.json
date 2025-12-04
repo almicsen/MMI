@@ -1,0 +1,66 @@
+{
+    "opts": [{
+        "title": "HQ Trivia",
+        "opt": "hq-general",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    },
+       {
+        "title": "HQ Sports",
+        "opt": "hq-sports",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    }, 
+   {
+        "title": "HQ Points",
+        "opt": "hq-pts",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    },
+    {
+        "title": "HQ Jokes",
+        "opt": "hq-jokes",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    },
+    {
+        "title": "HQ Words",
+        "opt": "hq-words",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    },
+    {
+        "title": "HQ Swipe",
+        "opt": "hq-swipe",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    },
+    {
+        "title": "HQ Star",
+        "opt": "hq-star",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    },
+    {
+        "title": "",
+        "opt": "hq-hq",
+        "in": "Subscribe",
+        "out": "Subscribed",
+        "onboardingDescription": "Play trivia to win cash",
+        "opted": true
+    },]
+}

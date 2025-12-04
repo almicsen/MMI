@@ -1,0 +1,127 @@
+{
+    "minVersion": {
+        "ios": "1.5.12",
+        "android": "1.41.0"
+    },
+    "recommendedVersion": {
+        "ios": "5.5.3",
+        "android": "1.41.0"
+    },
+    "wave": {
+        "outOfGameEnabled": true
+    },
+    "payouts": {
+        "active": true,
+        "mode": "live",
+        "threshold": "$0.01"
+    },
+    "batchSize": 50,
+    "easterEggs": {
+        "makeItRain": {
+            "enabled": true,
+            "interval": 0
+        }
+    },
+    "streamConfiguration": {
+        "allowsReconnect": true,
+        "allowsMultipleStreams": false,
+        "downStepFloor": 1,
+        "upStepCeil": 25,
+        "isDownStepEnabled": true,
+        "isUpStepEnabled": true,
+        "downStepSampleSize": 10,
+        "upStepSampleSize": 60,
+        "hlsEnabled": false,
+        "android": {
+            "maxStepUps": 5,
+            "maxDeviation": 80,
+            "optimalMillisecondsFromLiveEdge": 1000,
+            "minimumMillisecondsBufferToStart": 1000
+        },
+        "ios": {
+            "hlsEnabled": false
+        }
+    },
+    "bandwidthCheck": "https://cdn.prod.hype.space/static/bird.jpg",
+    "watchdogEnabled": false,
+    "elPromptMs": 5000,
+    "friends": {
+        "answerSharingEnabled": true,
+        "statusSharingEnabled": true,
+        "resultSharingEnabled": true,
+        "incomingRequestPollIntervalMs": 60000,
+        "maxFriendAnswersPerQuestion": 5,
+        "maxFriendsAnswersPerChoice": 1000,
+        "maxAnswerSharingQuestions": 1000,
+        "minIOsVersion": "iOS/1.2.9 b1",
+        "minIOsDevVersion": "iOS-Dev/1.0.0 b1",
+        "minIOsBetaVersion": "iOS-Beta/1.0.0 b1",
+        "minAndroidVersion": "Android/1.6.1",
+        "nearbyEnabled": true
+    },
+    "dynamicPotClient": false,
+    "mpt": 4,
+    "achievements": {
+        "lobbyEnabled": false
+    },
+    "blueMercuryEnabled": true,
+    "multipeerEnabled": false,
+    "inGameBlueMercury": true,
+    "newUserSportsOptIn": false,
+    "settings": false,
+    "productPlacements": null,
+    "inGameIapToolTip": {
+        "durationMs": 10000,
+        "times": 1000
+    },
+    "buyBackInOverlay": {
+        "noAnswerDurationMs": 10000,
+        "wrongAnswerDurationMs": 10000
+    },
+    "iapFlags": {
+        "prerollTooltip": true,
+        "ingameBuyBack": true,
+        "ingameBuyBackWords": true,
+        "ingameNextGame": false
+    },
+    "oneSignalEnabled": true,
+    "ddStatsEnabled": true,
+    "erase1Enabled": false,
+    "maxErase1s": 8,
+    "erase1Cost": 2,
+    "newLobby": false,
+    "multimedia": {
+        "enabled": true,
+        "sfxVolumes": {
+            "image": 1,
+            "video": 1,
+            "audio": 1
+        },
+        "duckSecs": 4
+    },
+    "hqUniversityAction": "",
+    "betaUnlockEnabled": true,
+    "newPushFlow": true,
+    "showReferrals": true,
+    "cashReferrals": true,
+    "captchaUrl": "https://www.hqtrivia.com/verify",
+    "superWheelEnabled": false,
+    "changeAnswer": true,
+    "keepPlaying": false,
+    "redEnigma": true,
+    "nonce": null,
+    "storeEnabled": false,
+    "storeIAPEnabled": false,
+    "tags": {
+        "cdnCanary": "false"
+    },
+    "sampleRate": 1,
+    "webStoreUrl": "https://store.prod.hype.space/products",
+    "offairTriviaApplovinNetworkEnabled": true,
+    "offairTriviaTelemetryLogsEnabled": false,
+    "telemetry": {
+        "enabled": false,
+        "batchSize": 50,
+        "host": "https://telemetry.prod.hype.space"
+    }
+}

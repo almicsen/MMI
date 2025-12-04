@@ -1,0 +1,317 @@
+{
+    "payouts": [{
+            "payoutId": 4453658,
+            "userId": 13927523,
+            "amount": "£3.77",
+            "currency": "USD",
+            "targetUserId": null,
+            "targetEmail": "andersonp1127@gmail.com",
+            "targetPhone": null,
+            "status": 10001,
+            "metadata": {
+                "payoutsConnected": true,
+                "client": "iOS/1.5.16 b229",
+                "ipAddress": "107.77.236.201",
+                "charityId": "ck9jgzdkn000001vvbapn5yy8"
+            },
+            "created": "2020-05-10T00:03:17.000Z",
+            "modified": "2020-05-10T00:03:17.000Z"
+        },
+        {
+            "payoutId": 4448052,
+            "userId": 13927523,
+            "amount": "$1.03",
+            "currency": "USD",
+            "targetUserId": null,
+            "targetEmail": "andersonp1127@gmail.com",
+            "targetPhone": null,
+            "status": 10001,
+            "metadata": {
+                "payoutsConnected": true,
+                "client": "iOS/1.5.13 b224",
+                "ipAddress": "24.99.153.56",
+                "senderBatchId": "payout_4448052",
+                "batchId": "79V5NW7CWLUK2"
+            },
+            "created": "2020-05-02T04:59:00.000Z",
+            "modified": "2020-05-06T06:15:43.000Z"
+        }
+    ],
+    "balance": {
+        "prizeTotal": "£4.80",
+        "paid": "£4.80",
+        "pending": "£0",
+        "unpaid": "£0",
+        "available": "£0",
+        "frozen": "£0",
+        "eligibleForPayout": false,
+        "winsReadyForCashout": true,
+        "appealStatus": "none",
+        "hasPending": false,
+        "payoutsConnected": true,
+        "payoutsEmail": "andersonp1127@gmail.com",
+        "documentRequired": false,
+        "documentStatus": "none",
+        "payoutEligibility": "disallowed_not_enough"
+    },
+    "recentWins": [{
+            "isForfeited": false,
+            "isFrozen": false,
+            "prize": "$3.77",
+            "title": "HQ Trivia",
+            "bgImage": "https://cdn.prod.hype.space/static/channel/TRIVIA/Trivia-frame.png",
+            "textColor": "#FFFFFF",
+            "winDate": "2020-04-30T01:17:39.000Z"
+        },
+        {
+            "isForfeited": false,
+            "isFrozen": false,
+            "prize": "$1.03",
+            "title": "HQ Trivia",
+            "bgImage": "https://cdn.prod.hype.space/static/channel/TRIVIA/Trivia-frame.png",
+            "textColor": "#FFFFFF",
+            "winDate": "2020-04-25T01:18:06.000Z"
+        }
+    ],
+    "charities": [{
+            "charityId": "ck967d4zb0000011q5fpc8jgb",
+            "displayName": "World Central Kitchen",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/149315-Mz40ET"
+        },
+        {
+            "charityId": "ck967e3cy0000013ddev9bboq",
+            "displayName": "First Responders Children's Foundation",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/149315-jVGDv8"
+        },
+        {
+            "charityId": "ck967enfp0001011q63la0vjo",
+            "displayName": "Food Bank For New York City",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/149315-OpVkYV"
+        },
+        {
+            "charityId": "ck96ahtq80003011qhvyrcyzs",
+            "displayName": "Restaurant Strong Fund",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-L4Cf0C"
+        },
+        {
+            "charityId": "ck96aj1rf0004011qbbzzfhc4",
+            "displayName": "NYC Health + Hospitals",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-mZBshn"
+        },
+        {
+            "charityId": "ck96anofk0000011b0bpfhpba",
+            "displayName": "IMPaCT",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-RPMnjF"
+        },
+        {
+            "charityId": "ck96aonw60005011q0mh83spz",
+            "displayName": "Amigos for Kids",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-7ImJTI"
+        },
+        {
+            "charityId": "ck96aowp30001013d493x63ob",
+            "displayName": "Penn Medicine",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-mQpD5Z"
+        },
+        {
+            "charityId": "ck96aqv3x0002013dhflk49uo",
+            "displayName": "Glide",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-O8JLH9"
+        },
+        {
+            "charityId": "ck96atzmz0003013d2lp94gsi",
+            "displayName": "Fuel The Frontlines",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-xcWCyc"
+        },
+        {
+            "charityId": "ck96aukg60001011b7hik1u8j",
+            "displayName": "Kids Eat Free",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/149315-9Cauc4"
+        },
+        {
+            "charityId": "ck96aw14w0006011q7hwt08o2",
+            "displayName": "Hebrew Immigrant Aid Society (HIAS)",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-cbE24t"
+        },
+        {
+            "charityId": "ck96azy6f0002011bczyxca4k",
+            "displayName": "Detroit Area Agency on Aging",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-aj2WWh"
+        },
+        {
+            "charityId": "ck96b26v30004013df9pn8wpn",
+            "displayName": "Slice Out Hunger",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-X2JhHa"
+        },
+        {
+            "charityId": "ck96b5tcg0007011qfl9m8d41",
+            "displayName": "Mount Sinai",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-EpYnRW"
+        },
+        {
+            "charityId": "ck96c3r5c0008011qbz4l7u5w",
+            "displayName": "Children of Restaurant Employees",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-svEIdj"
+        },
+        {
+            "charityId": "ck96c403t0009011qbceqd50a",
+            "displayName": "America's Food Fund",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-x0O25v"
+        },
+        {
+            "charityId": "ck96c5rya0005013d7ji77x60",
+            "displayName": "Second Harvest Food Bank Feeding South Louisiana",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-Zgy6Eu"
+        },
+        {
+            "charityId": "ck96cczgg000a011q58x79zfh",
+            "displayName": "Team Rubicon",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-pMeQSM"
+        },
+        {
+            "charityId": "ck96chjxi0006013dbixrdt8d",
+            "displayName": "UCLA Health",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-3RMk2D"
+        },
+        {
+            "charityId": "ck96cllp10003011b67xh7qsd",
+            "displayName": "Communities In Schools",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-iRO55k"
+        },
+        {
+            "charityId": "ck97s31zw0007013d10nob9cn",
+            "displayName": "California Immigrant Resilience Fund",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-abgMcw"
+        },
+        {
+            "charityId": "ck9a6nj600000018m8kbqh5xp",
+            "displayName": "After School Matters",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-x16Bxv"
+        },
+        {
+            "charityId": "ck9bvgzc70000011h8nyg42m8",
+            "displayName": "Mental Health Center of Denver",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-066s6Q"
+        },
+        {
+            "charityId": "ck9dmw645000001zchxgtdd87",
+            "displayName": "World Savvy",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-scLt8b"
+        },
+        {
+            "charityId": "ck9fu6lw8000001066ybod258",
+            "displayName": "Special Pals",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-NPQodL"
+        },
+        {
+            "charityId": "ck9jgzdkn000001vvbapn5yy8",
+            "displayName": "No Kid Hungry",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-2D0C1R"
+        },
+        {
+            "charityId": "ck9jgzuov000001zaasau7e3f",
+            "displayName": "Save the Children",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-eLcwNa"
+        },
+        {
+            "charityId": "ck9jh0dcm000101za4jdq0g97",
+            "displayName": "Urban School Food Alliance",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-RV7lcj"
+        },
+        {
+            "charityId": "ck9kn4om20000013o3y6ubo92",
+            "displayName": "Fountain House",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-4EMgXU"
+        },
+        {
+            "charityId": "ck9sgzvlk0000011h14v3afhy",
+            "displayName": "Partners in Health",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/38764-VgDPkB"
+        },
+        {
+            "charityId": "ck9sh0rx00000010zeabl7evv",
+            "displayName": "Crisis Text Line",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/38764-GdHAWZ"
+        },
+        {
+            "charityId": "ck9sh1qlz000001zx9g8k7aq5",
+            "displayName": "Angels Anonymous",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/38764-3KAFrn"
+        },
+        {
+            "charityId": "ck9sh2gsj0001010zebow5die",
+            "displayName": "Caring for Friends",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/38764-fX3tns"
+        },
+        {
+            "charityId": "ck9yyy8pg0000013zejord52n",
+            "displayName": "Donors Choose",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-20XzRd"
+        },
+        {
+            "charityId": "ck9yyymne0001013z9ktrgg3p",
+            "displayName": "MASS Design",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-k7zA4O"
+        },
+        {
+            "charityId": "ck9yyzcge00010113bptuaato",
+            "displayName": "Tarjimly",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-HgQLKf"
+        },
+        {
+            "charityId": "ck9yyzpkq00020113hjsj4lty",
+            "displayName": "UFW Foundation",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-dO02Md"
+        },
+        {
+            "charityId": "ck9yz04530000012ubjtce7fo",
+            "displayName": "National Diaper Bank Network",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-0wsAqg"
+        },
+        {
+            "charityId": "ckada4udv000001zdahwk9e66",
+            "displayName": "The Common Market",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-ukK06P"
+        },
+        {
+            "charityId": "ckada56nk000101zdaaywa4g4",
+            "displayName": "Plentiful",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-TUXbvh"
+        },
+        {
+            "charityId": "ckada5k0c000001x4c50cc2x2",
+            "displayName": "FoodCorps",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-A8zBL6"
+        },
+        {
+            "charityId": "ckada5uve000201zdeg9bhwez",
+            "displayName": "HEAL Initiative",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-0kbVt4"
+        },
+        {
+            "charityId": "ckadb71cb000301zdepcz4w3s",
+            "displayName": "College Track",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-U0v9cI"
+        },
+        {
+            "charityId": "ckadb780l0000010kcrxo9zgf",
+            "displayName": "Medic Mobile",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-Jilq5q"
+        },
+        {
+            "charityId": "ckadb7fax000101x41wqqevt3",
+            "displayName": "I Grow Chicago",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-UPdP5e"
+        },
+        {
+            "charityId": "ckadb7npd000201x4gysyek4r",
+            "displayName": "Digital Bridge K12",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-VKDBy6"
+        },
+        {
+            "charityId": "ckadb7yga000401zdcogj6t3p",
+            "displayName": "Sirum",
+            "charityIconUrl": "https://cdn.prod.hype.space/charity-icons/7692404-DglJEc"
+        }
+    ]
+}

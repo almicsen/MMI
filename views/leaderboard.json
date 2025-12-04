@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "userId": 1,
+      "username": "rus",
+      "avatarUrl": "https://cdn.prod.hype.space/a/38764-BVzLZ5",
+      "total": "",
+      "totalCents": 0,
+      "wins": 8
+    },
+    {
+      "userId": 2,
+      "username": "nicole101",
+      "avatarUrl": "https://cdn.glitch.com/1e755131-ee18-4fd3-ba49-7a08f69e428b%2Fbef8229b-8a5e-4e87-a38d-8d4c3e21ea33.image.jpeg?v=1591594092311",
+      "total": "",
+      "totalCents": 3291700,
+      "wins": 7
+    },
+    {
+      "userId": 3,
+      "username": "carsonr",
+      "avatarUrl": "https://www.gstatic.com/tv/thumb/persons/1082812/1082812_v9_ba.jpg",
+      "total": "",
+      "totalCents": 326100,
+      "wins": 7
+    },
+    {
+      "userId": 4,
+      "username": "TomHanksFan",
+      "avatarUrl": "https://cdn.glitch.com/1e755131-ee18-4fd3-ba49-7a08f69e428b%2F72733533_766489200442562_3527622155359485952_n.jpg?v=1591594735843",
+      "total": "",
+      "totalCents": 214700,
+      "wins": 6
+    },
+    {
+      "userId": 5,
+      "username": "happysteve",
+      "avatarUrl": "https://cdn.prod.hype.space/a/10924317-9gFikQ",
+      "total": "",
+      "totalCents": 326100,
+      "wins": 7
+    }
+  ]
+}

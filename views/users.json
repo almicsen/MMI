@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "userId": "38764",
+            "username": "rus",
+            "avatarUrl": "https://cdn.prod.hype.space/a/38764-BVzLZ5",
+            "live": false,
+            "subscriberCount": 0,
+            "lastLive": null,
+            "featured": false,
+            "created": "2017-05-01T15:53:39.000Z"
+        }
+    ],
+    "links": {
+        "next": "/users/?q=rus&after=20",
+        "prev": "/users/?q=rus&before=1",
+        "self": "/users/?q=rus"
+    }
+}

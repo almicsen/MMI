@@ -1,0 +1,170 @@
+{
+  "Every viewer of the 5/22/2020 game": {},
+  "data": [
+    {
+      "userId": 26660115,
+      "username": "ufuffjfuf",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/26660115-00fqRh",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965694
+    },
+    {
+      "userId": 15602755,
+      "username": "jimboslice380",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/blue.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965678
+    },
+    {
+      "userId": 24949403,
+      "username": "MadJoe8771",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/gold.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965610
+    },
+    {
+      "userId": 24559271,
+      "username": "Dxkayyz",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/24559271-bkqgxh",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965608
+    },
+    {
+      "userId": 25927366,
+      "username": "mberhane17",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/green.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965607
+    },
+    {
+      "userId": 25396098,
+      "username": "AriaSelene",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/e8/25396098-WByCO8",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965605
+    },
+    {
+      "userId": 23236334,
+      "username": "lightninghawk1",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/gold.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965567
+    },
+    {
+      "userId": 22644950,
+      "username": "cortmay",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/23/22644950-j2gyER.jpg",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965537
+    },
+    {
+      "userId": 15376956,
+      "username": "Karavos",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/red.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965531
+    },
+    {
+      "userId": 676760,
+      "username": "bethlizza",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/676760-DOsdFp",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965528
+    },
+    {
+      "userId": 26591501,
+      "username": "beesnail",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/green.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965525
+    },
+    {
+      "userId": 11701295,
+      "username": "cweaver78",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/11701295-E29PVO",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965523
+    },
+    {
+      "userId": 26415352,
+      "username": "cursivecurses",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/red.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965521
+    },
+    {
+      "userId": 15312742,
+      "username": "skempins",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/a7/15312742-sUoGx4.jpg",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965510
+    },
+    {
+      "userId": 3958202,
+      "username": "rmaval",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/green.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965498
+    },
+    {
+      "userId": 2487967,
+      "username": "perri214",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/red.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965487
+    },
+    {
+      "userId": 10542843,
+      "username": "jdukescott",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/ae/10542843-ARtKOo.jpg",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965474
+    },
+    {
+      "userId": 22034638,
+      "username": "moonskater7111",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/a2/22034638-PhVOWz.jpg",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965458
+    },
+    {
+      "userId": 26632663,
+      "username": "benmor22",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/a/26632663-W99jv2",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965446
+    },
+    {
+      "userId": 4603169,
+      "username": "davidrosee",
+      "avatarUrl": "https://cdn.prod.hype.space/72x72/da/blue.png",
+      "isConnected": false,
+      "isAlive": false,
+      "ts": 1590195965442
+    }
+  ],
+  "links": {
+    "next": "/broadcasts/52013/viewers?mode=playing&after=1590195965442",
+    "prev": "/broadcasts/52013/viewers?mode=playing&before=1590195965694",
+    "self": "/broadcasts/52013/viewers?mode=playing"
+  }
+}
