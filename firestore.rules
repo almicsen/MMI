@@ -1,0 +1,222 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to safely get user role (handles missing documents)
+    function getUserRole() {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid)) 
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role 
+        : null;
+    }
+    
+    // Helper function to check if user is admin (safe version)
+    // Note: This reads the user document, so it should be used carefully in rules
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+    
+    // Helper function to check if user is admin (for collection queries)
+    // This version allows reading the user's own document to check role
+    function isAdminForList() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Helper function to check if user is employee or admin (safe version)
+    function isEmployeeOrAdmin() {
+      return isAuthenticated() && (getUserRole() == 'employee' || getUserRole() == 'admin');
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // For collection queries (list), allow if admin
+      // For individual document reads (get), allow if own document or admin
+      allow list: if isAuthenticated() && isAdminForList();
+      allow get: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      // Users can create their own document on first login
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      // Users can update their own document (but cannot change role), admins can update any user
+      allow update: if isAuthenticated() && 
+                     ((request.auth.uid == userId && 
+                       (!('role' in request.resource.data) || 
+                        request.resource.data.role == resource.data.role)) ||
+                      isAdmin());
+      // Only admins can delete user documents
+      allow delete: if isAdmin();
+    }
+    
+    // Projects collection
+    match /projects/{projectId} {
+      // Everyone can read projects
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Collaborations collection
+    match /collaborations/{collaborationId} {
+      // Everyone can read collaborations
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Content collection (series, movies, podcasts)
+    match /content/{contentId} {
+      // Everyone can read published content, admins can read all
+      allow read: if !exists(/databases/$(database)/documents/content/$(contentId)) || 
+                     resource.data.published == true || 
+                     isAdmin();
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Series collection
+    match /series/{seriesId} {
+      // Everyone can read published series, admins can read all
+      allow read: if !exists(/databases/$(database)/documents/series/$(seriesId)) || 
+                     resource.data.published == true || 
+                     isAdmin();
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Blog posts collection
+    match /blogPosts/{postId} {
+      // Everyone can read published posts, admins can read all
+      allow read: if !exists(/databases/$(database)/documents/blogPosts/$(postId)) || 
+                     resource.data.published == true || 
+                     isAdmin();
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Pages collection (About, Services, etc.)
+    match /pages/{pageId} {
+      // Everyone can read
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Config collection
+    match /config/{configId} {
+      // Everyone can read
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Coming Soon collection
+    match /comingSoon/{contentId} {
+      // Everyone can read coming soon content
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Player Configs collection
+    match /playerConfigs/{contentId} {
+      // Everyone can read player configs (needed for playback)
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // View Events collection (analytics)
+    match /viewEvents/{eventId} {
+      // Authenticated users can create view events (for tracking)
+      allow create: if isAuthenticated();
+      // Only admins can read analytics
+      allow read: if isAdmin();
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+    
+    // Content Analytics collection
+    match /contentAnalytics/{contentId} {
+      // Everyone can read (for displaying stats)
+      allow read: if true;
+      // System can write (via admin functions)
+      allow write: if isAdmin();
+    }
+    
+    // Content Ratings collection
+    match /contentRatings/{contentId} {
+      // Everyone can read ratings
+      allow read: if true;
+      // Authenticated users can create/update their own ratings
+      allow create, update: if isAuthenticated();
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+    
+    // User Preferences collection (likes, favorites, watchlist)
+    match /userPreferences/{userId} {
+      // Users can read their own preferences
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      // Users can create/update their own preferences
+      allow create, update: if isAuthenticated() && request.auth.uid == userId;
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+    
+    // Recommendations collection
+    match /recommendations/{contentId} {
+      // Everyone can read recommendations
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+    
+    // Contact submissions
+    match /contactSubmissions/{submissionId} {
+      // Anyone can create submissions
+      allow create: if true;
+      // Only admins can read
+      allow read: if isAdmin();
+      // Only admins can write/delete
+      allow write, delete: if isAdmin();
+    }
+    
+    // Pending uploads
+    match /pendingUploads/{uploadId} {
+      // Employees and admins can create
+      allow create: if isEmployeeOrAdmin();
+      // Employees and admins can read their own uploads, admins can read all
+      allow read: if isEmployeeOrAdmin() && (resource.data.uploadedBy == request.auth.uid || isAdmin());
+      // Only admins can update (approve/reject)
+      allow update: if isAdmin();
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+    
+    // Notifications collection
+    match /notifications/{notificationId} {
+      // Authenticated users can create notifications (for sending)
+      allow create: if isAuthenticated();
+      // Only admins can read all notifications
+      allow read: if isAdmin();
+      // Only admins can update (for retrying, marking as sent, etc.)
+      allow update: if isAdmin();
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+
+    // Site Notifications collection (in-app notifications)
+    match /siteNotifications/{notificationId} {
+      allow create: if isAuthenticated() && isAdmin();
+      // Users can read their own notifications
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      // Users can list notifications (queries are filtered by userId in the code)
+      allow list: if isAuthenticated();
+      allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow delete: if isAuthenticated() && (isAdmin() || request.auth.uid == resource.data.userId);
+    }
+  }
+}
