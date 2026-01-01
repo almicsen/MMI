@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
 import { requireAdmin } from '@/lib/auth/server';
-import { Timestamp } from 'firebase-admin/firestore';
+import { Timestamp, type Query } from 'firebase-admin/firestore';
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const pageSize = Math.min(Number(searchParams.get('pageSize') || 20), 50);
     const cursor = searchParams.get('cursor');
 
-    let query = adminDb.collection('contactMessages');
+    let query: Query = adminDb.collection('contactMessages');
 
     if (search) {
       const searchLower = search.toLowerCase();
