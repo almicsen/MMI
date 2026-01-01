@@ -285,8 +285,8 @@ export default function ContentPlayer() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <InstantLink href="/mmi-plus" className="text-blue-600 dark:text-blue-400 hover:underline mb-4 inline-block">
+    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <InstantLink href="/mmi-plus" className="text-[color:var(--brand-primary)] hover:underline mb-4 inline-block text-sm font-semibold">
         ← Back to MMI+
       </InstantLink>
       
@@ -294,18 +294,18 @@ export default function ContentPlayer() {
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white">{content.title}</h1>
+              <h1 className="text-3xl sm:text-4xl font-semibold text-[color:var(--text-1)]">{content.title}</h1>
               {content.isPaid && (
-                <span className="px-3 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-sm rounded-full font-semibold">
+                <span className="px-3 py-1 bg-[color:var(--brand-highlight)] text-white text-xs rounded-full font-semibold">
                   Premium
                 </span>
               )}
             </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">{content.description}</p>
+            <p className="text-[color:var(--text-3)] mb-4">{content.description}</p>
             {content.trailerUrl && (
               <button
                 onClick={() => setShowTrailer(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm mb-4"
+                className="px-4 py-2 bg-[color:var(--brand-primary)] text-white rounded-full hover:opacity-90 transition-colors text-sm mb-4"
               >
                 {content.type === 'audiobook' ? '▶ Play Sample' : '▶ Watch Trailer'}
               </button>
@@ -349,4 +349,3 @@ export default function ContentPlayer() {
     </div>
   );
 }
-

@@ -8,6 +8,11 @@ import EmptyState from '@/components/EmptyState';
 import { getProjects, getCollaborations, getComingSoon } from '@/lib/firebase/firestore';
 import { Project, Collaboration, ComingSoonContent } from '@/lib/firebase/types';
 import { usePageEnabled } from '@/lib/hooks/usePageEnabled';
+import Card from '@/components/ui/Card';
+import Badge from '@/components/ui/Badge';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Button from '@/components/ui/Button';
+import { cx } from '@/lib/utils/cx';
 
 type Tab = 'projects' | 'collaborations' | 'coming-soon';
 
@@ -21,7 +26,6 @@ export default function ProjectsPage() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    // Only load data if page is enabled
     if (pageCheckLoading || !enabled) {
       return;
     }
@@ -47,206 +51,177 @@ export default function ProjectsPage() {
     loadData();
   }, [pageCheckLoading, enabled]);
 
-  // If page is disabled, the hook will redirect, so we don't need to render anything
   if (pageCheckLoading || !enabled) {
     return <LoadingState />;
   }
 
-  const getStatusColor = (status: string) => {
+  const getStatusTone = (status: string): 'success' | 'warning' | 'info' | 'neutral' => {
     switch (status) {
       case 'completed':
       case 'active':
-        return 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300';
+        return 'success';
       case 'in-progress':
       case 'development':
-        return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300';
+        return 'warning';
       case 'pending':
       case 'announced':
-        return 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300';
-      case 'archived':
-        return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
       case 'relaunching':
-        return 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300';
+        return 'info';
       default:
-        return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
+        return 'neutral';
     }
   };
 
+  const tabConfig: { id: Tab; label: string; description: string }[] = [
+    { id: 'projects', label: 'Projects', description: 'Experiences we are actively delivering.' },
+    { id: 'collaborations', label: 'Collaborations', description: 'Partnerships shaping future releases.' },
+    { id: 'coming-soon', label: 'Coming Soon', description: 'The pipeline of upcoming drops.' },
+  ];
+
   return (
-    <div className="container mx-auto px-4 py-12">
-      {/* Tab Navigation */}
-      <nav className="flex gap-2 mb-8 border-b border-gray-200 dark:border-gray-700" role="tablist">
-        {(['projects', 'collaborations', 'coming-soon'] as Tab[]).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            role="tab"
-            aria-selected={activeTab === tab}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === tab
-                ? 'border-b-2 border-blue-600 text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-gray-800'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-            }`}
-          >
-            {tab === 'coming-soon' ? 'Coming Soon' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-          </button>
-        ))}
-      </nav>
+    <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <section className="section">
+        <SectionHeading
+          eyebrow="Portfolio"
+          title="A living slate of experiences"
+          subtitle="Explore ongoing projects, collaborations, and the next wave of MMI launches."
+        />
+      </section>
 
-      {loading ? (
-        <LoadingState skeleton count={6} />
-      ) : error ? (
-        <ErrorState error={error} onRetry={() => window.location.reload()} />
-      ) : (
-        <>
-          {/* Projects Tab */}
-          {activeTab === 'projects' && (
-            <section role="tabpanel" aria-labelledby="tab-projects">
-              <header className="mb-8">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Our Projects</h2>
-                <div className="h-1 w-24 bg-gray-300 dark:bg-gray-600"></div>
-              </header>
-              {projects.length === 0 ? (
-                <EmptyState message="No projects available." />
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {projects.map((project) => (
-                    <div
-                      key={project.id}
-                      className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200 dark:border-gray-700"
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(project.status)}`}>
-                          {project.status}
-                        </span>
-                        {project.isFeatured && (
-                          <span className="px-2 py-1 rounded text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300">
-                            Featured
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                        {project.link ? (
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:underline flex items-center gap-1"
-                          >
-                            {project.title}
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </a>
-                        ) : (
-                          project.title
-                        )}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-3">
-                        {project.description}
-                      </p>
-                      {(project.startDate || project.endDate) && (
-                        <div className="text-xs text-gray-500 dark:text-gray-500">
-                          {project.startDate && <span>Start: {project.startDate}</span>}
-                          {project.endDate && <span className="ml-2">End: {project.endDate}</span>}
+      <section className="section-tight">
+        <div className="flex flex-wrap gap-2 rounded-full border border-[color:var(--border-subtle)] bg-[color:var(--surface-2)] p-2">
+          {tabConfig.map((tab) => (
+            <Button
+              key={tab.id}
+              variant={activeTab === tab.id ? 'primary' : 'ghost'}
+              size="sm"
+              onClick={() => setActiveTab(tab.id)}
+              className={cx(
+                'rounded-full',
+                activeTab === tab.id ? '' : 'text-[color:var(--text-3)]'
+              )}
+              aria-pressed={activeTab === tab.id}
+            >
+              {tab.label}
+            </Button>
+          ))}
+        </div>
+        <p className="mt-4 text-sm text-[color:var(--text-3)]">
+          {tabConfig.find((tab) => tab.id === activeTab)?.description}
+        </p>
+      </section>
+
+      <section className="section">
+        {loading ? (
+          <LoadingState skeleton count={6} />
+        ) : error ? (
+          <ErrorState error={error} onRetry={() => window.location.reload()} />
+        ) : (
+          <>
+            {activeTab === 'projects' && (
+              <div>
+                {projects.length === 0 ? (
+                  <EmptyState message="No projects available." />
+                ) : (
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {projects.map((project) => (
+                      <Card key={project.id} className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <Badge tone={getStatusTone(project.status)}>{project.status}</Badge>
+                          {project.isFeatured && (
+                            <span className="text-xs font-semibold text-[color:var(--brand-secondary)]">Featured</span>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </section>
-          )}
-
-          {/* Collaborations Tab */}
-          {activeTab === 'collaborations' && (
-            <section role="tabpanel" aria-labelledby="tab-collaborations">
-              <header className="mb-8">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Our Collaborations</h2>
-                <div className="h-1 w-24 bg-gray-300 dark:bg-gray-600"></div>
-              </header>
-              {collaborations.length === 0 ? (
-                <EmptyState message="No collaborations available." />
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {collaborations.map((collaboration) => (
-                    <div
-                      key={collaboration.id}
-                      className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200 dark:border-gray-700"
-                    >
-                      <div className="mb-3">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(collaboration.status)}`}>
-                          {collaboration.status}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                        {collaboration.link ? (
-                          <a
-                            href={collaboration.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:underline flex items-center gap-1"
-                          >
-                            {collaboration.name}
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </a>
-                        ) : (
-                          collaboration.name
-                        )}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        {collaboration.summary}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </section>
-          )}
-
-          {/* Coming Soon Tab */}
-          {activeTab === 'coming-soon' && (
-            <section role="tabpanel" aria-labelledby="tab-coming-soon">
-              <header className="mb-8">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Coming Soon</h2>
-                <div className="h-1 w-24 bg-gray-300 dark:bg-gray-600"></div>
-              </header>
-              {comingSoon.length === 0 ? (
-                <EmptyState message="No upcoming content at this time." icon="📅" />
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {comingSoon.map((item) => (
-                    <div
-                      key={item.id}
-                      className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200 dark:border-gray-700"
-                    >
-                      <div className="mb-3">
-                        <span className="px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-                          {item.type === 'series' ? 'Series' : item.type === 'movie' ? 'Movie' : 'Podcast'}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-3">
-                        {item.description}
-                      </p>
-                      {item.releaseDate && (
-                        <div className="text-xs text-gray-500 dark:text-gray-500">
-                          Release: {new Date(item.releaseDate).toLocaleDateString()}
+                        <div>
+                          <h3 className="text-lg font-semibold text-[color:var(--text-1)]">
+                            {project.link ? (
+                              <InstantLink
+                                href={project.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-[color:var(--brand-primary)]"
+                              >
+                                {project.title}
+                              </InstantLink>
+                            ) : (
+                              project.title
+                            )}
+                          </h3>
+                          <p className="text-sm text-[color:var(--text-3)]">{project.description}</p>
                         </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </section>
-          )}
-        </>
-      )}
+                        {(project.startDate || project.endDate) && (
+                          <p className="text-xs text-[color:var(--text-4)]">
+                            {project.startDate && <span>Start: {project.startDate}</span>}
+                            {project.endDate && <span className="ml-2">End: {project.endDate}</span>}
+                          </p>
+                        )}
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'collaborations' && (
+              <div>
+                {collaborations.length === 0 ? (
+                  <EmptyState message="No collaborations available." />
+                ) : (
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {collaborations.map((collaboration) => (
+                      <Card key={collaboration.id} className="space-y-4">
+                        <Badge tone={getStatusTone(collaboration.status)}>{collaboration.status}</Badge>
+                        <div>
+                          <h3 className="text-lg font-semibold text-[color:var(--text-1)]">
+                            {collaboration.link ? (
+                              <InstantLink
+                                href={collaboration.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-[color:var(--brand-primary)]"
+                              >
+                                {collaboration.name}
+                              </InstantLink>
+                            ) : (
+                              collaboration.name
+                            )}
+                          </h3>
+                          <p className="text-sm text-[color:var(--text-3)]">{collaboration.summary}</p>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'coming-soon' && (
+              <div>
+                {comingSoon.length === 0 ? (
+                  <EmptyState message="No upcoming content at this time." icon="📅" />
+                ) : (
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {comingSoon.map((item) => (
+                      <Card key={item.id} className="space-y-4">
+                        <Badge tone="info">{item.type === 'series' ? 'Series' : item.type === 'movie' ? 'Movie' : 'Podcast'}</Badge>
+                        <div>
+                          <h3 className="text-lg font-semibold text-[color:var(--text-1)]">{item.title}</h3>
+                          <p className="text-sm text-[color:var(--text-3)]">{item.description}</p>
+                        </div>
+                        {item.releaseDate && (
+                          <p className="text-xs text-[color:var(--text-4)]">
+                            Release: {new Date(item.releaseDate).toLocaleDateString()}
+                          </p>
+                        )}
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </section>
     </div>
   );
 }
-

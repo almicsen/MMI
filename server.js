@@ -97,6 +97,12 @@ app.get("/wave/messages", (request, response) => {
 app.post("/offair-trivia/*/answers", (request, response) => {
   response.sendFile(__dirname + "/views/offair-answer.json");
 });
+app.get("/health", (request, response) => {
+  response.json({ status: "ok" });
+});
+app.get("/ready", (request, response) => {
+  response.json({ status: "ready" });
+});
 
 app.get("*", (request, response) => {
   console.warn("Unhandled GET: " + request._parsedOriginalUrl.href);
@@ -119,5 +125,11 @@ app.post("*", (request, response) => {
 
 // listen for requests :)
 const listener = app.listen(8000, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log(
+    JSON.stringify({
+      level: "info",
+      message: "backend_ready",
+      url: `http://localhost:${listener.address().port}`,
+    })
+  );
 });

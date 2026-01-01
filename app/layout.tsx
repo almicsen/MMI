@@ -10,8 +10,10 @@ import Footer from "@/components/Footer";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import GlobalErrorHandler from "@/components/GlobalErrorHandler";
 import PreviewModeHandler from "@/components/PreviewModeHandler";
+import ThemeSync from "@/components/ThemeSync";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import ChromeRouteSync from "@/components/layout/ChromeRouteSync";
 
 // Optimize fonts with display swap for faster rendering
 const geistSans = Geist({
@@ -61,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased app-shell`}
       >
         <GoogleAnalytics />
         <GlobalErrorHandler />
@@ -69,17 +71,34 @@ export default function RootLayout({
           <PreviewModeHandler />
         </Suspense>
         <OSThemeProvider>
-          <ThemeProvider>
-            <ToastProvider>
-              <AuthProvider>
+        <ThemeProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[color:var(--surface-2)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[color:var(--text-1)] focus:shadow-lg"
+              >
+                Skip to content
+              </a>
+              <ThemeSync />
+              <ChromeRouteSync />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `(function(){var p=location.pathname||'';var hide=p.startsWith('/admin')||p.startsWith('/live');document.documentElement.dataset.hideChrome=hide?'true':'false';})();`,
+                }}
+              />
+              <div className="site-chrome">
                 <LazyHeader />
-                <main className="flex-grow">
-                  {children}
-                </main>
+              </div>
+              <main id="main-content" className="app-main">
+                {children}
+              </main>
+              <div className="site-chrome">
                 <LazyFooter />
-              </AuthProvider>
-            </ToastProvider>
-          </ThemeProvider>
+              </div>
+            </AuthProvider>
+          </ToastProvider>
+        </ThemeProvider>
         </OSThemeProvider>
       </body>
     </html>

@@ -5,12 +5,11 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { generateAPIKey, hashAPIKey } from '@/lib/api/security-server';
+import { requireAdmin } from '@/lib/auth/server';
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify admin access (you'll need to implement this based on your auth setup)
-    // For now, we'll just return the generated key
-    // In production, add proper authentication checks
+    await requireAdmin(request);
     
     const key = generateAPIKey();
     const hashedKey = hashAPIKey(key);
@@ -27,4 +26,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

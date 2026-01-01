@@ -5,6 +5,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { usePageEnabled } from '@/lib/hooks/usePageEnabled';
 import LoadingState from '@/components/LoadingState';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Card from '@/components/ui/Card';
 
 export default function Services() {
   const { enabled, loading: pageCheckLoading } = usePageEnabled('services');
@@ -12,7 +14,6 @@ export default function Services() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Only load data if page is enabled
     if (pageCheckLoading || !enabled) {
       return;
     }
@@ -23,27 +24,9 @@ export default function Services() {
         if (docSnap.exists()) {
           setContent(docSnap.data().content);
         } else {
-          // Default content
           setContent(`
             <h2>Our Services</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3>Media Production</h3>
-                <p>We create engaging video content, series, and interactive media experiences.</p>
-              </div>
-              <div>
-                <h3>Podcast Development</h3>
-                <p>From concept to distribution, we help bring your podcast ideas to life.</p>
-              </div>
-              <div>
-                <h3>Interactive Applications</h3>
-                <p>Building innovative apps and platforms that engage users in new ways.</p>
-              </div>
-              <div>
-                <h3>Content Strategy</h3>
-                <p>Strategic planning and execution for your media and entertainment projects.</p>
-              </div>
-            </div>
+            <p>We partner with forward-looking entertainment teams to build cohesive product ecosystems.</p>
           `);
         }
       } catch (error) {
@@ -56,27 +39,63 @@ export default function Services() {
     loadContent();
   }, [pageCheckLoading, enabled]);
 
-  // If page is disabled, the hook will redirect, so we don't need to render anything
   if (pageCheckLoading || !enabled) {
     return <LoadingState />;
   }
 
+  const serviceCards = [
+    {
+      title: 'Immersive Media Production',
+      description: 'Concept-to-launch production for premium video, audio, and interactive series.',
+    },
+    {
+      title: 'Streaming Platform Strategy',
+      description: 'Product architecture, content operations, and subscriber growth for digital hubs.',
+    },
+    {
+      title: 'Experience Design',
+      description: 'Native-feeling UX across iOS, Android, web, and connected devices.',
+    },
+    {
+      title: 'Audience Insights',
+      description: 'Data-driven experimentation, live ops, and personalization engines.',
+    },
+  ];
+
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Services</h1>
-      {loading ? (
-        <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-4"></div>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
-        </div>
-      ) : (
-        <div
-          className="prose prose-lg dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: content || '' }}
+    <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      <section className="section">
+        <SectionHeading
+          eyebrow="Services"
+          title="We build end-to-end entertainment ecosystems"
+          subtitle="Strategy, design, and engineering brought together to launch premium media products."  
         />
-      )}
+      </section>
+
+      <section className="section-tight">
+        <Card className="prose max-w-none prose-lg text-[color:var(--text-2)] dark:prose-invert">
+          {loading ? (
+            <div className="animate-pulse">
+              <div className="h-4 rounded-full bg-[color:var(--surface-4)] w-3/4 mb-4"></div>
+              <div className="h-4 rounded-full bg-[color:var(--surface-4)] w-full mb-4"></div>
+              <div className="h-4 rounded-full bg-[color:var(--surface-4)] w-5/6"></div>
+            </div>
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: content || '' }} />
+          )}
+        </Card>
+      </section>
+
+      <section className="section">
+        <div className="grid gap-6 md:grid-cols-2">
+          {serviceCards.map((service) => (
+            <Card key={service.title} className="space-y-3">
+              <h3 className="text-lg font-semibold text-[color:var(--text-1)]">{service.title}</h3>
+              <p className="text-sm text-[color:var(--text-3)]">{service.description}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
-

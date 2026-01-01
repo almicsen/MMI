@@ -127,6 +127,20 @@ service cloud.firestore {
       // Only admins can write
       allow write: if isAdmin();
     }
+
+    // Live Shows collection
+    match /liveShows/{showId} {
+      // Everyone can read schedule
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+
+    // Live Stats collection
+    match /liveStats/{userId} {
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      allow write: if isAdmin();
+    }
     
     // View Events collection (analytics)
     match /viewEvents/{eventId} {
@@ -174,14 +188,29 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     
-    // Contact submissions
+    // Contact submissions (legacy)
     match /contactSubmissions/{submissionId} {
-      // Anyone can create submissions
-      allow create: if true;
-      // Only admins can read
-      allow read: if isAdmin();
-      // Only admins can write/delete
-      allow write, delete: if isAdmin();
+      allow read, write: if isAdmin();
+    }
+
+    // Contact messages (authenticated only)
+    match /contactMessages/{messageId} {
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.userId;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Admin audit logs
+    match /adminAuditLogs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Session and rate limit tracking (server-only)
+    match /sessions/{sessionId} {
+      allow read, write: if false;
+    }
+
+    match /rateLimits/{rateLimitId} {
+      allow read, write: if false;
     }
     
     // Pending uploads

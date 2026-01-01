@@ -14,6 +14,7 @@ export default function ConfigManager() {
     contactEnabled: true,
     projectsEnabled: true,
     mmiPlusEnabled: true,
+    liveEnabled: false,
     messagesEnabled: false,
   });
   const [loading, setLoading] = useState(true);
@@ -91,6 +92,16 @@ export default function ConfigManager() {
             type="checkbox"
             checked={config.mmiPlusEnabled !== false}
             onChange={(e) => setConfig({ ...config, mmiPlusEnabled: e.target.checked })}
+            className="rounded"
+          />
+        </label>
+
+        <label className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+          <span>Enable MMI + Live</span>
+          <input
+            type="checkbox"
+            checked={config.liveEnabled === true}
+            onChange={(e) => setConfig({ ...config, liveEnabled: e.target.checked })}
             className="rounded"
           />
         </label>
@@ -193,4 +204,3 @@ export default function ConfigManager() {
     </div>
   );
 }
-

@@ -32,12 +32,10 @@ function getApp(): FirebaseApp {
   if (!app) {
     if (!isConfigValid()) {
       if (typeof window === 'undefined') {
-        // During build, create a mock config to prevent crashes
-        // This will fail at runtime if env vars aren't set, but allows build to complete
-        throw new Error('Firebase configuration is missing. Please set environment variables in Vercel. See VERCEL-SETUP.md');
-      } else {
-        throw new Error('Firebase configuration is missing. Please check your environment variables.');
+        throw new Error('Firebase configuration is missing. Please set environment variables in .env.local.');
       }
+      console.warn('Firebase configuration is missing. Running without Firebase client.');
+      return null as unknown as FirebaseApp;
     }
     if (!getApps().length) {
       app = initializeApp(firebaseConfig);
@@ -49,6 +47,9 @@ function getApp(): FirebaseApp {
 }
 
 function getAuthInstance(): Auth {
+  if (!isConfigValid()) {
+    throw new Error('Firebase configuration is missing. Please set environment variables in .env.local.');
+  }
   if (!_auth) {
     _auth = getAuth(getApp());
   }
@@ -56,6 +57,9 @@ function getAuthInstance(): Auth {
 }
 
 function getDbInstance(): Firestore {
+  if (!isConfigValid()) {
+    throw new Error('Firebase configuration is missing. Please set environment variables in .env.local.');
+  }
   if (!_db) {
     _db = getFirestore(getApp());
   }
@@ -63,6 +67,9 @@ function getDbInstance(): Firestore {
 }
 
 function getStorageInstance(): FirebaseStorage {
+  if (!isConfigValid()) {
+    throw new Error('Firebase configuration is missing. Please set environment variables in .env.local.');
+  }
   if (!_storage) {
     _storage = getStorage(getApp());
   }
@@ -82,27 +89,36 @@ let _dbExported: Firestore | null = null;
 let _storageExported: FirebaseStorage | null = null;
 
 // Lazy getters that only initialize when accessed
+const createUnavailableProxy = <T>(name: string): T => {
+  return new Proxy(
+    {},
+    {
+      get() {
+        throw new Error(`Firebase ${name} not available. Set environment variables in .env.local.`);
+      },
+    }
+  ) as T;
+};
+
 export const auth = (() => {
-  if (typeof window !== 'undefined' || isConfigValid()) {
+  if (isConfigValid()) {
     return getAuthInstance();
   }
-  // During build without env vars, return a mock that will fail gracefully
-  throw new Error('Firebase auth not available. Set environment variables in Vercel.');
+  return createUnavailableProxy<Auth>('auth');
 })() as Auth;
 
 export const db = (() => {
-  if (typeof window !== 'undefined' || isConfigValid()) {
+  if (isConfigValid()) {
     return getDbInstance();
   }
-  throw new Error('Firebase db not available. Set environment variables in Vercel.');
+  return createUnavailableProxy<Firestore>('db');
 })() as Firestore;
 
 export const storage = (() => {
-  if (typeof window !== 'undefined' || isConfigValid()) {
+  if (isConfigValid()) {
     return getStorageInstance();
   }
-  throw new Error('Firebase storage not available. Set environment variables in Vercel.');
+  return createUnavailableProxy<FirebaseStorage>('storage');
 })() as FirebaseStorage;
 
 export default getApp;
-

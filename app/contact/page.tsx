@@ -1,21 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
-import { useToast } from '@/contexts/ToastContext';
+import { useEffect, useMemo, useState } from 'react';
 import { usePageEnabled } from '@/lib/hooks/usePageEnabled';
 import LoadingState from '@/components/LoadingState';
+import { useToast } from '@/contexts/ToastContext';
+import { useAuth } from '@/contexts/AuthContext';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Card from '@/components/ui/Card';
+import Input from '@/components/ui/Input';
+import Textarea from '@/components/ui/Textarea';
+import Select from '@/components/ui/Select';
+import Button from '@/components/ui/Button';
+import { detectDeviceType } from '@/lib/firebase/userActivity';
 
-type ContactTemplate = 'generic' | 'report-issue' | 'api-inquiry' | 'business' | 'feedback';
-
-interface TemplateConfig {
-  label: string;
-  subject: string;
-  messagePrefix: string;
-}
-
-const templates: Record<ContactTemplate, TemplateConfig> = {
+const templates = {
   generic: {
     label: 'General Inquiry',
     subject: 'General Inquiry',
@@ -41,11 +40,14 @@ const templates: Record<ContactTemplate, TemplateConfig> = {
     subject: 'Feedback',
     messagePrefix: 'Feedback:\n\n',
   },
-};
+} as const;
 
-export default function Contact() {
+type ContactTemplate = keyof typeof templates;
+
+function ContactContent() {
   const { enabled, loading: pageCheckLoading } = usePageEnabled('contact');
   const toast = useToast();
+  const { user } = useAuth();
   const [selectedTemplate, setSelectedTemplate] = useState<ContactTemplate>('generic');
   const [formData, setFormData] = useState({
     name: '',
@@ -56,23 +58,34 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.displayName || prev.name,
+        email: user.email || prev.email,
+      }));
+    }
+  }, [user]);
+
+  const messageCount = useMemo(() => formData.message.length, [formData.message]);
+  const messageLimit = 2000;
+
   const handleTemplateChange = (template: ContactTemplate) => {
     setSelectedTemplate(template);
     const templateConfig = templates[template];
-    
-    // Update subject if it's empty or matches a previous template
-    if (!formData.subject || Object.values(templates).some(t => t.subject === formData.subject)) {
-      setFormData(prev => ({
+
+    if (!formData.subject || Object.values(templates).some((t) => t.subject === formData.subject)) {
+      setFormData((prev) => ({
         ...prev,
         subject: templateConfig.subject,
         message: templateConfig.messagePrefix,
       }));
     } else {
-      // Keep existing message but update prefix if needed
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        message: prev.message.startsWith(templateConfig.messagePrefix) 
-          ? prev.message 
+        message: prev.message.startsWith(templateConfig.messagePrefix)
+          ? prev.message
           : templateConfig.messagePrefix + prev.message,
       }));
     }
@@ -80,15 +93,31 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (messageCount > messageLimit) {
+      toast.showError('Message is too long.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
-      await addDoc(collection(db, 'contactSubmissions'), {
-        ...formData,
-        template: selectedTemplate,
-        createdAt: Timestamp.now(),
-        read: false,
+      const response = await fetch('/api/contact-messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          ...formData,
+          metadata: {
+            pageUrl: window.location.href,
+            deviceType: detectDeviceType(),
+          },
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
       setSelectedTemplate('generic');
@@ -101,128 +130,138 @@ export default function Contact() {
     }
   };
 
-  // If page is disabled, the hook will redirect, so we don't need to render anything
   if (pageCheckLoading || !enabled) {
     return <LoadingState />;
   }
 
   if (submitted) {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-2xl">
-        <div className="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded">
-          <p className="font-semibold">Thank you for your message!</p>
-          <p>We'll get back to you as soon as possible.</p>
-        </div>
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <section className="section">
+          <Card className="space-y-3">
+            <p className="text-sm font-semibold text-[color:var(--brand-secondary)]">Message received</p>
+            <h2 className="text-2xl font-semibold text-[color:var(--text-1)]">Thanks for reaching out.</h2>
+            <p className="text-sm text-[color:var(--text-3)]">Our team will review your request and follow up.</p>
+            <Button variant="outline" onClick={() => setSubmitted(false)}>
+              Send another message
+            </Button>
+          </Card>
+        </section>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-2xl">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Contact Us</h1>
-      
-      {/* Template Selector */}
-      <div className="mb-6">
-        <label htmlFor="template" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-          Select Inquiry Type
-        </label>
-        <select
-          id="template"
-          value={selectedTemplate}
-          onChange={(e) => handleTemplateChange(e.target.value as ContactTemplate)}
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-        >
-          {Object.entries(templates).map(([key, template]) => (
-            <option key={key} value={key}>
-              {template.label}
-            </option>
-          ))}
-        </select>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-          Choose a template to pre-fill the form with relevant fields
-        </p>
-      </div>
+    <div className="mx-auto max-w-4xl px-4 sm:px-6">
+      <section className="section">
+        <SectionHeading
+          eyebrow="Contact"
+          title="Start a direct conversation with the MMI team"
+          subtitle="This channel is reserved for authenticated partners and collaborators."
+        />
+      </section>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            required
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-            placeholder="Your full name"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            Email <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            required
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-            placeholder="your.email@example.com"
-          />
-        </div>
-        <div>
-          <label htmlFor="subject" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            Subject <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="subject"
-            required
-            value={formData.subject}
-            onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-            placeholder="Brief subject line"
-          />
-        </div>
-        <div>
-          <label htmlFor="message" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            Message <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="message"
-            required
-            rows={8}
-            value={formData.message}
-            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-            placeholder={selectedTemplate === 'report-issue' 
-              ? 'Please describe the issue in detail, including steps to reproduce...'
-              : selectedTemplate === 'api-inquiry'
-              ? 'Please provide details about your API integration needs...'
-              : 'Your message...'}
-          />
-          {selectedTemplate === 'report-issue' && (
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              💡 Tip: Include browser/device info, screenshots if possible, and steps to reproduce the issue
-            </p>
-          )}
-          {selectedTemplate === 'api-inquiry' && (
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              💡 Tip: Include your use case, expected request volume, and any specific requirements
-            </p>
-          )}
-        </div>
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-        >
-          {submitting ? 'Submitting...' : 'Send Message'}
-        </button>
-      </form>
+      <section className="section-tight">
+        <Card>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="template" className="text-sm font-medium text-[color:var(--text-2)]">
+                Inquiry type
+              </label>
+              <Select
+                id="template"
+                value={selectedTemplate}
+                onChange={(e) => handleTemplateChange(e.target.value as ContactTemplate)}
+                className="mt-2"
+              >
+                {Object.entries(templates).map(([key, template]) => (
+                  <option key={key} value={key}>
+                    {template.label}
+                  </option>
+                ))}
+              </Select>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="name" className="text-sm font-medium text-[color:var(--text-2)]">
+                  Name
+                </label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="mt-2"
+                  placeholder="Your name"
+                  autoComplete="name"
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="text-sm font-medium text-[color:var(--text-2)]">
+                  Email
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="mt-2"
+                  placeholder="you@company.com"
+                  autoComplete="email"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="subject" className="text-sm font-medium text-[color:var(--text-2)]">
+                Subject
+              </label>
+              <Input
+                id="subject"
+                type="text"
+                required
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                className="mt-2"
+                placeholder="Brief subject line"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="message" className="text-sm font-medium text-[color:var(--text-2)]">
+                Message
+              </label>
+              <Textarea
+                id="message"
+                required
+                rows={7}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="mt-2"
+                placeholder="Share the context, timeline, and any helpful details."
+                maxLength={messageLimit}
+              />
+              <div className="mt-2 flex items-center justify-between text-xs text-[color:var(--text-4)]">
+                <span>We respond within 1-2 business days.</span>
+                <span>{messageCount}/{messageLimit}</span>
+              </div>
+            </div>
+
+            <Button type="submit" disabled={submitting}>
+              {submitting ? 'Submitting...' : 'Send message'}
+            </Button>
+          </form>
+        </Card>
+      </section>
     </div>
   );
 }
 
+export default function Contact() {
+  return (
+    <ProtectedRoute>
+      <ContactContent />
+    </ProtectedRoute>
+  );
+}

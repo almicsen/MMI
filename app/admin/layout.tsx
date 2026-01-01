@@ -1,26 +1,30 @@
-'use client';
-
 import { ReactNode } from 'react';
-import AdminLayout from '@/components/admin/AdminLayout';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { ToastProvider } from '@/contexts/ToastContext';
-import { ThemeProvider } from '@/components/ThemeProvider';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import AdminClientLayout from '@/components/admin/AdminClientLayout';
+import { SESSION_COOKIE, touchSession } from '@/lib/auth/session';
+import { adminDb } from '@/lib/firebase/admin';
 
-export default function AdminPageLayout({
+export default async function AdminPageLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  return (
-    <ThemeProvider>
-      <ToastProvider>
-        <AuthProvider>
-          <AdminLayout>
-            {children}
-          </AdminLayout>
-        </AuthProvider>
-      </ToastProvider>
-    </ThemeProvider>
-  );
-}
+  const cookieStore = await cookies();
+  const token = cookieStore.get(SESSION_COOKIE)?.value;
+  if (!token) {
+    redirect('/login');
+  }
 
+  const session = await touchSession(token);
+  if (!session) {
+    redirect('/login');
+  }
+
+  const userDoc = await adminDb.collection('users').doc(session.userId).get();
+  if (!userDoc.exists || userDoc.data()?.role !== 'admin') {
+    redirect('/');
+  }
+
+  return <AdminClientLayout>{children}</AdminClientLayout>;
+}

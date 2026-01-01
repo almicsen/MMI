@@ -317,6 +317,7 @@ export default function SitePreview({ className = '', visible = true, onToggle, 
             <option value="/blog">Blog</option>
             <option value="/projects">Projects</option>
             <option value="/mmi-plus">MMI+</option>
+            <option value="/live">Live</option>
             <option value="/login">Login</option>
             <option value="/dashboard">Dashboard</option>
             <option value="/profile">Profile</option>

@@ -17,15 +17,15 @@ export default function LoadingState({
 }: LoadingStateProps) {
   if (skeleton) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: count }).map((_, i) => (
           <div
             key={i}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 animate-pulse"
+            className="surface-card animate-pulse"
           >
-            <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+            <div className="h-40 rounded-xl bg-[color:var(--surface-4)] mb-4"></div>
+            <div className="h-4 rounded-full bg-[color:var(--surface-4)] w-3/4 mb-2"></div>
+            <div className="h-4 rounded-full bg-[color:var(--surface-4)] w-full"></div>
           </div>
         ))}
       </div>
@@ -35,10 +35,11 @@ export default function LoadingState({
   return (
     <div className="flex items-center justify-center py-12">
       <div className="text-center">
-        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400 mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-400">{message}</p>
+        <div className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--border-subtle)] bg-[color:var(--surface-2)] shadow-sm">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[color:var(--brand-primary)] border-t-transparent"></div>
+        </div>
+        <p className="mt-4 text-sm text-[color:var(--text-3)]">{message}</p>
       </div>
     </div>
   );
 }
-

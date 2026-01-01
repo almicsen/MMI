@@ -8,6 +8,12 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { uploadVideo } from '@/lib/cloudinary';
 import { useToast } from '@/contexts/ToastContext';
+import SectionHeading from './ui/SectionHeading';
+import Card from './ui/Card';
+import Select from './ui/Select';
+import Input from './ui/Input';
+import Textarea from './ui/Textarea';
+import Button from './ui/Button';
 
 export default function EmployeeDashboard() {
   const { user } = useAuth();
@@ -27,7 +33,6 @@ export default function EmployeeDashboard() {
     const loadSeries = async () => {
       try {
         const data = await getSeries();
-        // Filter series where user has write permission
         const accessibleSeries = data.filter(
           (s) => user?.permissions?.[s.id] === 'write' || user?.role === 'admin'
         );
@@ -83,108 +88,95 @@ export default function EmployeeDashboard() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Employee Dashboard</h1>
+    <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      <section className="section">
+        <SectionHeading
+          eyebrow="Employee workspace"
+          title="Upload new episodes"
+          subtitle="Submit content for review and publish approval."
+        />
+      </section>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
-          Upload Content
-        </h2>
-
-        <form onSubmit={handleUpload} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-              Series
-            </label>
-            <select
-              value={selectedSeries}
-              onChange={(e) => setSelectedSeries(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            >
-              <option value="">Select a series</option>
-              {series.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-              Title
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-              Description
-            </label>
-            <textarea
-              required
-              rows={4}
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
+      <section className="section-tight">
+        <Card>
+          <form onSubmit={handleUpload} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Episode Number
-              </label>
-              <input
-                type="number"
-                value={formData.episodeNumber}
-                onChange={(e) => setFormData({ ...formData, episodeNumber: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              <label className="text-sm font-medium text-[color:var(--text-2)]">Series</label>
+              <Select
+                value={selectedSeries}
+                onChange={(e) => setSelectedSeries(e.target.value)}
+                required
+                className="mt-2"
+              >
+                <option value="">Select a series</option>
+                {series.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-[color:var(--text-2)]">Title</label>
+              <Input
+                type="text"
+                required
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                className="mt-2"
               />
             </div>
+
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Season Number
-              </label>
-              <input
-                type="number"
-                value={formData.seasonNumber}
-                onChange={(e) => setFormData({ ...formData, seasonNumber: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              <label className="text-sm font-medium text-[color:var(--text-2)]">Description</label>
+              <Textarea
+                required
+                rows={5}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className="mt-2"
               />
             </div>
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-              Media File
-            </label>
-            <input
-              type="file"
-              required
-              accept="video/*,audio/*"
-              onChange={(e) => setMediaFile(e.target.files?.[0] || null)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            />
-          </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-sm font-medium text-[color:var(--text-2)]">Episode number</label>
+                <Input
+                  type="number"
+                  value={formData.episodeNumber}
+                  onChange={(e) => setFormData({ ...formData, episodeNumber: e.target.value })}
+                  className="mt-2"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-[color:var(--text-2)]">Season number</label>
+                <Input
+                  type="number"
+                  value={formData.seasonNumber}
+                  onChange={(e) => setFormData({ ...formData, seasonNumber: e.target.value })}
+                  className="mt-2"
+                />
+              </div>
+            </div>
 
-          <button
-            type="submit"
-            disabled={uploading}
-            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-          >
-            {uploading ? 'Uploading...' : 'Submit for Approval'}
-          </button>
-        </form>
-      </div>
+            <div>
+              <label className="text-sm font-medium text-[color:var(--text-2)]">Media file</label>
+              <Input
+                type="file"
+                required
+                accept="video/*,audio/*"
+                onChange={(e) => setMediaFile(e.target.files?.[0] || null)}
+                className="mt-2"
+              />
+            </div>
+
+            <Button type="submit" disabled={uploading}>
+              {uploading ? 'Uploading...' : 'Submit for approval'}
+            </Button>
+          </form>
+        </Card>
+      </section>
     </div>
   );
 }
-

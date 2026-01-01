@@ -2,45 +2,63 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithGoogle, signInWithEmail, signUpWithEmail } from '@/lib/firebase/auth';
+import { signInWithGoogle } from '@/lib/firebase/auth';
 import { useAuth } from '@/contexts/AuthContext';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 
 export default function Login() {
   const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, sessionStatus, sessionError, retrySession } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already logged in (using useEffect to avoid render-time side effects)
   useEffect(() => {
-    if (user && !authLoading) {
-      const redirectPath = user.role === 'admin' 
-        ? '/admin' 
-        : user.role === 'employee' 
-        ? '/dashboard' 
+    if (user && !authLoading && sessionStatus === 'ready') {
+      const redirectPath = user.role === 'admin'
+        ? '/admin'
+        : user.role === 'employee'
+        ? '/dashboard'
         : '/profile';
       router.push(redirectPath);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, authLoading]);
+  }, [user, authLoading, sessionStatus, router]);
 
-  // Show loading state while checking auth
   if (authLoading) {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-md">
-        <div className="text-center text-gray-600 dark:text-gray-400">
-          Loading...
-        </div>
+      <div className="mx-auto max-w-md px-4 py-12">
+        <p className="text-center text-sm text-[color:var(--text-3)]">Loading...</p>
       </div>
     );
   }
 
-  // Don't render login form if user is already logged in (redirect is in progress)
   if (user) {
-    return null;
+    return (
+      <div className="mx-auto max-w-md px-4 py-12">
+        <Card className="space-y-4 text-center">
+          <p className="text-sm font-semibold text-[color:var(--text-1)]">Finalizing secure session</p>
+          <p className="text-sm text-[color:var(--text-3)]">
+            {sessionStatus === 'error'
+              ? (sessionError || 'We could not complete your session.')
+              : 'Please wait while we finish signing you in.'}
+          </p>
+          <div className="flex justify-center">
+            <Button
+              onClick={retrySession}
+              size="sm"
+              variant={sessionStatus === 'error' ? 'primary' : 'secondary'}
+              disabled={sessionStatus === 'loading'}
+            >
+              {sessionStatus === 'loading' ? 'Working…' : 'Retry session'}
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
   }
 
   const handleGoogleSignIn = async () => {
@@ -58,29 +76,26 @@ export default function Login() {
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Email/password auth is coming soon
     setError('Email/password authentication is coming soon. Please use Google sign-in for now.');
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-md">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-900 dark:text-white">
-        {isSignUp ? 'Sign Up' : 'Login'}
-      </h1>
+    <div className="mx-auto max-w-md px-4 py-12">
+      <div className="mb-8 text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-accent)]">Welcome</p>
+        <h1 className="text-3xl font-semibold text-[color:var(--text-1)]">{isSignUp ? 'Create your account' : 'Sign in to MMI'}</h1>
+        <p className="text-sm text-[color:var(--text-3)]">Experience premium entertainment workflows.</p>
+      </div>
 
       {error && (
-        <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
+        <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </div>
       )}
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-4">
-        <button
-          onClick={handleGoogleSignIn}
-          disabled={loading}
-          className="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-        >
-          <svg className="w-5 h-5" viewBox="0 0 24 24">
+      <Card className="space-y-6">
+        <Button onClick={handleGoogleSignIn} disabled={loading} variant="secondary" className="w-full">
+          <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden>
             <path
               fill="currentColor"
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -99,100 +114,66 @@ export default function Login() {
             />
           </svg>
           Continue with Google
-        </button>
+        </Button>
 
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white dark:bg-gray-800 text-gray-500">Or</span>
-          </div>
+        <div className="flex items-center gap-3 text-xs text-[color:var(--text-4)]">
+          <span className="h-px flex-1 bg-[color:var(--border-subtle)]"></span>
+          <span>Or</span>
+          <span className="h-px flex-1 bg-[color:var(--border-subtle)]"></span>
         </div>
 
         <div className="relative">
-          {/* Coming Soon Overlay */}
-          <div className="absolute inset-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg z-10 flex items-center justify-center">
-            <div className="text-center">
-              <div className="inline-block px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-semibold mb-2">
-                Coming Soon
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Email/password authentication will be available soon
-              </p>
-            </div>
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-2xl bg-[color:var(--surface-2)]/85 text-center backdrop-blur">
+            <span className="rounded-full bg-[color:var(--brand-primary)] px-3 py-1 text-xs font-semibold text-white">Coming soon</span>
+            <p className="text-xs text-[color:var(--text-3)]">Email/password authentication will be available shortly.</p>
           </div>
 
-          {/* Blurred Form */}
-          <form onSubmit={handleEmailAuth} className="space-y-4 opacity-60 pointer-events-none">
+          <form onSubmit={handleEmailAuth} className="space-y-4 opacity-60">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+              <label htmlFor="email" className="text-sm font-medium text-[color:var(--text-2)]">
                 Email
               </label>
-              <input
-                type="email"
+              <Input
                 id="email"
+                type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
+                className="mt-2"
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+              <label htmlFor="password" className="text-sm font-medium text-[color:var(--text-2)]">
                 Password
               </label>
-              <input
-                type="password"
+              <Input
                 id="password"
+                type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
+                className="mt-2"
               />
             </div>
-            <button
-              type="submit"
-              disabled
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors opacity-50 cursor-not-allowed"
-            >
-              {isSignUp ? 'Sign Up' : 'Sign In'}
-            </button>
+            <Button type="submit" disabled className="w-full">
+              {isSignUp ? 'Sign up' : 'Sign in'}
+            </Button>
           </form>
         </div>
 
-        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-          {isSignUp ? (
-            <>
-              Already have an account?{' '}
-              <button 
-                onClick={() => setIsSignUp(false)} 
-                className="text-blue-600 dark:text-blue-400 hover:underline"
-                disabled={loading}
-              >
-                Sign in
-              </button>
-            </>
-          ) : (
-            <>
-              Don't have an account?{' '}
-              <button 
-                onClick={() => setIsSignUp(true)} 
-                className="text-blue-600 dark:text-blue-400 hover:underline"
-                disabled={loading}
-              >
-                Sign up
-              </button>
-            </>
-          )}
+        <p className="text-center text-xs text-[color:var(--text-3)]">
+          {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+          <button
+            onClick={() => setIsSignUp(!isSignUp)}
+            className="font-semibold text-[color:var(--brand-primary)]"
+            disabled={loading}
+          >
+            {isSignUp ? 'Sign in' : 'Sign up'}
+          </button>
         </p>
-        <p className="text-center text-xs text-gray-500 dark:text-gray-500 mt-2">
-          Currently, only Google sign-in is available. Email/password authentication coming soon!
-        </p>
-      </div>
+      </Card>
     </div>
   );
 }
-

@@ -228,6 +228,7 @@ export const getConfig = async (): Promise<Config> => {
       contactEnabled: true,
       projectsEnabled: true,
       mmiPlusEnabled: true,
+      liveEnabled: false,
       messagesEnabled: false, // Messages page disabled by default
       allowProfilePhotoUpload: true,
       allowProfilePhotoOverride: true,
@@ -243,6 +244,7 @@ export const getConfig = async (): Promise<Config> => {
     contactEnabled: data.contactEnabled !== false,
     projectsEnabled: data.projectsEnabled !== false,
     mmiPlusEnabled: data.mmiPlusEnabled !== false,
+    liveEnabled: data.liveEnabled === true,
     messagesEnabled: data.messagesEnabled === true, // Default to false if not explicitly true
     maintenanceMode: data.maintenanceMode || false,
     allowProfilePhotoUpload: data.allowProfilePhotoUpload ?? true,
@@ -272,6 +274,7 @@ export const getUsers = async (): Promise<User[]> => {
       likes: data.likes,
       favorites: data.favorites,
       watchlist: data.watchlist,
+      themePreference: data.themePreference ?? null,
       createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
       updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt,
     } as User;
@@ -303,4 +306,3 @@ export const getPlayerConfig = async (contentId: string): Promise<ContentPlayerC
   if (!docSnap.exists()) return null;
   return { contentId: docSnap.id, ...docSnap.data() } as ContentPlayerConfig;
 };
-

@@ -9,9 +9,13 @@ import { db } from '@/lib/firebase/config';
 import { getConfig } from '@/lib/firebase/firestore';
 import LoadingState from '@/components/LoadingState';
 import ProfilePhotoUpload from '@/components/ProfilePhotoUpload';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Card from '@/components/ui/Card';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
 
 export default function Profile() {
-  const { user, firebaseUser, loading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [newEmail, setNewEmail] = useState('');
   const [error, setError] = useState('');
@@ -23,8 +27,7 @@ export default function Profile() {
     if (!authLoading && !user) {
       router.push('/login');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, authLoading]);
+  }, [user, authLoading, router]);
 
   useEffect(() => {
     const loadConfig = async () => {
@@ -38,11 +41,7 @@ export default function Profile() {
     loadConfig();
   }, []);
 
-  if (authLoading) {
-    return <LoadingState />;
-  }
-
-  if (!user) {
+  if (authLoading || !user) {
     return <LoadingState />;
   }
 
@@ -93,11 +92,10 @@ export default function Profile() {
       setError('');
       setSuccess('');
       await updateDoc(doc(db, 'users', user.uid), {
-        customPhotoURL: photoUrl, // Store custom photo separately
+        customPhotoURL: photoUrl,
         updatedAt: new Date(),
       });
       setSuccess('Profile photo updated successfully!');
-      // Refresh user data
       window.location.reload();
     } catch (err: any) {
       setError(err.message || 'Failed to update profile photo');
@@ -107,26 +105,36 @@ export default function Profile() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-2xl">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Profile</h1>
+    <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      <section className="section">
+        <SectionHeading
+          eyebrow="Account"
+          title="Profile & security"
+          subtitle="Manage your identity, access, and notification preferences."
+        />
+      </section>
 
-      {error && (
-        <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
-          {error}
-        </div>
-      )}
+      <section className="section-tight space-y-6">
+        {(error || success) && (
+          <div
+            className={`rounded-2xl border px-4 py-3 text-sm ${
+              error
+                ? 'border-red-200 bg-red-50 text-red-700'
+                : 'border-emerald-200 bg-emerald-50 text-emerald-700'
+            }`}
+          >
+            {error || success}
+          </div>
+        )}
 
-      {success && (
-        <div className="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded mb-4">
-          {success}
-        </div>
-      )}
+        <Card className="space-y-6">
+          <div>
+            <h2 className="text-lg font-semibold text-[color:var(--text-1)]">Account information</h2>
+            <p className="text-sm text-[color:var(--text-3)]">Keep your profile up to date for personalized access.</p>
+          </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
-        <div>
-          <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Account Information</h2>
           {config?.allowProfilePhotoUpload !== false && (
-            <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+            <div className="border-t border-[color:var(--border-subtle)] pt-6">
               <ProfilePhotoUpload
                 currentPhotoUrl={user.photoURL}
                 onUploadComplete={handleProfilePhotoUpload}
@@ -136,66 +144,64 @@ export default function Profile() {
               />
             </div>
           )}
-          <div className="space-y-2">
-            <p className="text-gray-600 dark:text-gray-400">
-              <strong>Email:</strong> {user.email}
-            </p>
-            <p className="text-gray-600 dark:text-gray-400">
-              <strong>Role:</strong> {user.role}
-            </p>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--text-4)]">Email</p>
+              <p className="text-sm font-medium text-[color:var(--text-1)]">{user.email}</p>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--text-4)]">Role</p>
+              <p className="text-sm font-medium text-[color:var(--text-1)]">{user.role}</p>
+            </div>
             {user.displayName && (
-              <p className="text-gray-600 dark:text-gray-400">
-                <strong>Name:</strong> {user.displayName}
-              </p>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--text-4)]">Name</p>
+                <p className="text-sm font-medium text-[color:var(--text-1)]">{user.displayName}</p>
+              </div>
             )}
           </div>
-        </div>
+        </Card>
 
-        <div>
-          <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Change Email</h2>
+        <Card className="space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold text-[color:var(--text-1)]">Change email</h2>
+            <p className="text-sm text-[color:var(--text-3)]">A verification email will be sent to your new address.</p>
+          </div>
           <form onSubmit={handleChangeEmail} className="space-y-4">
-            <input
+            <Input
               type="email"
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
               placeholder="New email address"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             />
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Processing...' : 'Change Email'}
-            </button>
+            <Button type="submit" disabled={loading}>
+              {loading ? 'Processing...' : 'Change email'}
+            </Button>
           </form>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
-            A verification email will be sent to your new address.
-          </p>
-        </div>
+        </Card>
 
-        <div>
-          <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Password</h2>
-          <button
-            onClick={handleResetPassword}
-            disabled={loading}
-            className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50"
-          >
-            {loading ? 'Sending...' : 'Send Password Reset Email'}
-          </button>
-        </div>
+        <Card className="space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold text-[color:var(--text-1)]">Password</h2>
+            <p className="text-sm text-[color:var(--text-3)]">Reset your password with a secure email link.</p>
+          </div>
+          <Button variant="secondary" onClick={handleResetPassword} disabled={loading}>
+            {loading ? 'Sending...' : 'Send password reset email'}
+          </Button>
+        </Card>
 
-        <div>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
-          >
+        <Card className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-[color:var(--text-1)]">Sign out</h2>
+            <p className="text-sm text-[color:var(--text-3)]">End your session on this device.</p>
+          </div>
+          <Button variant="danger" onClick={handleLogout}>
             Logout
-          </button>
-        </div>
-      </div>
+          </Button>
+        </Card>
+      </section>
     </div>
   );
 }
-

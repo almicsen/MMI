@@ -7,9 +7,23 @@ import { getHealthCheckData } from '@/lib/api/security-hardening';
  */
 export async function GET(request: NextRequest) {
   const health = getHealthCheckData();
+  let firestoreStatus = 'unknown';
+  try {
+    const { adminDb } = await import('@/lib/firebase/admin');
+    await adminDb.collection('config').limit(1).get();
+    firestoreStatus = 'ok';
+  } catch (error) {
+    firestoreStatus = 'error';
+    console.error('Health check Firestore error:', error);
+  }
+  const response = {
+    ...health,
+    dependencies: {
+      firestore: firestoreStatus,
+    },
+  };
   
   const statusCode = health.status === 'healthy' ? 200 : health.status === 'degraded' ? 200 : 503;
   
-  return NextResponse.json(health, { status: statusCode });
+  return NextResponse.json(response, { status: statusCode });
 }
-

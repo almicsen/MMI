@@ -30,6 +30,7 @@ export const signInWithGoogle = async (): Promise<User> => {
       photoURL: user.photoURL,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
+      themePreference: null,
     };
     await setDoc(doc(db, 'users', user.uid), newUser);
   } else {
@@ -56,13 +57,14 @@ export const signInWithEmail = async (email: string, password: string): Promise<
 export const signUpWithEmail = async (email: string, password: string): Promise<User> => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
   const user = result.user;
-  
+
   // Create user document
   await setDoc(doc(db, 'users', user.uid), {
     email: user.email || '',
     role: 'guest' as UserRole,
     createdAt: Timestamp.now(),
     updatedAt: Timestamp.now(),
+    themePreference: null,
   });
   
   // Send verification email
@@ -128,6 +130,7 @@ export const getUserData = async (uid: string): Promise<User> => {
     likes: data.likes,
     favorites: data.favorites,
     watchlist: data.watchlist,
+    themePreference: data.themePreference ?? null,
     createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
     updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt,
   } as User;
@@ -148,7 +151,13 @@ export const updateUserRole = async (uid: string, role: UserRole): Promise<void>
   });
 };
 
+export const updateUserThemePreference = async (uid: string, themePreference: string): Promise<void> => {
+  await updateDoc(doc(db, 'users', uid), {
+    themePreference,
+    updatedAt: Timestamp.now(),
+  });
+};
+
 export const onAuthStateChange = (callback: (user: FirebaseUser | null) => void) => {
   return onAuthStateChanged(auth, callback);
 };
-

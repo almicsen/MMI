@@ -1,15 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { getUsers } from '@/lib/firebase/firestore';
 import { updateUserRole } from '@/lib/firebase/auth';
 import { User, UserRole } from '@/lib/firebase/types';
 import { useToast } from '@/contexts/ToastContext';
+import Input from '@/components/ui/Input';
 
 export default function UsersManager() {
   const toast = useToast();
+  const searchParams = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -26,6 +30,13 @@ export default function UsersManager() {
     };
     loadUsers();
   }, []);
+
+  useEffect(() => {
+    const userIdParam = searchParams.get('userId');
+    if (userIdParam) {
+      setFilter(userIdParam);
+    }
+  }, [searchParams]);
 
   const handleRoleChange = async (uid: string, newRole: UserRole) => {
     try {
@@ -48,9 +59,25 @@ export default function UsersManager() {
     return <div className="animate-pulse">Loading users...</div>;
   }
 
+  const filteredUsers = users.filter((user) => {
+    const query = filter.toLowerCase();
+    if (!query) return true;
+    return (
+      user.uid.toLowerCase().includes(query) ||
+      (user.email || '').toLowerCase().includes(query) ||
+      (user.displayName || '').toLowerCase().includes(query)
+    );
+  });
+
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow">
+    <div className="space-y-4">
+      <Input
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        placeholder="Search by email or user ID"
+      />
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow">
         <thead>
           <tr className="border-b border-gray-200 dark:border-gray-700">
             <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
@@ -65,14 +92,14 @@ export default function UsersManager() {
           </tr>
         </thead>
         <tbody>
-          {users.length === 0 ? (
+          {filteredUsers.length === 0 ? (
             <tr>
               <td colSpan={3} className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
                 No users found
               </td>
             </tr>
           ) : (
-            users.map((user) => (
+            filteredUsers.map((user) => (
               <tr key={user.uid} className="border-b border-gray-200 dark:border-gray-700">
                 <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
                   {user.email || user.displayName || user.uid || 'No email'}
@@ -93,8 +120,8 @@ export default function UsersManager() {
             ))
           )}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }
-

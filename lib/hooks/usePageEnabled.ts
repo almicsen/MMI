@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { getConfig } from '@/lib/firebase/firestore';
 import { Config } from '@/lib/firebase/types';
 
-type PageKey = 'about' | 'services' | 'blog' | 'contact' | 'projects' | 'mmiPlus' | 'messages';
+type PageKey = 'about' | 'services' | 'blog' | 'contact' | 'projects' | 'mmiPlus' | 'messages' | 'live';
 
 const pageConfigMap: Record<PageKey, keyof Config> = {
   about: 'aboutEnabled',
@@ -15,6 +15,7 @@ const pageConfigMap: Record<PageKey, keyof Config> = {
   projects: 'projectsEnabled',
   mmiPlus: 'mmiPlusEnabled',
   messages: 'messagesEnabled',
+  live: 'liveEnabled',
 };
 
 export function usePageEnabled(page: PageKey, redirectTo: string = '/') {
@@ -72,4 +73,3 @@ export function usePageEnabled(page: PageKey, redirectTo: string = '/') {
 
   return { enabled, loading };
 }
-

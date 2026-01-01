@@ -20,6 +20,7 @@ export interface User {
   likes?: string[]; // Array of content IDs user has liked
   favorites?: string[]; // Array of content IDs user has favorited
   watchlist?: string[]; // Array of content IDs in watchlist
+  themePreference?: 'light' | 'dark' | null;
   // Activity tracking
   lastSeen?: Date;
   isOnline?: boolean;
@@ -28,6 +29,41 @@ export interface User {
   userAgent?: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export type ContactMessageStatus = 'new' | 'open' | 'closed';
+
+export interface ContactMessageMetadata {
+  userAgent?: string;
+  appVersion?: string;
+  pageUrl?: string;
+  deviceType?: 'mobile' | 'tablet' | 'desktop';
+}
+
+export interface ContactMessage {
+  id: string;
+  userId: string;
+  name?: string;
+  email?: string;
+  subject: string;
+  message: string;
+  status: ContactMessageStatus;
+  tags?: string[];
+  internalNotes?: string;
+  assignedTo?: string | null;
+  metadata?: ContactMessageMetadata;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface AdminAuditLog {
+  id: string;
+  actorId: string;
+  action: string;
+  targetType: 'contact-message';
+  targetId: string;
+  metadata?: Record<string, unknown>;
+  createdAt?: Date;
 }
 
 export interface Project {
@@ -129,6 +165,23 @@ export interface Config {
   allowProfilePhotoUpload?: boolean;
   allowProfilePhotoOverride?: boolean; // Allow overriding Google profile photo
   allowCameraForProfilePhoto?: boolean; // Allow using device camera
+  liveEnabled?: boolean;
+}
+
+export type LiveShowStatus = 'scheduled' | 'live' | 'ended';
+
+export interface LiveShow {
+  id: string;
+  title: string;
+  prize: number;
+  startTime: Date;
+  status: LiveShowStatus;
+}
+
+export interface LiveStats {
+  balance: number;
+  hearts: number;
+  weeklyRank: number;
 }
 
 export interface PendingUpload {
@@ -529,4 +582,3 @@ export interface MessageAttachment {
   size?: number;
   mimeType?: string;
 }
-

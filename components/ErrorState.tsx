@@ -5,6 +5,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Button from './ui/Button';
 
 interface ErrorStateProps {
   error?: Error | string | null;
@@ -34,14 +35,10 @@ export default function ErrorState({
 
   if (!isOnline) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <div className="text-4xl mb-4">📡</div>
-        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-          No Internet Connection
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          Please check your connection and try again.
-        </p>
+      <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-[color:var(--border-subtle)] bg-[color:var(--surface-2)] px-6 py-12 text-center">
+        <div className="text-3xl">📡</div>
+        <h3 className="text-lg font-semibold text-[color:var(--text-1)]">No internet connection</h3>
+        <p className="text-sm text-[color:var(--text-3)]">Check your connection and try again.</p>
       </div>
     );
   }
@@ -52,21 +49,15 @@ export default function ErrorState({
     'Something went wrong';
 
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
-      <div className="text-4xl mb-4">⚠️</div>
-      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-        Error Loading Content
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400 mb-4">{errorMessage}</p>
+    <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-[color:var(--border-subtle)] bg-[color:var(--surface-2)] px-6 py-12 text-center">
+      <div className="text-3xl">⚠️</div>
+      <h3 className="text-lg font-semibold text-[color:var(--text-1)]">Unable to load this section</h3>
+      <p className="text-sm text-[color:var(--text-3)]">{errorMessage}</p>
       {onRetry && (
-        <button
-          onClick={onRetry}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Try Again
-        </button>
+        <Button variant="outline" size="sm" onClick={onRetry}>
+          Try again
+        </Button>
       )}
     </div>
   );
 }
-

@@ -6,6 +6,10 @@ import { getBlogPosts } from '@/lib/firebase/firestore';
 import { BlogPost } from '@/lib/firebase/types';
 import { usePageEnabled } from '@/lib/hooks/usePageEnabled';
 import LoadingState from '@/components/LoadingState';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Card from '@/components/ui/Card';
+import Badge from '@/components/ui/Badge';
+import EmptyState from '@/components/EmptyState';
 
 export default function Blog() {
   const { enabled, loading: pageCheckLoading } = usePageEnabled('blog');
@@ -14,7 +18,7 @@ export default function Blog() {
 
   useEffect(() => {
     if (!enabled) return;
-    
+
     const loadData = async () => {
       try {
         const data = await getBlogPosts();
@@ -28,71 +32,76 @@ export default function Blog() {
     loadData();
   }, [enabled]);
 
-  // If page is disabled, the hook will redirect, so we don't need to render anything
   if (pageCheckLoading || !enabled) {
     return <LoadingState />;
   }
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-8"></div>
-          <div className="space-y-4">
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+        <section className="section">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 rounded-full bg-[color:var(--surface-4)] w-1/3"></div>
+            <div className="space-y-3">
+              <div className="h-4 rounded-full bg-[color:var(--surface-4)] w-full"></div>
+              <div className="h-4 rounded-full bg-[color:var(--surface-4)] w-5/6"></div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Blog</h1>
-      
-      {posts.length === 0 ? (
-        <p className="text-gray-600 dark:text-gray-400">No blog posts available yet.</p>
-      ) : (
-        <div className="space-y-8">
-          {posts.map((post) => (
-            <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">
-                <Link href={`/blog/${post.id}`} className="hover:text-blue-600 dark:hover:text-blue-400">
-                  {post.title}
-                </Link>
-              </h2>
-              {post.excerpt && (
-                <p className="text-gray-600 dark:text-gray-400 mb-4">{post.excerpt}</p>
-              )}
-              <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-500">
-              {post.createdAt && (
-                <span>
-                  {post.createdAt instanceof Date
-                    ? post.createdAt.toLocaleDateString()
-                    : typeof post.createdAt === 'object' && 'seconds' in post.createdAt
-                    ? new Date((post.createdAt as any).seconds * 1000).toLocaleDateString()
-                    : new Date(post.createdAt as any).toLocaleDateString()}
-                </span>
-              )}
-                {post.tags.length > 0 && (
-                  <div className="flex gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-      )}
+    <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      <section className="section">
+        <SectionHeading
+          eyebrow="Studio journal"
+          title="Insights from the MMI team"
+          subtitle="Thought leadership, product thinking, and behind-the-scenes lessons from our studios."
+        />
+      </section>
+
+      <section className="section-tight">
+        {posts.length === 0 ? (
+          <EmptyState message="No blog posts available yet." />
+        ) : (
+          <div className="space-y-6">
+            {posts.map((post) => (
+              <Card key={post.id} className="space-y-4">
+                <div>
+                  <h2 className="text-2xl font-semibold text-[color:var(--text-1)]">
+                    <Link href={`/blog/${post.id}`} className="hover:text-[color:var(--brand-primary)]">
+                      {post.title}
+                    </Link>
+                  </h2>
+                  {post.excerpt && (
+                    <p className="text-sm text-[color:var(--text-3)]">{post.excerpt}</p>
+                  )}
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-xs text-[color:var(--text-4)]">
+                  {post.createdAt && (
+                    <span>
+                      {post.createdAt instanceof Date
+                        ? post.createdAt.toLocaleDateString()
+                        : typeof post.createdAt === 'object' && 'seconds' in post.createdAt
+                        ? new Date((post.createdAt as any).seconds * 1000).toLocaleDateString()
+                        : new Date(post.createdAt as any).toLocaleDateString()}
+                    </span>
+                  )}
+                  {post.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
+                        <Badge key={tag} tone="info">{tag}</Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }
-
