@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_FIREBASE_API_KEY: "test-api-key"
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "test.firebaseapp.com"
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID: "test-project"
+      NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "test.appspot.com"
+      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "000000000000"
+      NEXT_PUBLIC_FIREBASE_APP_ID: "1:000000000000:web:0000000000000000000000"
+      FIREBASE_ADMIN_PROJECT_ID: "test-project"
+      FIREBASE_ADMIN_CLIENT_EMAIL: "firebase-adminsdk@test-project.iam.gserviceaccount.com"
+      FIREBASE_ADMIN_PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDk\nr4S1m64gTn8eSvxWJTwgO6OQqkIY2Z9+QfL5rJ4x3kKJr8Jx8u1y\nN2m0TH0kZx0G5sJQh4D2dKXr5I9a1fX9uH1t3U+eGwoYY6y1jL5c\nb0H5gY0e2K7mFyygO4oHn9f3nFA6N2v2o3hQ/1YlY6w8q1r1x9sD\nhQIDAQABAoIBAQCLw0C5k1KQ8sTnKQ0t5iD2xjZ7y1s7uT6gk1oD\n5o3B2Vh5tQY0QHk0Jx0q2oC0JzR2LrQd0nZ4bD5wN3GmKJ5VxX1F\n2m1rD9H9qQ5t1G1q3X1kQh5mE7bE0t0pTQG2R8K0o9rTt3X8g0tQ\nKQIDAQABAoIBAQCLw0C5k1KQ8sTnKQ0t5iD2xjZ7y1s7uT6gk1oD\n5o3B2Vh5tQY0QHk0Jx0q2oC0JzR2LrQd0nZ4bD5wN3GmKJ5VxX1F\n2m1rD9H9qQ5t1G1q3X1kQh5mE7bE0t0pTQG2R8K0o9rTt3X8g0tQ\nKQIDAQABAoIBAQCLw0C5k1KQ8sTnKQ0t5iD2xjZ7y1s7uT6gk1oD\n5o3B2Vh5tQY0QHk0Jx0q2oC0JzR2LrQd0nZ4bD5wN3GmKJ5VxX1F\n2m1rD9H9qQ5t1G1q3X1kQh5mE7bE0t0pTQG2R8K0o9rTt3X8g0tQ\nKQIDAQAB\n-----END PRIVATE KEY-----"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Verify
+        run: npm run verify

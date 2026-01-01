@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
+    "verify": "npm run test && npm run build",
     "seed:live": "node scripts/seed-live.mjs"
   },
   "dependencies": {
