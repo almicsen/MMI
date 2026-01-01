@@ -74,6 +74,10 @@ Before deploying to Vercel:
 
 ## ⚠️ Common Issues
 
+### Build Fails: "EBADPLATFORM: Unsupported platform for @next/swc-darwin-arm64"
+**Cause**: A macOS-only native package was pinned in `package.json`.
+**Solution**: Remove platform-specific packages (e.g. `@next/swc-darwin-arm64`, `lightningcss-darwin-arm64`) and let `next`/`lightningcss` resolve the correct binary during install. Then reinstall deps and redeploy.
+
 ### Build Fails: "Firebase configuration is missing"
 **Solution**: Add environment variables to Vercel (see `COPY-TO-VERCEL.md`)
 
@@ -124,4 +128,3 @@ Route (app)
 - ✅ Work correctly at runtime once deployed
 
 **Next Step**: Add environment variables to Vercel using `COPY-TO-VERCEL.md` as a guide.
-
