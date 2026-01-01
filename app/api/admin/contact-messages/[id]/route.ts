@@ -5,10 +5,14 @@ import { contactMessageUpdateSchema } from '@/lib/validators/contactMessage';
 import { Timestamp } from 'firebase-admin/firestore';
 import { logAdminAction } from '@/lib/admin/auditLog';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
     await requireAdmin(request);
-    const docSnap = await adminDb.collection('contactMessages').doc(params.id).get();
+    const { id } = await params;
+    const docSnap = await adminDb.collection('contactMessages').doc(id).get();
     if (!docSnap.exists) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
@@ -28,13 +32,17 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
     const { session } = await requireAdmin(request);
     const body = contactMessageUpdateSchema.parse(await request.json());
     const now = new Date();
+    const { id } = await params;
 
-    await adminDb.collection('contactMessages').doc(params.id).update({
+    await adminDb.collection('contactMessages').doc(id).update({
       ...body,
       updatedAt: Timestamp.fromDate(now),
     });
@@ -43,7 +51,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       actorId: session.userId,
       action: 'contact-message:update',
       targetType: 'contact-message',
-      targetId: params.id,
+      targetId: id,
       metadata: body,
     });
 
