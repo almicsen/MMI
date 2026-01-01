@@ -8,9 +8,9 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import { useToast } from '@/contexts/ToastContext';
 
-interface LiveShowResponse extends LiveShow {
+type LiveShowResponse = Omit<LiveShow, 'startTime'> & {
   startTime: string;
-}
+};
 
 interface LiveShowsPayload {
   items: LiveShowResponse[];

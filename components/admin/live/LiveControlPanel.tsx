@@ -7,9 +7,9 @@ import Badge from '@/components/ui/Badge';
 import { LiveShow } from '@/lib/firebase/types';
 import { useToast } from '@/contexts/ToastContext';
 
-interface LiveShowResponse extends LiveShow {
+type LiveShowResponse = Omit<LiveShow, 'startTime'> & {
   startTime: string;
-}
+};
 
 interface LiveShowsPayload {
   items: LiveShowResponse[];
